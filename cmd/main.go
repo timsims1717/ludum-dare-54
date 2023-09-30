@@ -17,7 +17,7 @@ import (
 func run() {
 	world.SetTileSize(64)
 	cfg := pixelgl.WindowConfig{
-		Title:  "Gem Runner",
+		Title:  constants.RandomTitle(),
 		Bounds: pixel.R(0, 0, 1600, 900),
 		VSync:  true,
 	}
