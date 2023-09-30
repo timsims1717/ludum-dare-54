@@ -15,7 +15,7 @@ import (
 )
 
 func run() {
-	world.SetTileSize(64)
+	world.SetTileSize(32)
 	cfg := pixelgl.WindowConfig{
 		Title:  "Gem Runner",
 		Bounds: pixel.R(0, 0, 1600, 900),
