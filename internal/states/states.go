@@ -1,7 +1,7 @@
 package states
 
 var (
-	GameStateKey = "game_state"
+	PackingStateKey = "packing_state"
 
-	GameState = &gameState{}
+	PackingState = &packingState{}
 )

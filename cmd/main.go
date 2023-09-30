@@ -27,7 +27,7 @@ func run() {
 	viewport.MainCamera.SetRect(pixel.R(0, 0, 1600, 900))
 	viewport.MainCamera.CamPos = pixel.V(1600*0.5, 900*0.5)
 
-	state.Register(states.GameStateKey, state.New(states.GameState))
+	state.Register(states.PackingStateKey, state.New(states.PackingState))
 
 	//uiSheet, err := img.LoadSpriteSheet("assets/ui.json")
 	//if err != nil {
