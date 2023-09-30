@@ -36,7 +36,7 @@ func QueueSystem() {
 				obj := object.New().WithID("item-in-queue")
 				obj.Pos = pixel.V(slotX, rightQueueY(i))
 				obj.Layer = 15
-				spr := img.Batchers[constants.TestBatch].Sprites[localWare.SpriteKey.String()]
+				spr := img.Batchers[constants.TestBatch].Sprites[localWare.SpriteKey]
 				obj.SetRect(spr.Frame())
 				sca := slotSize * 0.9 / math.Max(obj.Rect.W(), obj.Rect.H())
 				obj.Sca = pixel.V(sca, sca)
@@ -96,13 +96,13 @@ func QueueSystem() {
 							}
 							if localWare.TIndex > -1 {
 								for _, c := range localWare.TrunkC {
-									data.Truck.Trunk[localWare.TrunkZ][c.Y][c.X] = false
+									data.CurrentTruck.Trunk[localWare.TrunkZ][c.Y][c.X] = false
 								}
 								localWare.TrunkC = []world.Coords{}
-								if len(data.Truck.Wares) > 1 {
-									data.Truck.Wares = append(data.Truck.Wares[:localWare.TIndex], data.Truck.Wares[localWare.TIndex+1:]...)
+								if len(data.CurrentTruck.Wares) > 1 {
+									data.CurrentTruck.Wares = append(data.CurrentTruck.Wares[:localWare.TIndex], data.CurrentTruck.Wares[localWare.TIndex+1:]...)
 								} else {
-									data.Truck.Wares = []*data.Ware{}
+									data.CurrentTruck.Wares = []*data.Ware{}
 								}
 								UpdateTrunk()
 								localWare.TIndex = -1
