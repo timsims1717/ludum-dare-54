@@ -12,11 +12,6 @@ const (
 	Release   = 0
 	Version   = 1
 	Build     = 20230428
-
-	//Initial Conditions
-	InitialTrunkTargetFill = 0.5
-	NumberofStrikes        = 3
-	NumberofAbandonedWares = 10
 )
 
 var (
@@ -35,6 +30,10 @@ var (
 		"Why do we even have that lever!?!",
 		"Ain't no fellow who regretted giving it one extra shake, but you can bet every guy has regretted giving one too few.",
 	}
+	//Difficulty Conditions
+	InitialTrunkTargetFill = 50
+	NumberofStrikes        = 3
+	NumberofAbandonedWares = 10
 )
 
 func RandomTitle() string {

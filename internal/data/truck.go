@@ -7,11 +7,14 @@ var (
 )
 
 type Truck struct {
-	Trunk  [][][]bool
-	Wares  []*Ware
-	Width  int
-	Depth  int
-	Height int
+	Trunk         [][][]bool
+	Wares         []*Ware
+	Width         int
+	Depth         int
+	Height        int
+	TotalSpace    int
+	FilledSpace   int
+	PercentFilled int
 }
 
 func NewTruck(w, d, h int) {
@@ -19,6 +22,7 @@ func NewTruck(w, d, h int) {
 	CurrentTruck.Width = w
 	CurrentTruck.Depth = d
 	CurrentTruck.Height = h
+	CurrentTruck.TotalSpace = w * d * h
 	for z := 0; z < h; z++ {
 		CurrentTruck.Trunk = append(CurrentTruck.Trunk, [][]bool{})
 		for y := 0; y < d; y++ {
@@ -30,11 +34,16 @@ func NewTruck(w, d, h int) {
 	}
 }
 
+func (t *Truck) UpdateFillPercent() {
+	t.PercentFilled = int((float64(t.FilledSpace) / float64(t.TotalSpace)) * 100)
+}
+
 func (t *Truck) CopyTruck() {
 	CurrentTruck = &Truck{
-		Width:  t.Width,
-		Height: t.Height,
-		Depth:  t.Depth,
+		Width:      t.Width,
+		Height:     t.Height,
+		Depth:      t.Depth,
+		TotalSpace: t.Width * t.Height * t.Depth,
 	}
 	for z := 0; z < t.Height; z++ {
 		CurrentTruck.Trunk = append(CurrentTruck.Trunk, [][]bool{})
