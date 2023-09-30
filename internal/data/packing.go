@@ -1,31 +1,13 @@
 package data
 
 import (
-	"github.com/bytearena/ecs"
 	"github.com/faiface/pixel"
-	"ludum-dare-54/pkg/img"
-	"ludum-dare-54/pkg/object"
 	"ludum-dare-54/pkg/timing"
-	"ludum-dare-54/pkg/world"
 )
 
-type Item struct {
-	Key    string
-	Name   string
-	QIndex int
-	TIndex int
-	Shape  []world.Coords
-	Object *object.Object
-	Entity *ecs.Entity
-	Sprite *img.Sprite
-	TrunkC []world.Coords
-	TrunkZ int
-	Buried bool
-}
-
 var (
-	ItemQueue  [8]*Item
-	HeldItem   *Item
+	ItemQueue  [8]*Ware
+	HeldItem   *Ware
 	BottomDrop pixel.Rect
 	LeftDrop   pixel.Rect
 )

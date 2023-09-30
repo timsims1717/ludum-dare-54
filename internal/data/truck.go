@@ -6,7 +6,7 @@ var (
 
 type truck struct {
 	Trunk  [][][]bool
-	Wares  []*Item
+	Wares  []*Ware
 	Width  int
 	Depth  int
 	Height int
