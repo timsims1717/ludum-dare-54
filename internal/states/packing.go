@@ -100,5 +100,6 @@ func (s *packingState) SetAbstract(aState *state.AbstractState) {
 func (s *packingState) UpdateViews() {
 	data.GameView.PortSize.X = viewport.MainCamera.Rect.W() / data.GameView.Rect.W()
 	data.GameView.PortSize.Y = viewport.MainCamera.Rect.H() / data.GameView.Rect.H()
-	//data.BottomDrop = pixel.R(-130, -200, )
+	data.BottomDrop = pixel.R(-200, -130, 340, -40)
+	data.LeftDrop = pixel.R(-200, -130, -40, 190)
 }

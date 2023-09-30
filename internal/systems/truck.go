@@ -114,7 +114,7 @@ func PlaceInTrunk(orig world.Coords, item *data.Item) (bool, int) {
 		}
 		if legal {
 			for _, c := range mShape {
-				data.Truck.Tiles[z][c.Y][c.X] = true
+				data.Truck.Trunk[z][c.Y][c.X] = true
 			}
 			return true, z
 		}

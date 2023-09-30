@@ -9,6 +9,7 @@ import (
 	"ludum-dare-54/pkg/img"
 	"ludum-dare-54/pkg/object"
 	"ludum-dare-54/pkg/timing"
+	"ludum-dare-54/pkg/util"
 	"ludum-dare-54/pkg/world"
 	"math"
 )
@@ -73,7 +74,7 @@ func QueueSystem() {
 									}
 								} else {
 									// move to the empty part of the screen
-									pos := GetNearestPos(item.Object.Pos)
+									pos := GetNearestPos(item.Object.Pos, item.Object.Rect)
 									ips := []*object.Interpolation{
 										object.NewInterpolation(object.InterpolateY).
 											AddGween(item.Object.Pos.Y, pos.Y, 0.4, ease.OutCubic),
@@ -115,6 +116,64 @@ func rightQueueY(i int) float64 {
 	return -bottomSlot + (float64(i) * slotSize)
 }
 
-func GetNearestPos(pos pixel.Vec) pixel.Vec {
-	return pixel.ZV
+func GetNearestPos(pos pixel.Vec, r pixel.Rect) pixel.Vec {
+	nPos := pos
+	if !data.BottomDrop.Contains(pos) && !data.LeftDrop.Contains(pos) {
+		bdx := 0.
+		if pos.X > data.BottomDrop.Max.X {
+			bdx = pos.X - data.BottomDrop.Max.X
+		} else if pos.X < data.BottomDrop.Min.X {
+			bdx = pos.X - data.BottomDrop.Min.X
+		}
+		bdy := 0.
+		if pos.Y > data.BottomDrop.Max.Y {
+			bdy = pos.Y - data.BottomDrop.Max.Y
+		} else if pos.Y < data.BottomDrop.Min.Y {
+			bdy = pos.Y - data.BottomDrop.Min.Y
+		}
+		ldx := 0.
+		if pos.X > data.LeftDrop.Max.X {
+			ldx = pos.X - data.LeftDrop.Max.X
+		} else if pos.X < data.LeftDrop.Min.X {
+			ldx = pos.X - data.LeftDrop.Min.X
+		}
+		ldy := 0.
+		if pos.Y > data.LeftDrop.Max.Y {
+			ldy = pos.Y - data.LeftDrop.Max.Y
+		} else if pos.Y < data.LeftDrop.Min.Y {
+			ldy = pos.Y - data.LeftDrop.Min.Y
+		}
+		bd := math.Sqrt(bdx*bdx + bdy*bdy)
+		ld := math.Sqrt(ldx*ldx + ldy*ldy)
+		if bd > ld {
+			if ldx > 0 {
+				nPos.X = data.LeftDrop.Max.X
+			} else if ldx < 0 {
+				nPos.X = data.LeftDrop.Min.X
+			}
+			if ldy > 0 {
+				nPos.Y = data.LeftDrop.Max.Y
+			} else if ldy < 0 {
+				nPos.Y = data.LeftDrop.Min.Y
+			}
+		} else {
+			if bdx > 0 {
+				nPos.X = data.BottomDrop.Max.X
+			} else if bdx < 0 {
+				nPos.X = data.BottomDrop.Min.X
+			}
+			if bdy > 0 {
+				nPos.Y = data.BottomDrop.Max.Y
+			} else if bdy < 0 {
+				nPos.Y = data.BottomDrop.Min.Y
+			}
+		}
+	}
+	if data.BottomDrop.Contains(nPos) {
+		return util.ConstrainR(nPos, data.BottomDrop.Center(), r, data.BottomDrop)
+	}
+	if data.LeftDrop.Contains(nPos) {
+		return util.ConstrainR(nPos, data.LeftDrop.Center(), r, data.LeftDrop)
+	}
+	return pixel.V(-100, -100)
 }

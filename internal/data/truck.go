@@ -5,7 +5,7 @@ var (
 )
 
 type truck struct {
-	Tiles  [][][]bool
+	Trunk  [][][]bool
 	Width  int
 	Depth  int
 	Height int
@@ -17,11 +17,11 @@ func NewTruck(w, d, h int) {
 	Truck.Depth = d
 	Truck.Height = h
 	for z := 0; z < h; z++ {
-		Truck.Tiles = append(Truck.Tiles, [][]bool{})
+		Truck.Trunk = append(Truck.Trunk, [][]bool{})
 		for y := 0; y < d; y++ {
-			Truck.Tiles[z] = append(Truck.Tiles[z], []bool{})
+			Truck.Trunk[z] = append(Truck.Trunk[z], []bool{})
 			for x := 0; x < w; x++ {
-				Truck.Tiles[z][y] = append(Truck.Tiles[z][y], false)
+				Truck.Trunk[z][y] = append(Truck.Trunk[z][y], false)
 			}
 		}
 	}
