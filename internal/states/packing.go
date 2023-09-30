@@ -37,6 +37,7 @@ func (s *packingState) Load() {
 	data.GameView.CamPos.X += (w - 1) * 0.5 * world.TileSize
 	data.GameView.CamPos.Y += (math.Min(d, 3) - 1) * 0.5 * world.TileSize
 	systems.CreateTruck(w, d, h)
+	data.NewScore()
 	data.BottomDrop = pixel.R(-200, -130, 340, -40)
 	data.LeftDrop = pixel.R(-200, -130, -40, 190)
 	s.UpdateViews()
@@ -77,7 +78,7 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	data.GameView.Update()
 
 	systems.TrunkClean()
-
+	data.CheckForFailure()
 	myecs.UpdateManager()
 	debug.AddText(fmt.Sprintf("Entity Count: %d", myecs.FullCount))
 }
@@ -85,7 +86,7 @@ func (s *packingState) Update(win *pixelgl.Window) {
 func (s *packingState) Draw(win *pixelgl.Window) {
 	data.GameView.Canvas.Clear(colornames.Green)
 	systems.DrawSystem(win, 0)
-	for i := 1; i <= data.Truck.Height; i++ {
+	for i := 1; i <= data.CurrentTruck.Height; i++ {
 		systems.DrawSystem(win, i)
 	}
 	systems.DrawSystem(win, 15)

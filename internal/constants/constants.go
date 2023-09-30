@@ -16,6 +16,7 @@ const (
 	//Initial Conditions
 	InitialTrunkTargetFill = 0.5
 	NumberofStrikes        = 3
+	NumberofAbandonedWares = 10
 )
 
 var (
@@ -44,16 +45,16 @@ func RandomTitle() string {
 type FailCondition int
 
 const (
-	RunOutOfMoney = iota
+	AbandonToManyItems = iota
 	TooManyMisses
 )
 
 func (fc FailCondition) String() string {
 	switch fc {
-	case RunOutOfMoney:
-		return "Game Over.\nHave run out of money, you better give up and go home"
+	case AbandonToManyItems:
+		return fmt.Sprintf("Game Over.\nYou have abandoned %d too many wares on your journey", NumberofAbandonedWares)
 	case TooManyMisses:
-		return fmt.Sprintf("Game Over.\nYou missed sales a %d vendors", NumberofStrikes)
+		return fmt.Sprintf("Game Over.\nYou missed too many sales at %d vendors", NumberofStrikes)
 	}
 	return ""
 }

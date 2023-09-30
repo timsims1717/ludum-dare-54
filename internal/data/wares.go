@@ -10,7 +10,7 @@ import (
 
 type Ware struct {
 	ShapeKey   constants.TrunkominoType
-	SpriteKey  constants.Sprites
+	SpriteKey  string
 	Value      int
 	Name       string
 	QueueIndex int
@@ -30,7 +30,7 @@ func (w *Ware) CopyWare() *Ware {
 		ShapeKey:  w.ShapeKey,
 		SpriteKey: w.SpriteKey,
 		Value:     w.Value,
-		Sprite:    img.NewSprite(w.SpriteKey.String(), constants.TestBatch),
+		Sprite:    img.NewSprite(w.SpriteKey, constants.TestBatch),
 		Shape:     constants.TrunkominoTypes[w.ShapeKey],
 		TIndex:    -1,
 	}
@@ -39,62 +39,62 @@ func (w *Ware) CopyWare() *Ware {
 var (
 	Wares = []*Ware{
 		{
-			Name:      "Green",
+			Name:      constants.Green,
 			ShapeKey:  constants.TinyBox,
 			SpriteKey: constants.Green,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Yellow",
+			Name:      constants.Yellow,
 			ShapeKey:  constants.ShortLogOver,
 			SpriteKey: constants.Yellow,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Blue",
+			Name:      constants.Blue,
 			ShapeKey:  constants.ShortLogUp,
 			SpriteKey: constants.Blue,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Purple",
+			Name:      constants.Purple,
 			ShapeKey:  constants.MediumBox,
 			SpriteKey: constants.Purple,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Turquoise",
+			Name:      constants.Turquoise,
 			ShapeKey:  constants.MediumLogUp,
 			SpriteKey: constants.Turquoise,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Brown",
+			Name:      constants.Brown,
 			ShapeKey:  constants.LargeUpBox,
 			SpriteKey: constants.Brown,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Indigo",
+			Name:      constants.Indigo,
 			ShapeKey:  constants.LongLogUp,
 			SpriteKey: constants.Indigo,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Red",
+			Name:      constants.Red,
 			ShapeKey:  constants.MediumLogOver,
 			SpriteKey: constants.Red,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Gold",
+			Name:      constants.Gold,
 			ShapeKey:  constants.LongLogOver,
 			SpriteKey: constants.Gold,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "White",
+			Name:      constants.White,
 			ShapeKey:  constants.MediumUpBox,
 			SpriteKey: constants.White,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Orange",
+			Name:      constants.Orange,
 			ShapeKey:  constants.LargeLongBox,
 			SpriteKey: constants.Orange,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		}, {
-			Name:      "Gray",
+			Name:      constants.Gray,
 			ShapeKey:  constants.MediumLongBox,
 			SpriteKey: constants.Gray,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
