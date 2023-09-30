@@ -82,6 +82,8 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	systems.ParentSystem()
 	systems.ObjectSystem()
 
+	data.PercCount.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
+
 	data.GameView.Update()
 	data.ScoreView.Update()
 
