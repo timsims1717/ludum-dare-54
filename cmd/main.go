@@ -8,6 +8,7 @@ import (
 	"ludum-dare-54/internal/states"
 	"ludum-dare-54/pkg/debug"
 	"ludum-dare-54/pkg/img"
+	"ludum-dare-54/pkg/options"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
 	"ludum-dare-54/pkg/viewport"
@@ -30,6 +31,8 @@ func run() {
 	viewport.MainCamera.SetRect(pixel.R(0, 0, 1600, 900))
 	viewport.MainCamera.CamPos = pixel.V(1600*0.5, 900*0.5)
 
+	options.VSync = true
+
 	state.Register(states.PackingStateKey, state.New(states.PackingState))
 
 	testSheet, err := img.LoadSpriteSheet("assets/test1.json")
@@ -50,10 +53,14 @@ func run() {
 		debug.Clear()
 		data.DebugInput.Update(win, viewport.MainCamera.Mat)
 
-		//options.WindowUpdate(win)
-		//if options.Updated {
-		//	viewport.MainCamera.CamPos = pixel.V(viewport.MainCamera.Rect.W()*0.5, viewport.MainCamera.Rect.H()*0.5)
-		//}
+		options.WindowUpdate(win)
+		if options.Updated {
+			viewport.MainCamera.CamPos = pixel.V(viewport.MainCamera.Rect.W()*0.5, viewport.MainCamera.Rect.H()*0.5)
+		}
+
+		if data.DebugInput.Get("fullscreen").JustPressed() {
+			options.FullScreen = !options.FullScreen
+		}
 
 		state.Update(win)
 		viewport.MainCamera.Update()

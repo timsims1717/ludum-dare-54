@@ -31,7 +31,7 @@ func QueueSystem() {
 				}
 			}
 			if !found {
-				localWare := data.Wares[constants.GlobalSeededRandom.Intn(len(data.Wares))-1].CopyWare()
+				localWare := data.Wares[constants.GlobalSeededRandom.Intn(len(data.Wares))].CopyWare()
 				localWare.QueueIndex = i
 				obj := object.New().WithID("item-in-queue")
 				obj.Pos = pixel.V(slotX, rightQueueY(i))
@@ -67,6 +67,7 @@ func QueueSystem() {
 									if world.Height(localWare.Shape)%2 == 0 {
 										localWare.Object.Pos.Y += world.TileSize * 0.5
 									}
+									localWare.Object.Pos.Y += float64(localWare.TrunkZ) * 5.
 								} else {
 									// move to the empty part of the screen
 									pos := GetNearestPos(localWare.Object.Pos, localWare.Object.Rect)
@@ -81,7 +82,7 @@ func QueueSystem() {
 								data.HeldItem = nil
 								hvc.Input.Get("click").Consume()
 							}
-						} else if hvc.Hover && hvc.Input.Get("click").JustPressed() &&
+						} else if hvc.Hover && hvc.Input.Get("click").JustPressed() && !localWare.Buried &&
 							data.HeldItem == nil && !localWare.Entity.HasComponent(myecs.Interpolation) {
 							localWare.Entity.AddComponent(myecs.Drag, &data.DragTimer{
 								Timer: timing.New(0.2),
@@ -92,6 +93,19 @@ func QueueSystem() {
 								data.ItemQueue[localWare.QueueIndex] = nil
 								localWare.QueueIndex = -1
 								localWare.Object.Sca = pixel.V(1, 1)
+							}
+							if localWare.TIndex > -1 {
+								for _, c := range localWare.TrunkC {
+									data.Truck.Trunk[localWare.TrunkZ][c.Y][c.X] = false
+								}
+								localWare.TrunkC = []world.Coords{}
+								if len(data.Truck.Wares) > 1 {
+									data.Truck.Wares = append(data.Truck.Wares[:localWare.TIndex], data.Truck.Wares[localWare.TIndex+1:]...)
+								} else {
+									data.Truck.Wares = []*data.Ware{}
+								}
+								UpdateTrunk()
+								localWare.TIndex = -1
 							}
 						}
 					}))

@@ -14,10 +14,14 @@ type Ware struct {
 	Value      int
 	Name       string
 	QueueIndex int
+	TIndex     int
 	Object     *object.Object
 	Entity     *ecs.Entity
 	Sprite     *img.Sprite
 	Shape      []world.Coords
+	TrunkC     []world.Coords
+	TrunkZ     int
+	Buried     bool
 }
 
 func (w *Ware) CopyWare() *Ware {
@@ -28,6 +32,7 @@ func (w *Ware) CopyWare() *Ware {
 		Value:     w.Value,
 		Sprite:    img.NewSprite(w.SpriteKey.String(), constants.TestBatch),
 		Shape:     constants.TrunkominoTypes[w.ShapeKey],
+		TIndex:    -1,
 	}
 }
 
