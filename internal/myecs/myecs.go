@@ -27,6 +27,8 @@ var (
 	Animated   = Manager.NewComponent()
 	DrawTarget = Manager.NewComponent()
 
+	Drag = Manager.NewComponent()
+
 	// Tags
 	IsObject         = ecs.BuildTag(Object)
 	IsTemp           = ecs.BuildTag(Temp, Object)
@@ -35,6 +37,8 @@ var (
 	HasAnimation     = ecs.BuildTag(Animated, Object)
 	HasUpdate        = ecs.BuildTag(Update)
 	HasInterpolation = ecs.BuildTag(Object, Interpolation)
+
+	IsDrag = ecs.BuildTag(Object, Drag)
 )
 
 func UpdateManager() {

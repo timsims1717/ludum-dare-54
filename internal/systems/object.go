@@ -56,9 +56,13 @@ func FunctionSystem() {
 						if hcF.View != nil {
 							pos = hcF.View.ProjectWorld(pos)
 							hcF.Hover = obj.PointInside(pos) && hcF.View.PointInside(pos)
+							//if strings.Contains(obj.ID, "slot") {
+							//	debug.AddText(fmt.Sprintf("%s: %t", obj.ID, obj.PointInside(pos)))
+							//}
 						} else {
 							hcF.Hover = obj.PointInside(pos)
 						}
+						hcF.Pos = pos
 						if hcF.Func != nil {
 							hcF.Func(hcF)
 						}

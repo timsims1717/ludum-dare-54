@@ -117,3 +117,39 @@ func Contiguous(a []Coords) [][]Coords {
 	}
 	return groups
 }
+
+func Width(a []Coords) int {
+	l := 0
+	lf := false
+	r := 0
+	rf := false
+	for _, c := range a {
+		if !lf || l > c.X {
+			l = c.X
+			lf = true
+		}
+		if !rf || r < c.X {
+			r = c.X
+			rf = true
+		}
+	}
+	return 1 + r - l
+}
+
+func Height(a []Coords) int {
+	b := 0
+	bf := false
+	t := 0
+	tf := false
+	for _, c := range a {
+		if !bf || b > c.Y {
+			b = c.Y
+			bf = true
+		}
+		if !tf || t < c.Y {
+			t = c.Y
+			tf = true
+		}
+	}
+	return 1 + t - b
+}
