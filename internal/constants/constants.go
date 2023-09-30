@@ -1,4 +1,4 @@
-package data
+package constants
 
 const (
 	TestBatch = "test_batch"
