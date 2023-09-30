@@ -96,10 +96,12 @@ func TrunkPlacement(orig world.Coords, shape []world.Coords) (bool, int) {
 }
 
 func LegalTrunkCoords(c world.Coords, z int) bool {
+	//Check if inside the truck
 	if c.X >= data.Truck.Width || c.X < 0 || c.Y >= data.Truck.Depth || c.Y < 0 || z >= data.Truck.Height || z < 0 {
 		return false
 	}
-	return true
+	//Check if something else is occuping the space
+	return !data.Truck.Tiles[z][c.Y][c.X]
 }
 
 func PlaceInTrunk(orig world.Coords, item *data.Item) (bool, int) {
