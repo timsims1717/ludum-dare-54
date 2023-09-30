@@ -16,36 +16,25 @@ type ClearFlag bool
 var (
 	Manager = ecs.NewManager()
 
+	Object = Manager.NewComponent()
+	Parent = Manager.NewComponent()
 	Temp   = Manager.NewComponent()
-	Func   = Manager.NewComponent()
 	Update = Manager.NewComponent()
 
-	Drawable  = Manager.NewComponent()
-	Animation = Manager.NewComponent()
+	Interpolation = Manager.NewComponent()
 
-	Object   = Manager.NewComponent()
-	Parent   = Manager.NewComponent()
-	ViewPort = Manager.NewComponent()
-	Hover    = Manager.NewComponent()
+	Drawable   = Manager.NewComponent()
+	Animated   = Manager.NewComponent()
+	DrawTarget = Manager.NewComponent()
 
-	Tile   = Manager.NewComponent()
-	Border = Manager.NewComponent()
-	Block  = Manager.NewComponent()
-
-	IsTemp    = ecs.BuildTag(Temp, Object)
-	HasFunc   = ecs.BuildTag(Func)
-	HasUpdate = ecs.BuildTag(Update)
-
-	HasAnimation = ecs.BuildTag(Animation, Object)
-	IsDrawable   = ecs.BuildTag(Drawable, Object)
-
-	IsObject  = ecs.BuildTag(Object)
-	HasParent = ecs.BuildTag(Object, Parent)
-	HasHover  = ecs.BuildTag(Object, Hover)
-
-	IsTile    = ecs.BuildTag(Object, Tile)
-	HasBorder = ecs.BuildTag(Object, Border)
-	IsBlock   = ecs.BuildTag(Object, Block)
+	// Tags
+	IsObject         = ecs.BuildTag(Object)
+	IsTemp           = ecs.BuildTag(Temp, Object)
+	HasParent        = ecs.BuildTag(Object, Parent)
+	IsDrawable       = ecs.BuildTag(Object, Drawable)
+	HasAnimation     = ecs.BuildTag(Animated, Object)
+	HasUpdate        = ecs.BuildTag(Update)
+	HasInterpolation = ecs.BuildTag(Object, Interpolation)
 )
 
 func UpdateManager() {

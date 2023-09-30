@@ -3,8 +3,10 @@ package main
 import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
+	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/states"
 	"ludum-dare-54/pkg/debug"
+	"ludum-dare-54/pkg/img"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
 	"ludum-dare-54/pkg/viewport"
@@ -12,7 +14,7 @@ import (
 )
 
 func run() {
-	world.SetTileSize(16)
+	world.SetTileSize(64)
 	cfg := pixelgl.WindowConfig{
 		Title:  "Gem Runner",
 		Bounds: pixel.R(0, 0, 1600, 900),
@@ -29,17 +31,11 @@ func run() {
 
 	state.Register(states.PackingStateKey, state.New(states.PackingState))
 
-	//uiSheet, err := img.LoadSpriteSheet("assets/ui.json")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//img.AddBatcher(constants.UIBatch, uiSheet, true, true)
-	//tileSheet, err := img.LoadSpriteSheet("assets/tileset.json")
-	//if err != nil {
-	//	panic(err)
-	//}
-	//img.AddBatcher(constants.TileBGBatch, tileSheet, true, true)
-	//img.AddBatcher(constants.TileFGBatch, tileSheet, true, true)
+	testSheet, err := img.LoadSpriteSheet("assets/test1.json")
+	if err != nil {
+		panic(err)
+	}
+	img.AddBatcher(data.TestBatch, testSheet, true, true)
 
 	debug.Initialize(&viewport.MainCamera.PostCamPos)
 	debug.Text = true
@@ -51,7 +47,8 @@ func run() {
 	for !win.Closed() {
 		timing.Update()
 		debug.Clear()
-		//data.DebugInput.Update(win, viewport.MainCamera.Mat)
+		data.DebugInput.Update(win, viewport.MainCamera.Mat)
+
 		//options.WindowUpdate(win)
 		//if options.Updated {
 		//	viewport.MainCamera.CamPos = pixel.V(viewport.MainCamera.Rect.W()*0.5, viewport.MainCamera.Rect.H()*0.5)
