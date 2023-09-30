@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
+	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/states"
 	"ludum-dare-54/pkg/debug"
@@ -35,7 +36,7 @@ func run() {
 	if err != nil {
 		panic(err)
 	}
-	img.AddBatcher(data.TestBatch, testSheet, true, true)
+	img.AddBatcher(constants.TestBatch, testSheet, true, true)
 
 	debug.Initialize(&viewport.MainCamera.PostCamPos)
 	debug.Text = true

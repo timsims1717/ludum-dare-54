@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
+	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
 	"ludum-dare-54/internal/systems"
@@ -56,7 +57,7 @@ func (s *packingState) Update(win *pixelgl.Window) {
 
 func (s *packingState) Draw(win *pixelgl.Window) {
 	systems.DrawSystem(win, 1)
-	img.Batchers[data.TestBatch].Draw(viewport.MainCamera.Canvas)
+	img.Batchers[constants.TestBatch].Draw(viewport.MainCamera.Canvas)
 }
 
 func (s *packingState) SetAbstract(aState *state.AbstractState) {

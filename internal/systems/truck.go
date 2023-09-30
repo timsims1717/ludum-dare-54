@@ -2,6 +2,7 @@ package systems
 
 import (
 	"github.com/faiface/pixel"
+	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
 	"ludum-dare-54/pkg/img"
@@ -18,7 +19,7 @@ func CreateTruck(w, d, h float64) {
 			obj.Pos = pixel.V(float64(x)*64, float64(y)*64)
 			obj.Layer = 1
 			e := myecs.Manager.NewEntity()
-			e.AddComponent(myecs.Drawable, img.NewSprite("square", data.TestBatch)).
+			e.AddComponent(myecs.Drawable, img.NewSprite("square", constants.TestBatch)).
 				AddComponent(myecs.Object, obj)
 		}
 	}
