@@ -21,6 +21,7 @@ import (
 
 type packingState struct {
 	*state.AbstractState
+	isTimer bool
 }
 
 func (s *packingState) Unload() {
@@ -36,6 +37,10 @@ func (s *packingState) Load() {
 	data.GameView.CamPos = pixel.ZV
 	data.GameView.CamPos.X += (w - 1) * 0.5 * world.TileSize
 	data.GameView.CamPos.Y += (math.Min(d, 3) - 1) * 0.5 * world.TileSize
+	data.ScoreView = viewport.New(nil)
+	data.ScoreView.SetRect(pixel.R(0, 0, 330, 230))
+	data.ScoreView.CamPos = pixel.V(0, data.ScoreView.Rect.H()*0.5)
+	systems.ScoreboardInit()
 	systems.CreateTruck(w, d, h)
 	data.BottomDrop = pixel.R(-200, -130, 340, -40)
 	data.LeftDrop = pixel.R(-200, -130, -40, 190)
@@ -44,6 +49,8 @@ func (s *packingState) Load() {
 
 func (s *packingState) Update(win *pixelgl.Window) {
 	debug.AddText("Packing State")
+	data.TimerCount.Obj.Hidden = !s.isTimer
+	data.PercCount.Obj.Hidden = s.isTimer
 	data.GameInput.Update(win, viewport.MainCamera.Mat)
 	debug.AddIntCoords("World", int(data.GameInput.World.X), int(data.GameInput.World.Y))
 	inPos := data.GameView.ProjectWorld(data.GameInput.World)
@@ -75,6 +82,7 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	systems.ObjectSystem()
 
 	data.GameView.Update()
+	data.ScoreView.Update()
 
 	systems.TrunkClean()
 
@@ -92,7 +100,13 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 	systems.DrawSystem(win, 20)
 	img.Batchers[constants.TestBatch].Draw(data.GameView.Canvas)
 	img.Clear()
+
 	data.GameView.Canvas.Draw(win, data.GameView.Mat)
+
+	data.ScoreView.Canvas.Clear(colornames.White)
+	systems.DrawSystem(win, 30)
+	data.ScoreView.Canvas.Draw(win, data.ScoreView.Mat)
+
 	systems.TemporarySystem()
 	if options.Updated {
 		s.UpdateViews()
@@ -107,4 +121,8 @@ func (s *packingState) UpdateViews() {
 	data.GameView.PortPos = viewport.MainCamera.PostCamPos
 	data.GameView.PortSize.X = viewport.MainCamera.Rect.W() / data.GameView.Rect.W()
 	data.GameView.PortSize.Y = viewport.MainCamera.Rect.H() / data.GameView.Rect.H()
+
+	data.ScoreView.PortPos = viewport.MainCamera.PostCamPos
+	data.ScoreView.PortPos.Y += (viewport.MainCamera.Rect.H()-data.ScoreView.Rect.H())*0.5 - 20.
+	data.ScoreView.PortPos.X -= 425.
 }

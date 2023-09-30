@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
+	"github.com/faiface/pixel/text"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/states"
@@ -11,6 +12,7 @@ import (
 	"ludum-dare-54/pkg/options"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
+	"ludum-dare-54/pkg/typeface"
 	"ludum-dare-54/pkg/viewport"
 	"ludum-dare-54/pkg/world"
 )
@@ -32,6 +34,9 @@ func run() {
 	viewport.MainCamera.CamPos = pixel.V(1600*0.5, 900*0.5)
 
 	options.VSync = true
+
+	mainFont, err := typeface.LoadTTF("assets/eurosti.ttf", 200.)
+	typeface.Atlases["main"] = text.NewAtlas(mainFont, text.ASCII)
 
 	state.Register(states.PackingStateKey, state.New(states.PackingState))
 
