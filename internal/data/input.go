@@ -16,6 +16,7 @@ var (
 	DebugInput = &pxginput.Input{
 		Buttons: map[string]*pxginput.ButtonSet{
 			"debugConsole": pxginput.NewJoyless(pixelgl.KeyGraveAccent),
+			"fullscreen":   pxginput.NewJoyless(pixelgl.KeyF),
 			"debug":        pxginput.NewJoyless(pixelgl.KeyF3),
 			"debugText":    pxginput.NewJoyless(pixelgl.KeyF4),
 			"debugMenu":    pxginput.NewJoyless(pixelgl.KeyF7),

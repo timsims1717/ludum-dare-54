@@ -11,10 +11,12 @@ import (
 	"ludum-dare-54/internal/systems"
 	"ludum-dare-54/pkg/debug"
 	"ludum-dare-54/pkg/img"
+	"ludum-dare-54/pkg/options"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
 	"ludum-dare-54/pkg/viewport"
 	"ludum-dare-54/pkg/world"
+	"math"
 )
 
 type packingState struct {
@@ -26,16 +28,17 @@ func (s *packingState) Unload() {
 }
 
 func (s *packingState) Load() {
-	w := 5.
-	d := 3.
-	h := 3.
+	w := 6.
+	d := 7.
+	h := 5.
 	data.GameView = viewport.New(nil)
 	data.GameView.SetRect(pixel.R(0, 0, 640, 360))
-	data.GameView.PortPos = viewport.MainCamera.PostCamPos
 	data.GameView.CamPos = pixel.ZV
 	data.GameView.CamPos.X += (w - 1) * 0.5 * world.TileSize
-	data.GameView.CamPos.Y += (d - 1) * 0.5 * world.TileSize
+	data.GameView.CamPos.Y += (math.Min(d, 3) - 1) * 0.5 * world.TileSize
 	systems.CreateTruck(w, d, h)
+	data.BottomDrop = pixel.R(-200, -130, 340, -40)
+	data.LeftDrop = pixel.R(-200, -130, -40, 190)
 	s.UpdateViews()
 }
 
@@ -91,6 +94,9 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 	img.Clear()
 	data.GameView.Canvas.Draw(win, data.GameView.Mat)
 	systems.TemporarySystem()
+	if options.Updated {
+		s.UpdateViews()
+	}
 }
 
 func (s *packingState) SetAbstract(aState *state.AbstractState) {
@@ -98,8 +104,7 @@ func (s *packingState) SetAbstract(aState *state.AbstractState) {
 }
 
 func (s *packingState) UpdateViews() {
+	data.GameView.PortPos = viewport.MainCamera.PostCamPos
 	data.GameView.PortSize.X = viewport.MainCamera.Rect.W() / data.GameView.Rect.W()
 	data.GameView.PortSize.Y = viewport.MainCamera.Rect.H() / data.GameView.Rect.H()
-	data.BottomDrop = pixel.R(-200, -130, 340, -40)
-	data.LeftDrop = pixel.R(-200, -130, -40, 190)
 }

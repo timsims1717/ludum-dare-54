@@ -95,13 +95,18 @@ func TrunkPlacement(orig world.Coords, shape []world.Coords) (bool, int) {
 	return false, 0
 }
 
-func LegalTrunkCoords(c world.Coords, z int) bool {
+func LegalTrunkCoords(c world.Coords, d int) bool {
 	//Check if inside the truck
-	if c.X >= data.Truck.Width || c.X < 0 || c.Y >= data.Truck.Depth || c.Y < 0 || z >= data.Truck.Height || z < 0 {
+	if c.X >= data.Truck.Width || c.X < 0 || c.Y >= data.Truck.Depth || c.Y < 0 || d >= data.Truck.Height || d < 0 {
 		return false
 	}
-	//Check if something else is occuping the space
-	return !data.Truck.Tiles[z][c.Y][c.X]
+	//Check if something else is occupying the space or a space above
+	for z := d; z < data.Truck.Height; z++ {
+		if data.Truck.Trunk[z][c.Y][c.X] {
+			return false
+		}
+	}
+	return true
 }
 
 func PlaceInTrunk(orig world.Coords, item *data.Item) (bool, int) {
@@ -117,9 +122,31 @@ func PlaceInTrunk(orig world.Coords, item *data.Item) (bool, int) {
 		if legal {
 			for _, c := range mShape {
 				data.Truck.Trunk[z][c.Y][c.X] = true
+				item.TrunkC = append(item.TrunkC, c)
 			}
+			item.TrunkZ = z
+			item.TIndex = len(data.Truck.Wares)
+			data.Truck.Wares = append(data.Truck.Wares, item)
+			UpdateTrunk()
 			return true, z
 		}
 	}
 	return false, 0
+}
+
+func UpdateTrunk() {
+	for i, ware := range data.Truck.Wares {
+		ware.TIndex = i
+		ware.Buried = false
+		ware.Sprite.Color = pixel.RGB(1, 1, 1)
+		if ware.TrunkZ == data.Truck.Height-1 {
+			continue
+		}
+		for _, c := range ware.TrunkC {
+			if !LegalTrunkCoords(c, ware.TrunkZ+1) {
+				ware.Buried = true
+				ware.Sprite.Color = pixel.RGB(0.9, 0.9, 0.9)
+			}
+		}
+	}
 }

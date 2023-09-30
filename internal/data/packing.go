@@ -12,11 +12,15 @@ import (
 type Item struct {
 	Key    string
 	Name   string
-	Index  int
+	QIndex int
+	TIndex int
 	Shape  []world.Coords
 	Object *object.Object
 	Entity *ecs.Entity
 	Sprite *img.Sprite
+	TrunkC []world.Coords
+	TrunkZ int
+	Buried bool
 }
 
 var (

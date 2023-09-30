@@ -24,7 +24,7 @@ func QueueSystem() {
 					ip := object.NewInterpolation(object.InterpolateY).
 						AddGween(item.Object.Pos.Y, rightQueueY(i), 0.4, ease.OutCubic)
 					item.Entity.AddComponent(myecs.Interpolation, ip)
-					item.Index = i
+					item.QIndex = i
 					data.ItemQueue[i], data.ItemQueue[j] = item, nil
 					found = true
 					break
@@ -35,7 +35,8 @@ func QueueSystem() {
 				item.Key = constants.Items[constants.GlobalSeededRandom.Intn(len(constants.Items))]
 				//item.Key = "purple"
 				item.Name = item.Key
-				item.Index = i
+				item.QIndex = i
+				item.TIndex = -1
 				item.Shape = constants.GetShape(item.Key)
 				obj := object.New().WithID("item-in-queue")
 				obj.Pos = pixel.V(slotX, rightQueueY(i))
@@ -64,6 +65,7 @@ func QueueSystem() {
 								}
 								legal, layer := PlaceInTrunk(world.Coords{X: x, Y: y}, item)
 								if legal {
+									// put into trunk
 									item.Object.Layer = layer + 1
 									item.Object.Pos = world.MapToWorld(world.Coords{X: x, Y: y})
 									if world.Width(item.Shape)%2 == 0 {
@@ -72,6 +74,7 @@ func QueueSystem() {
 									if world.Height(item.Shape)%2 == 0 {
 										item.Object.Pos.Y += world.TileSize * 0.5
 									}
+									item.Object.Pos.Y += float64(item.TrunkZ) * 5.
 								} else {
 									// move to the empty part of the screen
 									pos := GetNearestPos(item.Object.Pos, item.Object.Rect)
@@ -86,17 +89,30 @@ func QueueSystem() {
 								data.HeldItem = nil
 								hvc.Input.Get("click").Consume()
 							}
-						} else if hvc.Hover && hvc.Input.Get("click").JustPressed() &&
+						} else if hvc.Hover && hvc.Input.Get("click").JustPressed() && !item.Buried &&
 							data.HeldItem == nil && !item.Entity.HasComponent(myecs.Interpolation) {
 							item.Entity.AddComponent(myecs.Drag, &data.DragTimer{
 								Timer: timing.New(0.2),
 							})
 							data.HeldItem = item
 							item.Object.Layer = 20
-							if item.Index > -1 {
-								data.ItemQueue[item.Index] = nil
-								item.Index = -1
+							if item.QIndex > -1 {
+								data.ItemQueue[item.QIndex] = nil
+								item.QIndex = -1
 								item.Object.Sca = pixel.V(1, 1)
+							}
+							if item.TIndex > -1 {
+								for _, c := range item.TrunkC {
+									data.Truck.Trunk[item.TrunkZ][c.Y][c.X] = false
+								}
+								item.TrunkC = []world.Coords{}
+								if len(data.Truck.Wares) > 1 {
+									data.Truck.Wares = append(data.Truck.Wares[:item.TIndex], data.Truck.Wares[item.TIndex+1:]...)
+								} else {
+									data.Truck.Wares = []*data.Item{}
+								}
+								UpdateTrunk()
+								item.TIndex = -1
 							}
 						}
 					}))
