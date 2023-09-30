@@ -37,7 +37,7 @@ func CreateTruck(w, d, h float64) {
 							// change the pos of items w/even widths and depths
 							shadowObj.Pos = AdjustPosInTrunk(hvc.Pos, obj.Pos, data.HeldItem.Shape)
 							shadowObj.Layer = 2
-							shadowImg := img.NewSprite(data.HeldItem.Key, constants.TestBatch)
+							shadowImg := img.NewSprite(data.HeldItem.SpriteKey.String(), constants.TestBatch)
 							shadowImg.Color = pixel.ToRGBA(color.RGBA{
 								R: 255,
 								G: 255,
@@ -101,11 +101,11 @@ func LegalTrunkCoords(c world.Coords, z int) bool {
 		return false
 	}
 	//Check if something else is occuping the space
-	return !data.Truck.Tiles[z][c.Y][c.X]
+	return !data.Truck.Trunk[z][c.Y][c.X]
 }
 
-func PlaceInTrunk(orig world.Coords, item *data.Item) (bool, int) {
-	mShape := constants.GetMovedCoords(orig, item.Shape)
+func PlaceInTrunk(orig world.Coords, ware *data.Ware) (bool, int) {
+	mShape := constants.GetMovedCoords(orig, ware.Shape)
 	for z := 0; z < data.Truck.Height; z++ {
 		legal := true
 		for _, c := range mShape {
