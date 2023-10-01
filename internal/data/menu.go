@@ -8,3 +8,5 @@ type MenuItem struct {
 	Text *typeface.Text
 	Func func()
 }
+
+var Starting bool

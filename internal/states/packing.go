@@ -48,6 +48,7 @@ func (s *packingState) Unload() {
 }
 
 func (s *packingState) Load() {
+	data.Starting = false
 	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.GameView == nil {
 		data.GameView = viewport.New(nil)
@@ -60,9 +61,9 @@ func (s *packingState) Load() {
 	if data.FirstLoad {
 		data.IsTimer = false
 		systems.CreateTruck()
-		data.GameView.CamPos = pixel.ZV
+		data.SetDifficulty(data.PickedDiffKey)
 		data.NewScore()
-		data.SetDifficulty(constants.Easy)
+		data.GameView.CamPos = pixel.ZV
 		data.BottomDrop = pixel.R(-240, -130, 340, -40)
 		data.LeftDrop = pixel.R(-240, -130, -40, 60)
 		systems.ScoreboardInit()
@@ -145,13 +146,13 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 	img.Batchers[constants.TestBatch].Draw(data.GameView.Canvas)
 	img.Clear()
 
-	data.GameView.Canvas.Draw(win, data.GameView.Mat)
+	data.GameView.Draw(win)
 
 	data.ScoreView.Canvas.Clear(color.RGBA{})
 	systems.DrawSystem(win, 29)
 	img.Batchers[constants.TestBatch].Draw(data.ScoreView.Canvas)
 	systems.DrawSystem(win, 30)
-	data.ScoreView.Canvas.Draw(win, data.ScoreView.Mat)
+	data.ScoreView.Draw(win)
 	img.Clear()
 
 	systems.TemporarySystem()

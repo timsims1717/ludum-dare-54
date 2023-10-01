@@ -2,7 +2,6 @@ package constants
 
 import (
 	"github.com/faiface/pixel"
-	"golang.org/x/image/colornames"
 	"image/color"
 	"math/rand"
 	"time"
@@ -41,12 +40,23 @@ var (
 	}
 
 	// Colors
-	BaseUIText = pixel.ToRGBA(colornames.Black)
-	UIBGColor  = pixel.ToRGBA(color.RGBA{
-		R: 100,
-		G: 100,
-		B: 100,
-		A: 100,
+	BaseUIText = pixel.ToRGBA(color.RGBA{
+		R: 105,
+		G: 105,
+		B: 105,
+		A: 255,
+	})
+	HoverUIText = pixel.ToRGBA(color.RGBA{
+		R: 25,
+		G: 25,
+		B: 25,
+		A: 255,
+	})
+	UIBGColor = pixel.ToRGBA(color.RGBA{
+		R: 150,
+		G: 150,
+		B: 150,
+		A: 150,
 	})
 )
 

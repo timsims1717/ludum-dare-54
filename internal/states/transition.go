@@ -29,12 +29,14 @@ func (s *transitionState) Unload() {
 }
 
 func (s *transitionState) Load() {
+	data.Starting = false
 	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.GameView == nil {
 		data.GameView = viewport.New(nil)
 		data.GameView.SetRect(pixel.R(0, 0, 640, 360))
 	}
 	data.GameView.CamPos = pixel.ZV
+	s.UpdateViews()
 }
 
 func (s *transitionState) Update(win *pixelgl.Window) {

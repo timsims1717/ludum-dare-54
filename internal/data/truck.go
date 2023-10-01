@@ -3,7 +3,8 @@ package data
 import "ludum-dare-54/internal/constants"
 
 var (
-	CurrentTruck *Truck
+	CurrentTruck   *Truck
+	PickedTruckKey constants.TruckTypes
 )
 
 type Truck struct {
@@ -57,11 +58,11 @@ func (t *Truck) CopyTruck() {
 }
 
 var (
-	AvalibleTrucks = map[string]*Truck{
+	AvailableTrucks = map[string]*Truck{
 		constants.SmartCar: {
 			Width:      5,
-			Height:     3,
 			Depth:      3,
+			Height:     3,
 			TruckLabel: "SMART CAR",
 		}, constants.Minivan: {
 			Width:      5,
@@ -70,18 +71,18 @@ var (
 			TruckLabel: "MINIVAN",
 		}, constants.CargoVan: {
 			Width:      5,
+			Depth:      6,
 			Height:     5,
-			Depth:      5,
 			TruckLabel: "CARGO VAN",
 		}, constants.SemiTruck: {
 			Width:      5,
-			Height:     5,
-			Depth:      10,
+			Depth:      7,
+			Height:     6,
 			TruckLabel: "BOX TRUCK",
 		}, constants.Wagon: {
 			Width:      4,
-			Height:     5,
 			Depth:      7,
+			Height:     5,
 			TruckLabel: "CONASTOGA",
 		},
 	}
