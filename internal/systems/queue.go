@@ -40,7 +40,7 @@ func QueueSystem() {
 
 func CreateWareInQueue(i int) {
 	first := data.FirstLoad
-	localWare := data.Wares[constants.GlobalSeededRandom.Intn(len(data.Wares))].CopyWare()
+	localWare := data.GetRandomWare().CopyWare()
 	localWare.QueueIndex = i
 	obj := object.New().WithID("ware")
 	obj.Pos = pixel.V(slotX, rightQueueY(i))

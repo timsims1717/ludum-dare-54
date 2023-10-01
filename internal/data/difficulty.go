@@ -13,7 +13,9 @@ var (
 func SetTotalWareSize() {
 	TotalWareSize = 0
 	for _, ware := range Wares {
-		TotalWareSize += len(constants.TrunkominoTypes[ware.ShapeKey])
+		if ware.Active {
+			TotalWareSize += len(constants.TrunkominoTypes[ware.ShapeKey])
+		}
 	}
 }
 
@@ -30,5 +32,5 @@ func SetDifficulty(d constants.DifficultyType) {
 }
 
 func TargetWares(truck *Truck, d *constants.Difficulty) int {
-	return int(float64((truck.Height*truck.Depth*truck.Width)/(TotalWareSize/len(Wares))) * float64(d.TrunkTargetFill) / 100)
+	return int(float64((truck.Height*truck.Depth*truck.Width)/(TotalWareSize/GetTotalActiveWares())) * float64(d.TrunkTargetFill) / 100)
 }
