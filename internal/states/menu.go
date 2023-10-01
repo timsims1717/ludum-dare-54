@@ -3,8 +3,9 @@ package states
 import (
 	"fmt"
 	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
-	"image/color"
+	"golang.org/x/image/colornames"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
 	"ludum-dare-54/internal/systems"
@@ -33,9 +34,14 @@ func (s *mainMenuState) Load() {
 	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.MenuView == nil {
 		data.MenuView = viewport.New(nil)
-		data.MenuView.SetRect(pixel.R(0, 0, 640, 360))
+		data.MenuView.SetRect(pixel.R(0, 0, viewport.MainCamera.Rect.W(), viewport.MainCamera.Rect.H()))
 	}
 	data.MenuView.CamPos = pixel.ZV
+	if data.MenuIMDraw == nil {
+		data.MenuIMDraw = imdraw.New(nil)
+	}
+	systems.InitMenuItems()
+	s.UpdateViews()
 }
 
 func (s *mainMenuState) Update(win *pixelgl.Window) {
@@ -56,19 +62,19 @@ func (s *mainMenuState) Update(win *pixelgl.Window) {
 	debug.AddIntCoords("MenuView World", int(inPos.X), int(inPos.Y))
 
 	if data.DebugInput.Get("debugSP").JustPressed() {
-		data.ScoreView.ZoomIn(1.)
+		data.MenuView.ZoomIn(1.)
 	} else if data.DebugInput.Get("debugSM").JustPressed() {
-		data.ScoreView.ZoomIn(-1.)
+		data.MenuView.ZoomIn(-1.)
 	}
 	if data.DebugInput.Get("camUp").Pressed() {
-		data.GameView.CamPos.Y += 100. * timing.DT
+		data.MenuView.PortPos.Y += 100. * timing.DT
 	} else if data.DebugInput.Get("camDown").Pressed() {
-		data.GameView.CamPos.Y -= 100. * timing.DT
+		data.MenuView.PortPos.Y -= 100. * timing.DT
 	}
 	if data.DebugInput.Get("camRight").Pressed() {
-		data.GameView.CamPos.X += 100. * timing.DT
+		data.MenuView.PortPos.X += 100. * timing.DT
 	} else if data.DebugInput.Get("camLeft").Pressed() {
-		data.GameView.CamPos.X -= 100. * timing.DT
+		data.MenuView.PortPos.X -= 100. * timing.DT
 	}
 
 	systems.FunctionSystem()
@@ -86,9 +92,11 @@ func (s *mainMenuState) Update(win *pixelgl.Window) {
 }
 
 func (s *mainMenuState) Draw(win *pixelgl.Window) {
-	data.MenuView.Canvas.Clear(color.RGBA{})
+	data.MenuView.Canvas.Clear(colornames.Pink)
 	systems.DrawMenuBG(win)
 	systems.DrawSystem(win, 50)
+	data.MenuView.Draw(win)
+
 	img.Clear()
 
 	systems.TemporarySystem()
@@ -103,6 +111,6 @@ func (s *mainMenuState) SetAbstract(aState *state.AbstractState) {
 
 func (s *mainMenuState) UpdateViews() {
 	data.MenuView.PortPos = viewport.MainCamera.PostCamPos
-	data.MenuView.PortSize = viewport.MainCamera.PortSize
+	data.MenuView.SetRect(pixel.R(0, 0, viewport.MainCamera.Rect.W(), viewport.MainCamera.Rect.H()))
 	data.MenuView.CamPos = pixel.ZV
 }

@@ -146,13 +146,13 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 	img.Batchers[constants.TestBatch].Draw(data.GameView.Canvas)
 	img.Clear()
 
-	data.GameView.Canvas.Draw(win, data.GameView.Mat)
+	data.GameView.Draw(win)
 
 	data.ScoreView.Canvas.Clear(color.RGBA{})
 	systems.DrawSystem(win, 29)
 	img.Batchers[constants.TestBatch].Draw(data.ScoreView.Canvas)
 	systems.DrawSystem(win, 30)
-	data.ScoreView.Canvas.Draw(win, data.ScoreView.Mat)
+	data.ScoreView.Draw(win)
 	img.Clear()
 
 	systems.TemporarySystem()

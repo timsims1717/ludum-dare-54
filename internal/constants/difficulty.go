@@ -10,6 +10,7 @@ const (
 )
 
 type Difficulty struct {
+	Label                    string
 	Level                    DifficultyType
 	TimeToDepart             int
 	TimeToSell               int
@@ -21,6 +22,7 @@ type Difficulty struct {
 var (
 	DifficultyLevels = map[DifficultyType]*Difficulty{
 		Easy: {
+			Label:                    "Easy",
 			Level:                    Easy,
 			TimeToDepart:             60,
 			TimeToSell:               40,
@@ -28,6 +30,7 @@ var (
 			NumberofMissedDeliveries: 8,
 			NumberofAbandonedWares:   21,
 		}, Medium: {
+			Label:                    "Medium",
 			Level:                    Medium,
 			TimeToDepart:             50,
 			TimeToSell:               30,
@@ -35,6 +38,7 @@ var (
 			NumberofMissedDeliveries: 5,
 			NumberofAbandonedWares:   13,
 		}, Hard: {
+			Label:                    "Hard",
 			Level:                    Hard,
 			TimeToDepart:             40,
 			TimeToSell:               25,

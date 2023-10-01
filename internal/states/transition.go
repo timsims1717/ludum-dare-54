@@ -35,6 +35,7 @@ func (s *transitionState) Load() {
 		data.GameView.SetRect(pixel.R(0, 0, 640, 360))
 	}
 	data.GameView.CamPos = pixel.ZV
+	s.UpdateViews()
 }
 
 func (s *transitionState) Update(win *pixelgl.Window) {

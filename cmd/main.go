@@ -8,7 +8,6 @@ import (
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/states"
-	"ludum-dare-54/internal/systems"
 	"ludum-dare-54/pkg/debug"
 	"ludum-dare-54/pkg/img"
 	"ludum-dare-54/pkg/options"
@@ -40,7 +39,7 @@ func run() {
 	mainFont, err := typeface.LoadTTF("assets/eurosti.ttf", 200.)
 	typeface.Atlases["main"] = text.NewAtlas(mainFont, text.ASCII)
 
-	//state.Register(constants.MainMenuStateKey, state.New(states.MainMenuState))
+	state.Register(constants.MainMenuStateKey, state.New(states.MainMenuState))
 	state.Register(constants.PackingStateKey, state.New(states.PackingState))
 	state.Register(constants.TransitionStateKey, state.New(states.TransitionState))
 
@@ -50,7 +49,6 @@ func run() {
 	}
 	img.AddBatcher(constants.TestBatch, testSheet, true, true)
 
-	systems.InitMenuItems()
 	debug.Initialize(&viewport.MainCamera.PostCamPos)
 	debug.Text = true
 
