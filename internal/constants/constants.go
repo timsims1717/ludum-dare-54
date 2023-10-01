@@ -37,6 +37,7 @@ var (
 		"Ain't no fellow who regretted giving it one extra shake, but you can bet every guy has regretted giving one too few.",
 		"We've got Min's dumptruck...",
 		"F*ck Moash!!!",
+		"You Sell Out!",
 	}
 
 	// Colors

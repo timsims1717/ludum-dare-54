@@ -26,4 +26,8 @@ const (
 	Broom           = "broom"
 	FrenchBread     = "french bread"
 	Dustpan         = "dustpan"
+	CrystalBall     = "crystal ball"
+	JustARock       = "just a rock"
+	SnakeOil        = "snake oil"
+	TopHat          = "top hat"
 )
