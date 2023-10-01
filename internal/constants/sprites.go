@@ -16,4 +16,6 @@ const (
 	White           = "white"
 	Orange          = "orange"
 	Gray            = "gray"
+	Apple           = "apple"
+	Banana          = "banana"
 )

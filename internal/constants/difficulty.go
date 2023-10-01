@@ -17,6 +17,7 @@ type Difficulty struct {
 	InitialTrunkTargetFill   int
 	NumberofMissedDeliveries int
 	NumberofAbandonedWares   int
+	TargetWares              int
 }
 
 var (

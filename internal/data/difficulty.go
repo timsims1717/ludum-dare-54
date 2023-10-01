@@ -1,6 +1,8 @@
 package data
 
-import "ludum-dare-54/internal/constants"
+import (
+	"ludum-dare-54/internal/constants"
+)
 
 var (
 	CurrentDifficulty *constants.Difficulty
@@ -15,4 +17,9 @@ func SetDifficulty(d constants.DifficultyType) {
 		NumberofMissedDeliveries: constants.DifficultyLevels[d].NumberofMissedDeliveries,
 		NumberofAbandonedWares:   constants.DifficultyLevels[d].NumberofAbandonedWares,
 	}
+	TotalWareSize := 0
+	for _, ware := range Wares {
+		TotalWareSize += len(constants.TrunkominoTypes[ware.ShapeKey])
+	}
+	CurrentDifficulty.TargetWares = int(float64((CurrentTruck.Height*CurrentTruck.Depth*CurrentTruck.Width)/(TotalWareSize/len(Wares))) * float64(CurrentDifficulty.InitialTrunkTargetFill) / 100)
 }

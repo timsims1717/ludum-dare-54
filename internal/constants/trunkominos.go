@@ -24,7 +24,7 @@ type TrunkominoType string
 
 const (
 	UndefinedTrunkominoType = "Undefined"
-	TinyBox                 = "TinyBox"
+	TinyBox                 = "Size32"
 	ShortLogOver            = "ShortLogOver"
 	ShortLogUp              = "ShortLogUp"
 	MediumLogOver           = "MediumLogOver"

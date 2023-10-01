@@ -16,7 +16,7 @@ var claimed = false
 
 func CreateTruck() {
 	if data.CurrentTruck == nil {
-		data.AvailableTrucks[constants.Minivan].CopyTruck()
+		data.AvailableTrucks[constants.CargoVan].CopyTruck()
 	}
 	for yt := 0; yt < data.CurrentTruck.Depth; yt++ {
 		for xt := 0; xt < data.CurrentTruck.Width; xt++ {

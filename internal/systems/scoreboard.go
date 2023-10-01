@@ -114,11 +114,11 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.RightPercentFull).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.PercCount = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 300., 0.)
+	data.PercCount = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.2, 300., 0.)
 	data.PercCount.Obj.Layer = 30
 	data.PercCount.SetColor(pixel.ToRGBA(colornames.Black))
 	data.PercCount.SetPos(pixel.V(centerScoreboard, middleScoreboard))
-	data.PercCount.SetText("44% Full")
+	data.PercCount.SetText("Min Wares xx / yy")
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.PercCount.Obj).
 		AddComponent(myecs.Drawable, data.PercCount).
@@ -204,29 +204,29 @@ func ScoreSystem() {
 	data.LeftMissed.SetText(fmt.Sprintf("%d Missed", data.CurrentScore.MissedDeliveries))
 	data.LeftAbandoned.SetText(fmt.Sprintf("%d Abandonded", data.CurrentScore.AbandonedWares))
 	data.LeftCash.SetText(fmt.Sprintf("$%d", data.CurrentScore.Cash))
-	data.PercCount.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
+	data.PercCount.SetText(fmt.Sprintf("Min Wares: %d / %d", len(data.CurrentTruck.Wares), data.CurrentDifficulty.TargetWares))
+	data.RightPercentFull.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
 
 	data.CheckForFailure()
-	if data.FirstLoad && !data.IsTimer && data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
+	if data.FirstLoad && !data.IsTimer && len(data.CurrentTruck.Wares) >= data.CurrentDifficulty.TargetWares {
 		data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToDepart))
 		data.IsTimer = true
 	}
 	if data.IsTimer {
 		UpdateTimer()
-		data.RightPercentFull.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
-		if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
-			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Green))
+		if len(data.CurrentTruck.Wares) >= data.CurrentDifficulty.TargetWares {
+			data.RightLoadedWares.SetColor(pixel.ToRGBA(colornames.Black))
 			if data.FirstLoad {
 				data.ButtonLock = false
 			}
 		} else {
-			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Red))
+			data.RightLoadedWares.SetColor(pixel.ToRGBA(colornames.Red))
 			if data.FirstLoad {
 				data.ButtonLock = true
 			}
 		}
 	}
-	if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill && data.DepartureTimer.Done() {
+	if len(data.CurrentTruck.Wares) >= data.CurrentDifficulty.TargetWares && data.DepartureTimer.Done() {
 		data.LeavePacking = true
 	}
 }
