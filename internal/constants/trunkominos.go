@@ -5,18 +5,19 @@ import "ludum-dare-54/pkg/world"
 var (
 	//Trunkominos
 	TrunkominoTypes = map[TrunkominoType][]world.Coords{
-		TinyBox:       {{0, 0}},
-		ShortLogOver:  {{0, 0}, {1, 0}},
-		ShortLogUp:    {{0, 0}, {0, 1}},
-		MediumLogOver: {{0, 0}, {1, 0}, {2, 0}},
-		MediumLogUp:   {{0, 0}, {0, 1}, {0, 2}},
-		LongLogOver:   {{0, 0}, {1, 0}, {2, 0}, {3, 0}},
-		LongLogUp:     {{0, 0}, {0, 1}, {0, 2}, {0, 3}},
-		MediumBox:     {{0, 0}, {1, 0}, {0, 1}, {1, 1}},
-		MediumLongBox: {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}},
-		LargeLongBox:  {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}, {3, 0}, {3, 1}},
-		MediumUpBox:   {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}},
-		LargeUpBox:    {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}, {0, 3}, {1, 3}},
+		SizeOnebyOne:   {{0, 0}},
+		SizeTwobyOne:   {{0, 0}, {1, 0}},
+		SizeOnebyTwo:   {{0, 0}, {0, 1}},
+		SizeThreebyOne: {{0, 0}, {1, 0}, {2, 0}},
+		SizeOnebyThree: {{0, 0}, {0, 1}, {0, 2}},
+		SizeFourbyOne:  {{0, 0}, {1, 0}, {2, 0}, {3, 0}},
+		SizeOnebyFour:  {{0, 0}, {0, 1}, {0, 2}, {0, 3}},
+		SizeTwobyTwo:   {{0, 0}, {1, 0}, {0, 1}, {1, 1}},
+		SizeThreebyTwo: {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}},
+		SizeFourbyTwo:  {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}, {3, 0}, {3, 1}},
+		SizeTwobyThree: {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}},
+		SizeTwobyFour:  {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}, {0, 3}, {1, 3}},
+		SizeTwobyFourL: {{0, 0}, {1, 0}, {0, 1}, {0, 2}, {0, 3}},
 	}
 )
 
@@ -24,18 +25,19 @@ type TrunkominoType string
 
 const (
 	UndefinedTrunkominoType = "Undefined"
-	TinyBox                 = "Size32"
-	ShortLogOver            = "ShortLogOver"
-	ShortLogUp              = "ShortLogUp"
-	MediumLogOver           = "MediumLogOver"
-	MediumLogUp             = "MediumLogUp"
-	LongLogOver             = "LongLogOver"
-	LongLogUp               = "LongLogUp"
-	MediumBox               = "MediumBox"
-	MediumLongBox           = "MediumLongBox"
-	LargeLongBox            = "LargeLongBox"
-	MediumUpBox             = "MediumUpBox"
-	LargeUpBox              = "LargeUpBox"
+	SizeOnebyOne            = "SizeOnebyOne"
+	SizeTwobyOne            = "SizeTwobyOne"
+	SizeOnebyTwo            = "SizeOnebyTwo"
+	SizeThreebyOne          = "SizeThreebyOne"
+	SizeOnebyThree          = "SizeOnebyThree"
+	SizeFourbyOne           = "SizeFourbyOne"
+	SizeOnebyFour           = "SizeOnebyFour"
+	SizeTwobyTwo            = "SizeTwobyTwo"
+	SizeThreebyTwo          = "SizeThreebyTwo"
+	SizeFourbyTwo           = "SizeFourbyTwo"
+	SizeTwobyThree          = "SizeTwobyThree"
+	SizeTwobyFour           = "SizeTwobyFour"
+	SizeTwobyFourL          = "SizeTwobyFourL"
 )
 
 // GetMovedCoords assumes the center of even numbers is moved to the left and
