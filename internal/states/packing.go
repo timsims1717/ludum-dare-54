@@ -90,7 +90,6 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	debug.AddText("Packing State")
 	data.TimerCount.Obj.Hidden = !data.IsTimer
 	data.PercCount.Obj.Hidden = data.IsTimer
-	data.RightPercentFull.Obj.Hidden = !data.IsTimer
 	data.GameInput.Update(win, viewport.MainCamera.Mat)
 	debug.AddIntCoords("World", int(data.GameInput.World.X), int(data.GameInput.World.Y))
 	inPos := data.GameView.ProjectWorld(data.GameInput.World)
