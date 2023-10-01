@@ -13,6 +13,7 @@ type score struct {
 	MissedDeliveries     int
 	FailCondition        int
 	AbandonedWares       int
+	DeliveryCount        int
 }
 
 func NewScore() {
@@ -24,13 +25,15 @@ var CurrentScore *score
 func CheckForFailure() {
 	if CurrentScore.MissedDeliveries >= CurrentDifficulty.NumberofMissedDeliveries {
 		CurrentScore.FailCondition = constants.TooManyMisses
+	} else if CurrentScore.AbandonedWares >= CurrentDifficulty.NumberofAbandonedWares {
+		CurrentScore.FailCondition = constants.AbandonToManyItems
 	}
 }
 
 var (
 	LeftTitle        *typeface.Text
-	LeftCompletes    *typeface.Text
-	LeftMisseds      *typeface.Text
+	LeftComplete     *typeface.Text
+	LeftMissed       *typeface.Text
 	LeftAbandoned    *typeface.Text
 	LeftCash         *typeface.Text
 	RightTitle       *typeface.Text

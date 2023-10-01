@@ -16,6 +16,7 @@ type Truck struct {
 	FilledSpace   int
 	PercentFilled int
 	TruckLabel    string
+	CurrHeight    int
 }
 
 func NewTruck(w, d, h int) {
@@ -34,10 +35,6 @@ func NewTruck(w, d, h int) {
 			}
 		}
 	}
-}
-
-func (t *Truck) UpdateFillPercent() {
-	t.PercentFilled = int((float64(t.FilledSpace) / float64(t.TotalSpace)) * 100)
 }
 
 func (t *Truck) CopyTruck() {

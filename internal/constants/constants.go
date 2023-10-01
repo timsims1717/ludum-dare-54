@@ -1,6 +1,9 @@
 package constants
 
 import (
+	"github.com/faiface/pixel"
+	"golang.org/x/image/colornames"
+	"image/color"
 	"math/rand"
 	"time"
 )
@@ -13,6 +16,7 @@ const (
 	Build     = 20230930
 
 	// States
+	MainMenuStateKey   = "main_menu_state"
 	PackingStateKey    = "packing_state"
 	TransitionStateKey = "transition_state"
 )
@@ -35,6 +39,15 @@ var (
 		"We've got Min's dumptruck...",
 		"F*ck Moash!!!",
 	}
+
+	// Colors
+	BaseUIText = pixel.ToRGBA(colornames.Black)
+	UIBGColor  = pixel.ToRGBA(color.RGBA{
+		R: 100,
+		G: 100,
+		B: 100,
+		A: 100,
+	})
 )
 
 func RandomTitle() string {

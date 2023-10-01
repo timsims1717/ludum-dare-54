@@ -22,22 +22,22 @@ var (
 	DifficultyLevels = map[DifficultyType]*Difficulty{
 		Easy: {
 			Level:                    Easy,
-			TimeToDepart:             100,
-			TimeToSell:               100,
+			TimeToDepart:             60,
+			TimeToSell:               40,
 			InitialTrunkTargetFill:   50,
 			NumberofMissedDeliveries: 8,
 			NumberofAbandonedWares:   21,
 		}, Medium: {
 			Level:                    Medium,
-			TimeToDepart:             80,
-			TimeToSell:               80,
+			TimeToDepart:             50,
+			TimeToSell:               30,
 			InitialTrunkTargetFill:   40,
 			NumberofMissedDeliveries: 5,
 			NumberofAbandonedWares:   13,
 		}, Hard: {
 			Level:                    Hard,
-			TimeToDepart:             60,
-			TimeToSell:               60,
+			TimeToDepart:             40,
+			TimeToSell:               25,
 			InitialTrunkTargetFill:   30,
 			NumberofMissedDeliveries: 3,
 			NumberofAbandonedWares:   8,

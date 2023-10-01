@@ -6,8 +6,10 @@ import (
 	"golang.org/x/image/colornames"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
+	"ludum-dare-54/internal/myecs"
 	gween "ludum-dare-54/pkg/gween64"
 	"ludum-dare-54/pkg/gween64/ease"
+	"ludum-dare-54/pkg/object"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
 	"ludum-dare-54/pkg/util"
@@ -17,7 +19,7 @@ import (
 var (
 	bottomSlot = -40.
 	slotSize   = 64.
-	slotX      = 240.
+	slotX      = 230.
 )
 
 func rightQueueY(i int) float64 {
@@ -88,9 +90,28 @@ func GetNearestPos(pos pixel.Vec, r pixel.Rect) pixel.Vec {
 
 func LeavePackingSystem() {
 	if data.LeavePacking {
-		data.FirstLoad = false
-		if data.ScoreTween == nil {
+		switch data.LeaveStep {
+		case 0:
+			if !data.FirstLoad {
+				for _, ware := range data.SellWares {
+					if !ware.Sold {
+						data.CurrentScore.MissedDeliveries++
+					}
+				}
+				for _, result := range myecs.Manager.Query(myecs.IsWare) {
+					_, okO := result.Components[myecs.Object].(*object.Object)
+					ware, okW := result.Components[myecs.Ware].(*data.Ware)
+					if okO && okW {
+						if ware.TIndex < 0 && !ware.SellMe {
+							data.CurrentScore.AbandonedWares++
+						}
+					}
+				}
+				data.CurrentScore.AbandonedWares += data.BuyWares
+			}
+			data.FirstLoad = false
 			data.ScoreTween = gween.New(data.ScoreView.PortPos.Y, 1000, 1, ease.InBack)
+			data.LeaveStep++
 		}
 		y, done := data.ScoreTween.Update(timing.DT)
 		data.ScoreView.PortPos.Y = y
@@ -104,11 +125,6 @@ func LeavePackingSystem() {
 			state.SwitchState(constants.TransitionStateKey)
 		}
 	}
-}
-
-func StartTimer() {
-	data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToDepart))
-	data.IsTimer = true
 }
 
 func UpdateTimer() {

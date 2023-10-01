@@ -5,6 +5,7 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	"golang.org/x/image/colornames"
+	"image/color"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
@@ -29,7 +30,12 @@ type packingState struct {
 func (s *packingState) Unload() {
 	data.FadeTween = nil
 	data.LeavePacking = false
-	data.ItemQueue = [8]*data.Ware{}
+	data.LeaveStep = 0
+	data.WareQueue = [8]*data.Ware{}
+	for _, ware := range data.SellWares {
+		myecs.Manager.DisposeEntity(ware.Entity)
+	}
+	data.SellWares = []*data.Ware{}
 	for _, result := range myecs.Manager.Query(myecs.IsWare) {
 		_, okO := result.Components[myecs.Object].(*object.Object)
 		ware, okW := result.Components[myecs.Ware].(*data.Ware)
@@ -52,15 +58,20 @@ func (s *packingState) Load() {
 		data.ScoreView.CamPos = pixel.V(0, data.ScoreView.Rect.H()*0.5)
 	}
 	if data.FirstLoad {
+		data.IsTimer = false
 		systems.CreateTruck()
 		data.GameView.CamPos = pixel.ZV
 		data.NewScore()
 		data.SetDifficulty(constants.Easy)
-		data.BottomDrop = pixel.R(-200, -130, 340, -40)
-		data.LeftDrop = pixel.R(-200, -130, -40, 190)
+		data.BottomDrop = pixel.R(-240, -130, 340, -40)
+		data.LeftDrop = pixel.R(-240, -130, -40, 60)
 		systems.ScoreboardInit()
+	} else {
+		systems.ScoreboardReset()
+		data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToSell))
+		systems.SellInit()
 	}
-	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width) - 1) * 0.5 * world.TileSize
+	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width)-1)*0.5*world.TileSize - (40)
 	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize
 	s.UpdateViews()
 }
@@ -109,43 +120,16 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	// custom systems
 	systems.LeavePackingSystem()
 	systems.QueueSystem()
+	systems.ScoreSystem()
 	// object systems
 	systems.InterpolationSystem()
 	systems.ParentSystem()
 	systems.ObjectSystem()
 
-	data.PercCount.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
 	data.GameView.Update()
 	data.ScoreView.Update()
 
 	systems.TrunkClean()
-	data.CheckForFailure()
-	if !data.IsTimer && data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
-		systems.StartTimer()
-	}
-	if data.IsTimer {
-		systems.UpdateTimer()
-		data.RightPercentFull.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
-		if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
-			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Green))
-			data.ButtonLock = false
-		} else {
-			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Red))
-			data.ButtonLock = true
-		}
-	}
-	data.RightLoadedWares.SetText(fmt.Sprintf("Loaded Wares: %d", len(data.CurrentTruck.Wares)))
-	data.RightLoadHeight.SetText(fmt.Sprintf("Load Height: %d / %d", 0, data.CurrentTruck.Depth))
-	//data.LeftTitle.SetText(fmt.Sprintf("DELIVERIES\n%d Complete\n%d Missed\n$%d.00", data.CurrentScore.SuccessfulDeliveries,
-	//data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
-	data.LeftCompletes.SetText(fmt.Sprintf("%d Complete", data.CurrentScore.SuccessfulDeliveries))
-	data.LeftAbandoned.SetText(fmt.Sprintf("%d Missed", data.CurrentScore.MissedDeliveries))
-	data.LeftAbandoned.SetText(fmt.Sprintf("%d Abandonded", data.CurrentScore.AbandonedWares))
-	data.LeftCash.SetText(fmt.Sprintf("$%d", data.CurrentScore.Cash))
-
-	if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill && data.DepartureTimer.Done() {
-		data.LeavePacking = true
-	}
 
 	myecs.UpdateManager()
 	debug.AddText(fmt.Sprintf("Entity Count: %d", myecs.FullCount))
@@ -164,7 +148,7 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 
 	data.GameView.Canvas.Draw(win, data.GameView.Mat)
 
-	data.ScoreView.Canvas.Clear(colornames.White)
+	data.ScoreView.Canvas.Clear(color.RGBA{})
 	systems.DrawSystem(win, 29)
 	img.Batchers[constants.TestBatch].Draw(data.ScoreView.Canvas)
 	systems.DrawSystem(win, 30)
@@ -184,10 +168,10 @@ func (s *packingState) SetAbstract(aState *state.AbstractState) {
 func (s *packingState) UpdateViews() {
 	data.GameView.PortPos = viewport.MainCamera.PostCamPos
 	data.GameView.PortSize.X = viewport.MainCamera.Rect.W() / data.GameView.Rect.W()
-	data.GameView.PortSize.Y = viewport.MainCamera.Rect.H() / data.GameView.Rect.H()
+	data.GameView.PortSize.Y = data.GameView.PortSize.X
 
-	svw := math.Max(viewport.MainCamera.Rect.W()*0.2, 330)
-	svh := math.Max(viewport.MainCamera.Rect.H()*0.4, 330)
+	svw := viewport.MainCamera.Rect.W() * 0.3
+	svh := viewport.MainCamera.Rect.H() * 0.4
 	data.ScoreView.SetRect(pixel.R(0, 0, svw, svh))
 	data.ScoreView.SetZoom(viewport.MainCamera.Rect.W() / 1600)
 	data.ScoreView.PortPos = viewport.MainCamera.PostCamPos

@@ -7,8 +7,10 @@ import (
 )
 
 var (
-	ItemQueue      [8]*Ware
-	HeldItem       *Ware
+	WareQueue      [8]*Ware
+	HeldWare       *Ware
+	SellWares      []*Ware
+	BuyWares       int
 	BottomDrop     pixel.Rect
 	LeftDrop       pixel.Rect
 	DepartureTimer *timing.Timer
@@ -16,8 +18,8 @@ var (
 
 	LeavePacking bool
 	ScoreTween   *gween.Tween
-	DriveTimer   *timing.Timer
-	DriveStep    int
+	LeaveTimer   *timing.Timer
+	LeaveStep    int
 	FadeTween    *gween.Tween
 	FirstLoad    = true
 )

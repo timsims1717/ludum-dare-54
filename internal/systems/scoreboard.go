@@ -9,44 +9,55 @@ import (
 	"ludum-dare-54/internal/myecs"
 	"ludum-dare-54/pkg/img"
 	"ludum-dare-54/pkg/object"
+	"ludum-dare-54/pkg/timing"
 	"ludum-dare-54/pkg/typeface"
+)
+
+var (
+	leftScoreboard   = -200.
+	rightScoreboard  = -leftScoreboard
+	centerScoreboard = 0.
+	topScoreboard    = 170.
+	lineHeight       = 30.
+	middleScoreboard = -20.
+	buttonYHeight    = -100.
 )
 
 func ScoreboardInit() {
 	data.LeftTitle = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
 	data.LeftTitle.Obj.Layer = 30
 	data.LeftTitle.SetColor(pixel.ToRGBA(colornames.Black))
-	data.LeftTitle.SetPos(pixel.V(-140, 170))
+	data.LeftTitle.SetPos(pixel.V(leftScoreboard, topScoreboard))
 	data.LeftTitle.SetText("DELIVERIES")
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.LeftTitle.Obj).
 		AddComponent(myecs.Drawable, data.LeftTitle).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.LeftCompletes = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
-	data.LeftCompletes.Obj.Layer = 30
-	data.LeftCompletes.SetColor(pixel.ToRGBA(colornames.Black))
-	data.LeftCompletes.SetPos(pixel.V(-140, 140))
-	data.LeftCompletes.SetText(fmt.Sprintf("%d Complete", 42))
+	data.LeftComplete = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.LeftComplete.Obj.Layer = 30
+	data.LeftComplete.SetColor(pixel.ToRGBA(colornames.Black))
+	data.LeftComplete.SetPos(pixel.V(leftScoreboard, topScoreboard-lineHeight))
+	data.LeftComplete.SetText(fmt.Sprintf("%d Complete", 42))
 	myecs.Manager.NewEntity().
-		AddComponent(myecs.Object, data.LeftCompletes.Obj).
-		AddComponent(myecs.Drawable, data.LeftCompletes).
+		AddComponent(myecs.Object, data.LeftComplete.Obj).
+		AddComponent(myecs.Drawable, data.LeftComplete).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.LeftMisseds = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
-	data.LeftMisseds.Obj.Layer = 30
-	data.LeftMisseds.SetColor(pixel.ToRGBA(colornames.Black))
-	data.LeftMisseds.SetPos(pixel.V(-140, 110))
-	data.LeftMisseds.SetText(fmt.Sprintf("%d Missed", 42))
+	data.LeftMissed = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.LeftMissed.Obj.Layer = 30
+	data.LeftMissed.SetColor(pixel.ToRGBA(colornames.Black))
+	data.LeftMissed.SetPos(pixel.V(leftScoreboard, topScoreboard-lineHeight*2))
+	data.LeftMissed.SetText(fmt.Sprintf("%d Missed", 42))
 	myecs.Manager.NewEntity().
-		AddComponent(myecs.Object, data.LeftMisseds.Obj).
-		AddComponent(myecs.Drawable, data.LeftMisseds).
+		AddComponent(myecs.Object, data.LeftMissed.Obj).
+		AddComponent(myecs.Drawable, data.LeftMissed).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
 	data.LeftAbandoned = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
 	data.LeftAbandoned.Obj.Layer = 30
 	data.LeftAbandoned.SetColor(pixel.ToRGBA(colornames.Black))
-	data.LeftAbandoned.SetPos(pixel.V(-140, 80))
+	data.LeftAbandoned.SetPos(pixel.V(leftScoreboard, topScoreboard-lineHeight*3))
 	data.LeftAbandoned.SetText(fmt.Sprintf("%d Abandonded", 42))
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.LeftAbandoned.Obj).
@@ -56,7 +67,7 @@ func ScoreboardInit() {
 	data.LeftCash = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
 	data.LeftCash.Obj.Layer = 30
 	data.LeftCash.SetColor(pixel.ToRGBA(colornames.Black))
-	data.LeftCash.SetPos(pixel.V(-140, 50))
+	data.LeftCash.SetPos(pixel.V(leftScoreboard, topScoreboard-lineHeight*4))
 	data.LeftCash.SetText(fmt.Sprintf("$%d", 42))
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.LeftCash.Obj).
@@ -66,7 +77,7 @@ func ScoreboardInit() {
 	data.RightTitle = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 300., 0.)
 	data.RightTitle.Obj.Layer = 30
 	data.RightTitle.SetColor(pixel.ToRGBA(colornames.Black))
-	data.RightTitle.SetPos(pixel.V(140, 170))
+	data.RightTitle.SetPos(pixel.V(rightScoreboard, topScoreboard))
 	data.RightTitle.SetText(data.CurrentTruck.TruckLabel)
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.RightTitle.Obj).
@@ -76,7 +87,7 @@ func ScoreboardInit() {
 	data.RightLoadedWares = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 300., 0.)
 	data.RightLoadedWares.Obj.Layer = 30
 	data.RightLoadedWares.SetColor(pixel.ToRGBA(colornames.Black))
-	data.RightLoadedWares.SetPos(pixel.V(140, 140))
+	data.RightLoadedWares.SetPos(pixel.V(rightScoreboard, topScoreboard-lineHeight))
 	data.RightLoadedWares.SetText(fmt.Sprintf("Loaded Wares: 42"))
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.RightLoadedWares.Obj).
@@ -86,7 +97,7 @@ func ScoreboardInit() {
 	data.RightLoadHeight = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 300., 0.)
 	data.RightLoadHeight.Obj.Layer = 30
 	data.RightLoadHeight.SetColor(pixel.ToRGBA(colornames.Black))
-	data.RightLoadHeight.SetPos(pixel.V(140, 110))
+	data.RightLoadHeight.SetPos(pixel.V(rightScoreboard, topScoreboard-lineHeight*2))
 	data.RightLoadHeight.SetText(fmt.Sprintf("Load Height: %d / %d", 0, data.CurrentTruck.Depth))
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.RightLoadHeight.Obj).
@@ -96,7 +107,7 @@ func ScoreboardInit() {
 	data.RightPercentFull = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 300., 0.)
 	data.RightPercentFull.Obj.Layer = 30
 	data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Black))
-	data.RightPercentFull.SetPos(pixel.V(140, 80))
+	data.RightPercentFull.SetPos(pixel.V(rightScoreboard, topScoreboard-lineHeight*3))
 	data.RightPercentFull.SetText(fmt.Sprintf("%d%% Full", 42))
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.RightPercentFull.Obj).
@@ -106,7 +117,7 @@ func ScoreboardInit() {
 	data.PercCount = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 300., 0.)
 	data.PercCount.Obj.Layer = 30
 	data.PercCount.SetColor(pixel.ToRGBA(colornames.Black))
-	data.PercCount.SetPos(pixel.V(0., -20))
+	data.PercCount.SetPos(pixel.V(centerScoreboard, middleScoreboard))
 	data.PercCount.SetText("44% Full")
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.PercCount.Obj).
@@ -116,7 +127,7 @@ func ScoreboardInit() {
 	data.TimerCount = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 300., 0.)
 	data.TimerCount.Obj.Layer = 30
 	data.TimerCount.SetColor(pixel.ToRGBA(colornames.Black))
-	data.TimerCount.SetPos(pixel.V(0., -20))
+	data.TimerCount.SetPos(pixel.V(centerScoreboard, middleScoreboard))
 	data.TimerCount.SetText("16.012")
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.TimerCount.Obj).
@@ -126,7 +137,7 @@ func ScoreboardInit() {
 	data.ButtonText = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.24, 300., 0.)
 	data.ButtonText.Obj.Layer = 30
 	data.ButtonText.SetColor(pixel.ToRGBA(colornames.Black))
-	data.ButtonText.SetPos(pixel.V(0., -100.))
+	data.ButtonText.SetPos(pixel.V(centerScoreboard, buttonYHeight))
 	data.ButtonText.SetText("Set Out")
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.ButtonText.Obj).
@@ -140,7 +151,7 @@ func ScoreboardInit() {
 	data.ButtonObj = object.New()
 	data.ButtonObj.SetRect(spr.Frame())
 	data.ButtonObj.Layer = 29
-	data.ButtonObj.Pos = pixel.V(0., -115.)
+	data.ButtonObj.Pos = pixel.V(centerScoreboard, buttonYHeight-15.)
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.ButtonObj).
 		AddComponent(myecs.Drawable, data.ButtonSpr).
@@ -148,6 +159,7 @@ func ScoreboardInit() {
 			if !data.ButtonLock {
 				click := hvc.Input.Get("click")
 				data.ButtonSpr.Color = pixel.RGB(1, 1, 1)
+				data.ButtonText.SetColor(pixel.RGB(0, 0, 0))
 				if hvc.Hover {
 					if click.JustPressed() {
 						clickedOn = true
@@ -165,4 +177,56 @@ func ScoreboardInit() {
 				data.ButtonText.SetColor(pixel.RGB(0.7, 0.7, 0.7))
 			}
 		}))
+}
+
+func ScoreboardReset() {
+	data.TimerCount.SetColor(constants.BaseUIText)
+	data.LeftTitle.SetColor(constants.BaseUIText)
+	data.LeftComplete.SetColor(constants.BaseUIText)
+	data.LeftMissed.SetColor(constants.BaseUIText)
+	data.LeftAbandoned.SetColor(constants.BaseUIText)
+	data.LeftCash.SetColor(constants.BaseUIText)
+	data.RightTitle.SetColor(constants.BaseUIText)
+	data.RightLoadedWares.SetColor(constants.BaseUIText)
+	data.RightLoadHeight.SetColor(constants.BaseUIText)
+	data.RightPercentFull.SetColor(constants.BaseUIText)
+	data.PercCount.SetColor(constants.BaseUIText)
+	data.TimerCount.SetColor(constants.BaseUIText)
+	data.ButtonText.SetColor(constants.BaseUIText)
+}
+
+func ScoreSystem() {
+	data.RightLoadedWares.SetText(fmt.Sprintf("Loaded Wares: %d", len(data.CurrentTruck.Wares)))
+	data.RightLoadHeight.SetText(fmt.Sprintf("Load Height: %d / %d", data.CurrentTruck.CurrHeight, data.CurrentTruck.Height))
+	//data.LeftTitle.SetText(fmt.Sprintf("DELIVERIES\n%d Complete\n%d Missed\n$%d.00", data.CurrentScore.SuccessfulDeliveries,
+	//data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
+	data.LeftComplete.SetText(fmt.Sprintf("%d Complete", data.CurrentScore.SuccessfulDeliveries))
+	data.LeftMissed.SetText(fmt.Sprintf("%d Missed", data.CurrentScore.MissedDeliveries))
+	data.LeftAbandoned.SetText(fmt.Sprintf("%d Abandonded", data.CurrentScore.AbandonedWares))
+	data.LeftCash.SetText(fmt.Sprintf("$%d", data.CurrentScore.Cash))
+	data.PercCount.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
+
+	data.CheckForFailure()
+	if data.FirstLoad && !data.IsTimer && data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
+		data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToDepart))
+		data.IsTimer = true
+	}
+	if data.IsTimer {
+		UpdateTimer()
+		data.RightPercentFull.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
+		if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
+			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Green))
+			if data.FirstLoad {
+				data.ButtonLock = false
+			}
+		} else {
+			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Red))
+			if data.FirstLoad {
+				data.ButtonLock = true
+			}
+		}
+	}
+	if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill && data.DepartureTimer.Done() {
+		data.LeavePacking = true
+	}
 }

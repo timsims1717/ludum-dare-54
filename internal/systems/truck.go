@@ -32,13 +32,13 @@ func CreateTruck() {
 						claimed = true
 						x, y := world.WorldToMapAdj(hvc.Pos.X, hvc.Pos.Y)
 						debug.AddIntCoords("Hovered Over", x, y)
-						if data.HeldItem != nil {
+						if data.HeldWare != nil {
 							shadowObj := object.New()
 							// change the pos of items w/even widths and depths
-							shadowObj.Pos = AdjustPosInTrunk(hvc.Pos, obj.Pos, data.HeldItem.Shape)
+							shadowObj.Pos = AdjustPosInTrunk(hvc.Pos, obj.Pos, data.HeldWare.Shape)
 							shadowObj.Layer = 15
-							shadowImg := img.NewSprite(data.HeldItem.SpriteKey, constants.TestBatch)
-							legal, _ := TrunkHover(world.Coords{X: x, Y: y}, data.HeldItem.Shape)
+							shadowImg := img.NewSprite(data.HeldWare.SpriteKey, constants.TestBatch)
+							legal, _ := TrunkHover(world.Coords{X: x, Y: y}, data.HeldWare.Shape)
 							if legal {
 								shadowImg.Color = pixel.ToRGBA(color.RGBA{
 									R: 255,
@@ -146,11 +146,15 @@ func PlaceInTrunk(orig world.Coords, ware *data.Ware) (bool, int) {
 
 func UpdateTrunk() {
 	data.CurrentTruck.FilledSpace = 0
+	data.CurrentTruck.CurrHeight = 0
 	for i, ware := range data.CurrentTruck.Wares {
 		data.CurrentTruck.FilledSpace += len(ware.Shape)
 		ware.TIndex = i
 		ware.Buried = false
 		ware.Sprite.Color = pixel.RGB(1, 1, 1)
+		if ware.TrunkZ+1 > data.CurrentTruck.CurrHeight {
+			data.CurrentTruck.CurrHeight = ware.TrunkZ + 1
+		}
 		if ware.TrunkZ == data.CurrentTruck.Height-1 {
 			continue
 		}
@@ -161,5 +165,5 @@ func UpdateTrunk() {
 			}
 		}
 	}
-	data.CurrentTruck.UpdateFillPercent()
+	data.CurrentTruck.PercentFilled = int((float64(data.CurrentTruck.FilledSpace) / float64(data.CurrentTruck.TotalSpace)) * 100)
 }

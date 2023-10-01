@@ -60,28 +60,38 @@ func (item *Text) Draw(target pixel.Target) {
 }
 
 func (item *Text) SetWidth(width float64) {
-	item.MaxWidth = width
-	item.SetText(item.Raw)
+	if item.MaxWidth != width {
+		item.MaxWidth = width
+		item.SetText(item.Raw)
+	}
 }
 
 func (item *Text) SetHeight(height float64) {
-	item.MaxHeight = height
-	item.SetText(item.Raw)
+	if item.MaxHeight != height {
+		item.MaxHeight = height
+		item.SetText(item.Raw)
+	}
 }
 
 func (item *Text) SetColor(col pixel.RGBA) {
-	item.Color = col
-	item.updateText()
+	if item.Color != col {
+		item.Color = col
+		item.updateText()
+	}
 }
 
 func (item *Text) SetSize(size float64) {
-	item.RelativeSize = size
-	item.SetText(item.Raw)
+	if item.RelativeSize != size {
+		item.RelativeSize = size
+		item.SetText(item.Raw)
+	}
 }
 
 func (item *Text) SetPos(pos pixel.Vec) {
-	item.Obj.Pos = pos
-	item.updateText()
+	if item.Obj.Pos != pos {
+		item.Obj.Pos = pos
+		item.updateText()
+	}
 }
 
 func (item *Text) SetOffset(pos pixel.Vec) {

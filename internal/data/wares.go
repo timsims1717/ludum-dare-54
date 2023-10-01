@@ -22,6 +22,8 @@ type Ware struct {
 	TrunkC     []world.Coords
 	TrunkZ     int
 	Buried     bool
+	SellMe     bool
+	Sold       bool
 }
 
 func (w *Ware) CopyWare() *Ware {
