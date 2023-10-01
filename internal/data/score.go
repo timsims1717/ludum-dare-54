@@ -2,6 +2,8 @@ package data
 
 import (
 	"ludum-dare-54/internal/constants"
+	"ludum-dare-54/pkg/img"
+	"ludum-dare-54/pkg/object"
 	"ludum-dare-54/pkg/typeface"
 )
 
@@ -29,4 +31,8 @@ var (
 	RightCount *typeface.Text
 	PercCount  *typeface.Text
 	TimerCount *typeface.Text
+	ButtonText *typeface.Text
+	ButtonSpr  *img.Sprite
+	ButtonObj  *object.Object
+	ButtonLock bool
 )

@@ -2,6 +2,7 @@ package data
 
 import (
 	"github.com/faiface/pixel"
+	gween "ludum-dare-54/pkg/gween64"
 	"ludum-dare-54/pkg/timing"
 )
 
@@ -12,6 +13,9 @@ var (
 	LeftDrop       pixel.Rect
 	DepartureTimer *timing.Timer
 	IsTimer        bool
+
+	LeavePacking bool
+	ScoreTween   *gween.Tween
 )
 
 type DragTimer struct {

@@ -1,7 +1,6 @@
 package systems
 
 import (
-	"fmt"
 	"github.com/faiface/pixel"
 	"image/color"
 	"ludum-dare-54/internal/constants"
@@ -148,6 +147,7 @@ func PlaceInTrunk(orig world.Coords, ware *data.Ware) (bool, int) {
 func UpdateTrunk() {
 	data.CurrentTruck.FilledSpace = 0
 	for i, ware := range data.CurrentTruck.Wares {
+		data.CurrentTruck.FilledSpace += len(ware.Shape)
 		ware.TIndex = i
 		ware.Buried = false
 		ware.Sprite.Color = pixel.RGB(1, 1, 1)
@@ -160,8 +160,6 @@ func UpdateTrunk() {
 				ware.Sprite.Color = pixel.RGB(0.9, 0.9, 0.9)
 			}
 		}
-		data.CurrentTruck.FilledSpace += len(ware.Shape)
 	}
 	data.CurrentTruck.UpdateFillPercent()
-	fmt.Printf("Truck is %d%% filled\n", data.CurrentTruck.PercentFilled)
 }

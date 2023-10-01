@@ -66,6 +66,9 @@ func run() {
 		if data.DebugInput.Get("fullscreen").JustPressed() {
 			options.FullScreen = !options.FullScreen
 		}
+		if data.DebugInput.Get("debugText").JustPressed() {
+			debug.Text = !debug.Text
+		}
 
 		state.Update(win)
 		viewport.MainCamera.Update()
