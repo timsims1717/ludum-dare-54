@@ -61,7 +61,7 @@ var (
 	AvailableTrucks = map[string]*Truck{
 		constants.SmartCar: {
 			Width:      5,
-			Depth:      3,
+			Depth:      4,
 			Height:     3,
 			TruckLabel: "SMART CAR",
 		}, constants.Minivan: {

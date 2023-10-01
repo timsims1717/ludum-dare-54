@@ -23,14 +23,14 @@ type mainMenuState struct {
 	*state.AbstractState
 }
 
-func (s *mainMenuState) Unload() {
+func (s *mainMenuState) Unload(win *pixelgl.Window) {
 	data.FadeTween = nil
 	data.LeaveTransition = false
 	data.TransitionTimer = nil
 	data.TransitionStep = 0
 }
 
-func (s *mainMenuState) Load() {
+func (s *mainMenuState) Load(win *pixelgl.Window) {
 	data.Starting = false
 	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.MenuView == nil {
@@ -38,10 +38,10 @@ func (s *mainMenuState) Load() {
 		data.MenuView.SetRect(pixel.R(0, 0, viewport.MainCamera.Rect.W(), viewport.MainCamera.Rect.H()))
 	}
 	data.MenuView.CamPos = pixel.ZV
-	if data.MenuIMDraw == nil {
-		data.MenuIMDraw = imdraw.New(nil)
+	if data.IMDraw == nil {
+		data.IMDraw = imdraw.New(nil)
 	}
-	systems.InitMenuItems()
+	systems.InitMenuItems(win)
 	s.UpdateViews()
 }
 
@@ -94,7 +94,7 @@ func (s *mainMenuState) Update(win *pixelgl.Window) {
 
 func (s *mainMenuState) Draw(win *pixelgl.Window) {
 	data.MenuView.Canvas.Clear(colornames.Pink)
-	systems.DrawMenuBG(win)
+	systems.DrawMenuBG()
 	systems.DrawSystem(win, 50)
 	data.MenuView.Draw(win)
 

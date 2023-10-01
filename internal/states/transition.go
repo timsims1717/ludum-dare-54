@@ -21,14 +21,14 @@ type transitionState struct {
 	*state.AbstractState
 }
 
-func (s *transitionState) Unload() {
+func (s *transitionState) Unload(win *pixelgl.Window) {
 	data.FadeTween = nil
 	data.LeaveTransition = false
 	data.TransitionTimer = nil
 	data.TransitionStep = 0
 }
 
-func (s *transitionState) Load() {
+func (s *transitionState) Load(win *pixelgl.Window) {
 	data.Starting = false
 	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.GameView == nil {

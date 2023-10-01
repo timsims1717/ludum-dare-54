@@ -107,22 +107,48 @@ func LeavePackingSystem() {
 						}
 					}
 				}
-				data.CurrentScore.AbandonedWares += data.BuyWares
 			}
 			data.FirstLoad = false
-			data.ScoreTween = gween.New(data.ScoreView.PortPos.Y, 1000, 1, ease.InBack)
-			data.LeaveStep++
-		}
-		y, done := data.ScoreTween.Update(timing.DT)
-		data.ScoreView.PortPos.Y = y
-		if done {
-			data.ScoreTween = nil
-		}
-		if data.FadeTween == nil {
-			data.FadeTween = gween.New(255., 0, 1, ease.Linear)
-		}
-		if done {
-			state.SwitchState(constants.TransitionStateKey)
+			data.CheckForFailure()
+			if data.CurrentScore.FailCondition == constants.NotFailing {
+				data.ScoreTween = gween.New(data.ScoreView.PortPos.Y, 1000, 1, ease.InBack)
+				data.LeaveStep = 1
+			} else {
+				failMsg := "Game Over"
+				switch data.CurrentScore.FailCondition {
+				case constants.TooManyMisses:
+					failMsg = "You missed too many deliveries."
+				case constants.AbandonToManyItems:
+					failMsg = "You left behind too many wares."
+				case constants.TooFewItems:
+					failMsg = "You don't have enough wares in your truck."
+				}
+				SetBigMessage(failMsg, constants.BadUIText, 8)
+				data.LeaveTimer = timing.New(5)
+				data.LeaveStep = 2
+			}
+		case 1:
+			y, done := data.ScoreTween.Update(timing.DT)
+			data.ScoreView.PortPos.Y = y
+			if done {
+				data.ScoreTween = nil
+			}
+			if data.FadeTween == nil {
+				data.FadeTween = gween.New(255., 0, 1, ease.Linear)
+			}
+			if done {
+				state.SwitchState(constants.TransitionStateKey)
+			}
+		case 2:
+			if data.LeaveTimer.UpdateDone() {
+				data.LeaveStep = 3
+				data.FadeTween = gween.New(255., 0, 1, ease.Linear)
+				data.LeaveTimer = timing.New(1)
+			}
+		case 3:
+			if data.LeaveTimer.UpdateDone() {
+				state.SwitchState(constants.MainMenuStateKey)
+			}
 		}
 	}
 }
