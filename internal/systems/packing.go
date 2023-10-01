@@ -1,7 +1,9 @@
 package systems
 
 import (
+	"fmt"
 	"github.com/faiface/pixel"
+	"golang.org/x/image/colornames"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	gween "ludum-dare-54/pkg/gween64"
@@ -101,5 +103,20 @@ func LeavePackingSystem() {
 		if done {
 			state.SwitchState(constants.TransitionStateKey)
 		}
+	}
+}
+
+func StartTimer() {
+	data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToDepart))
+	data.IsTimer = true
+}
+
+func UpdateTimer() {
+	data.DepartureTimer.Update()
+	if data.DepartureTimer.Sec()-data.DepartureTimer.Elapsed() <= 0 {
+		data.TimerCount.SetText("00.0")
+		data.TimerCount.SetColor(pixel.ToRGBA(colornames.Red))
+	} else {
+		data.TimerCount.SetText(fmt.Sprintf("%.1f", data.DepartureTimer.Sec()-data.DepartureTimer.Elapsed()))
 	}
 }

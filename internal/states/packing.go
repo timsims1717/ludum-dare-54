@@ -24,7 +24,6 @@ import (
 
 type packingState struct {
 	*state.AbstractState
-	isTimer bool
 }
 
 func (s *packingState) Unload() {
@@ -43,29 +42,26 @@ func (s *packingState) Unload() {
 }
 
 func (s *packingState) Load() {
-	data.FadeTween = gween.New(0., 255, 1, ease.Linear)
-	w := 6.
-	d := 7.
-	h := 5.
+	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.GameView == nil {
 		data.GameView = viewport.New(nil)
 		data.GameView.SetRect(pixel.R(0, 0, 640, 360))
 	}
-	data.GameView.CamPos = pixel.ZV
-	data.GameView.CamPos.X += (w - 1) * 0.5 * world.TileSize
-	data.GameView.CamPos.Y += (math.Min(d, 3) - 1) * 0.5 * world.TileSize
 	if data.ScoreView == nil {
 		data.ScoreView = viewport.New(nil)
 		data.ScoreView.CamPos = pixel.V(0, data.ScoreView.Rect.H()*0.5)
 	}
 	if data.FirstLoad {
-		systems.CreateTruck(w, d, h)
+		systems.CreateTruck()
+		data.GameView.CamPos = pixel.ZV
 		data.NewScore()
 		data.SetDifficulty(constants.Easy)
 		data.BottomDrop = pixel.R(-200, -130, 340, -40)
 		data.LeftDrop = pixel.R(-200, -130, -40, 190)
 		systems.ScoreboardInit()
 	}
+	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width) - 1) * 0.5 * world.TileSize
+	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize
 	s.UpdateViews()
 }
 
@@ -81,8 +77,9 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	}
 
 	debug.AddText("Packing State")
-	data.TimerCount.Obj.Hidden = !s.isTimer
-	data.PercCount.Obj.Hidden = s.isTimer
+	data.TimerCount.Obj.Hidden = !data.IsTimer
+	data.PercCount.Obj.Hidden = data.IsTimer
+	data.RightPercentFull.Obj.Hidden = !data.IsTimer
 	data.GameInput.Update(win, viewport.MainCamera.Mat)
 	debug.AddIntCoords("World", int(data.GameInput.World.X), int(data.GameInput.World.Y))
 	inPos := data.GameView.ProjectWorld(data.GameInput.World)
@@ -118,14 +115,38 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	systems.ObjectSystem()
 
 	data.PercCount.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
-	data.RightCount.SetText(fmt.Sprintf("Loaded\nWares: %d\nLoad\nHeight: %d/%d", len(data.CurrentTruck.Wares), 0, data.CurrentTruck.Height))
-	data.LeftCount.SetText(fmt.Sprintf("DELIVERIES\n%d Complete\n%d Missed\n$%d.00", data.CurrentScore.SuccessfulDeliveries,
-		data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
 	data.GameView.Update()
 	data.ScoreView.Update()
 
 	systems.TrunkClean()
 	data.CheckForFailure()
+	if !data.IsTimer && data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
+		systems.StartTimer()
+	}
+	if data.IsTimer {
+		systems.UpdateTimer()
+		data.RightPercentFull.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
+		if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
+			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Green))
+			data.ButtonLock = false
+		} else {
+			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Red))
+			data.ButtonLock = true
+		}
+	}
+	data.RightLoadedWares.SetText(fmt.Sprintf("Loaded Wares: %d", len(data.CurrentTruck.Wares)))
+	data.RightLoadHeight.SetText(fmt.Sprintf("Load Height: %d / %d", 0, data.CurrentTruck.Depth))
+	//data.LeftTitle.SetText(fmt.Sprintf("DELIVERIES\n%d Complete\n%d Missed\n$%d.00", data.CurrentScore.SuccessfulDeliveries,
+	//data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
+	data.LeftCompletes.SetText(fmt.Sprintf("%d Complete", data.CurrentScore.SuccessfulDeliveries))
+	data.LeftAbandoned.SetText(fmt.Sprintf("%d Missed", data.CurrentScore.MissedDeliveries))
+	data.LeftAbandoned.SetText(fmt.Sprintf("%d Abandonded", data.CurrentScore.AbandonedWares))
+	data.LeftCash.SetText(fmt.Sprintf("$%d", data.CurrentScore.Cash))
+
+	if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill && data.DepartureTimer.Done() {
+		data.LeavePacking = true
+	}
+
 	myecs.UpdateManager()
 	debug.AddText(fmt.Sprintf("Entity Count: %d", myecs.FullCount))
 }

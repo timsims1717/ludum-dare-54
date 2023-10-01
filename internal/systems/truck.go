@@ -14,7 +14,7 @@ import (
 
 var claimed = false
 
-func CreateTruck(w, d, h float64) {
+func CreateTruck() {
 	if data.CurrentTruck == nil {
 		data.AvalibleTrucks[constants.Minivan].CopyTruck()
 	}

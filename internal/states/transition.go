@@ -29,7 +29,7 @@ func (s *transitionState) Unload() {
 }
 
 func (s *transitionState) Load() {
-	data.FadeTween = gween.New(0., 255, 1, ease.Linear)
+	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.GameView == nil {
 		data.GameView = viewport.New(nil)
 		data.GameView.SetRect(pixel.R(0, 0, 640, 360))
