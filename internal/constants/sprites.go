@@ -23,4 +23,7 @@ const (
 	GolfClub        = "golf club"
 	GolfBag         = "golf bag"
 	Vacuum          = "vacuum"
+	Broom           = "broom"
+	FrenchBread     = "french bread"
+	Dustpan         = "dustpan"
 )
