@@ -31,6 +31,7 @@ func (s *mainMenuState) Unload() {
 }
 
 func (s *mainMenuState) Load() {
+	data.Starting = false
 	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.MenuView == nil {
 		data.MenuView = viewport.New(nil)
@@ -79,7 +80,7 @@ func (s *mainMenuState) Update(win *pixelgl.Window) {
 
 	systems.FunctionSystem()
 	// custom systems
-
+	systems.StartSystem()
 	// object systems
 	systems.InterpolationSystem()
 	systems.ParentSystem()

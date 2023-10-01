@@ -52,6 +52,8 @@ func run() {
 	debug.Initialize(&viewport.MainCamera.PostCamPos)
 	debug.Text = true
 
+	data.SetTotalWareSize()
+
 	win.SetColorMask(colornames.Black)
 	win.Show()
 	timing.Reset()

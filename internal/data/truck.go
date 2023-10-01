@@ -3,7 +3,8 @@ package data
 import "ludum-dare-54/internal/constants"
 
 var (
-	CurrentTruck *Truck
+	CurrentTruck   *Truck
+	PickedTruckKey constants.TruckTypes
 )
 
 type Truck struct {

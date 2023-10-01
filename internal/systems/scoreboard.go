@@ -180,19 +180,19 @@ func ScoreboardInit() {
 }
 
 func ScoreboardReset() {
-	data.TimerCount.SetColor(constants.BaseUIText)
-	data.LeftTitle.SetColor(constants.BaseUIText)
-	data.LeftComplete.SetColor(constants.BaseUIText)
-	data.LeftMissed.SetColor(constants.BaseUIText)
-	data.LeftAbandoned.SetColor(constants.BaseUIText)
-	data.LeftCash.SetColor(constants.BaseUIText)
-	data.RightTitle.SetColor(constants.BaseUIText)
-	data.RightLoadedWares.SetColor(constants.BaseUIText)
-	data.RightLoadHeight.SetColor(constants.BaseUIText)
-	data.RightPercentFull.SetColor(constants.BaseUIText)
-	data.PercCount.SetColor(constants.BaseUIText)
-	data.TimerCount.SetColor(constants.BaseUIText)
-	data.ButtonText.SetColor(constants.BaseUIText)
+	data.TimerCount.SetColor(constants.HoverUIText)
+	data.LeftTitle.SetColor(constants.HoverUIText)
+	data.LeftComplete.SetColor(constants.HoverUIText)
+	data.LeftMissed.SetColor(constants.HoverUIText)
+	data.LeftAbandoned.SetColor(constants.HoverUIText)
+	data.LeftCash.SetColor(constants.HoverUIText)
+	data.RightTitle.SetColor(constants.HoverUIText)
+	data.RightLoadedWares.SetColor(constants.HoverUIText)
+	data.RightLoadHeight.SetColor(constants.HoverUIText)
+	data.RightPercentFull.SetColor(constants.HoverUIText)
+	data.PercCount.SetColor(constants.HoverUIText)
+	data.TimerCount.SetColor(constants.HoverUIText)
+	data.ButtonText.SetColor(constants.HoverUIText)
 }
 
 func ScoreSystem() {

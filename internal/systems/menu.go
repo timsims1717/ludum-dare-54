@@ -52,11 +52,12 @@ func InitMenuItems() {
 	}
 
 	InitCarMenu()
-	ShowMainMenu()
 	InitDifficultyMenu()
+	ShowMainMenu()
 }
 
 func ShowMainMenu() {
+	data.Starting = false
 	HideAllMenus()
 	MenuPlay.Text.Obj.Hidden = false
 }
