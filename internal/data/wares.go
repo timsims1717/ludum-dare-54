@@ -196,6 +196,30 @@ var (
 			SpriteKey: constants.Dustpan,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
+		}, {
+			Name:      constants.CrystalBall,
+			ShapeKey:  constants.SizeTwobyTwo,
+			SpriteKey: constants.CrystalBall,
+			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Active:    true,
+		}, {
+			Name:      constants.JustARock,
+			ShapeKey:  constants.SizeOnebyOne,
+			SpriteKey: constants.JustARock,
+			Value:     0 + constants.GlobalSeededRandom.Intn(10),
+			Active:    true,
+		}, {
+			Name:      constants.SnakeOil,
+			ShapeKey:  constants.SizeOnebyTwo,
+			SpriteKey: constants.SnakeOil,
+			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Active:    true,
+		}, {
+			Name:      constants.TopHat,
+			ShapeKey:  constants.SizeThreebyTwo,
+			SpriteKey: constants.TopHat,
+			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Active:    true,
 		},
 	}
 )
