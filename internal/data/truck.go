@@ -64,16 +64,20 @@ var (
 			Depth:  3,
 		}, constants.Minivan: {
 			Width:  5,
-			Height: 4,
 			Depth:  5,
+			Height: 4,
 		}, constants.CargoVan: {
 			Width:  5,
 			Height: 5,
 			Depth:  5,
 		}, constants.SemiTruck: {
-			Width:  10,
+			Width:  5,
 			Height: 5,
-			Depth:  5,
+			Depth:  10,
+		}, constants.Wagon: {
+			Width:  4,
+			Height: 5,
+			Depth:  7,
 		},
 	}
 )

@@ -43,6 +43,7 @@ func (s *packingState) Load() {
 	systems.ScoreboardInit()
 	systems.CreateTruck(w, d, h)
 	data.NewScore()
+	data.SetDifficulty(constants.Easy)
 	data.BottomDrop = pixel.R(-200, -130, 340, -40)
 	data.LeftDrop = pixel.R(-200, -130, -40, 190)
 	s.UpdateViews()
@@ -83,7 +84,9 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	systems.ObjectSystem()
 
 	data.PercCount.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
-
+	data.RightCount.SetText(fmt.Sprintf("Loaded\nWares: %d\nLoad\nHeight: %d/%d", len(data.CurrentTruck.Wares), 0, data.CurrentTruck.Height))
+	data.LeftCount.SetText(fmt.Sprintf("DELIVERIES\n%d Complete\n%d Missed\n$%d.00", data.CurrentScore.SuccessfulDeliveries,
+		data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
 	data.GameView.Update()
 	data.ScoreView.Update()
 

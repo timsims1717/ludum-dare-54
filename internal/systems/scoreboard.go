@@ -13,7 +13,6 @@ func ScoreboardInit() {
 	data.LeftCount.Obj.Layer = 30
 	data.LeftCount.SetColor(pixel.ToRGBA(colornames.Black))
 	data.LeftCount.SetPos(pixel.V(-data.ScoreView.Rect.W()*0.5+8., data.ScoreView.Rect.H()-8.))
-	data.LeftCount.SetText("Wares: 18\n$50.00")
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.LeftCount.Obj).
 		AddComponent(myecs.Drawable, data.LeftCount).
@@ -23,7 +22,6 @@ func ScoreboardInit() {
 	data.RightCount.Obj.Layer = 30
 	data.RightCount.SetColor(pixel.ToRGBA(colornames.Black))
 	data.RightCount.SetPos(pixel.V(data.ScoreView.Rect.W()*0.5-8., data.ScoreView.Rect.H()-8.))
-	data.RightCount.SetText("Deliveries\n0 Complete\n0 Missed")
 	myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, data.RightCount.Obj).
 		AddComponent(myecs.Drawable, data.RightCount).

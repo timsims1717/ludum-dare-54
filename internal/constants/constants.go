@@ -1,7 +1,6 @@
 package constants
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
@@ -29,11 +28,9 @@ var (
 		"My nose feels bigger",
 		"Why do we even have that lever!?!",
 		"Ain't no fellow who regretted giving it one extra shake, but you can bet every guy has regretted giving one too few.",
+		"We've got Min's dumptruck...",
+		"F*ck Moash!!!",
 	}
-	//Difficulty Conditions
-	InitialTrunkTargetFill = 50
-	NumberofStrikes        = 3
-	NumberofAbandonedWares = 10
 )
 
 func RandomTitle() string {
@@ -47,13 +44,3 @@ const (
 	AbandonToManyItems = iota
 	TooManyMisses
 )
-
-func (fc FailCondition) String() string {
-	switch fc {
-	case AbandonToManyItems:
-		return fmt.Sprintf("Game Over.\nYou have abandoned %d too many wares on your journey", NumberofAbandonedWares)
-	case TooManyMisses:
-		return fmt.Sprintf("Game Over.\nYou missed too many sales at %d vendors", NumberofStrikes)
-	}
-	return ""
-}

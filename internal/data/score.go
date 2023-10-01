@@ -19,7 +19,7 @@ func NewScore() {
 var CurrentScore *score
 
 func CheckForFailure() {
-	if CurrentScore.MissedDeliveries >= 3 {
+	if CurrentScore.MissedDeliveries >= CurrentDifficulty.NumberofMissedDeliveries {
 		CurrentScore.FailCondition = constants.TooManyMisses
 	}
 }
