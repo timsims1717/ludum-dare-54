@@ -28,6 +28,7 @@ var (
 	DrawTarget = Manager.NewComponent()
 
 	Drag = Manager.NewComponent()
+	Ware = Manager.NewComponent()
 
 	// Tags
 	IsObject         = ecs.BuildTag(Object)
@@ -39,6 +40,7 @@ var (
 	HasInterpolation = ecs.BuildTag(Object, Interpolation)
 
 	IsDrag = ecs.BuildTag(Object, Drag)
+	IsWare = ecs.BuildTag(Object, Ware)
 )
 
 func UpdateManager() {

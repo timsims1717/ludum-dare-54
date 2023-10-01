@@ -14,6 +14,10 @@ var (
 
 	LeavePacking bool
 	ScoreTween   *gween.Tween
+	DriveTimer   *timing.Timer
+	DriveStep    int
+	FadeTween    *gween.Tween
+	FirstLoad    = true
 )
 
 type DragTimer struct {

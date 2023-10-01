@@ -9,6 +9,8 @@ import (
 	"ludum-dare-54/internal/myecs"
 	"ludum-dare-54/internal/systems"
 	"ludum-dare-54/pkg/debug"
+	gween "ludum-dare-54/pkg/gween64"
+	"ludum-dare-54/pkg/gween64/ease"
 	"ludum-dare-54/pkg/options"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
@@ -20,10 +22,14 @@ type transitionState struct {
 }
 
 func (s *transitionState) Unload() {
-
+	data.FadeTween = nil
+	data.LeaveTransition = false
+	data.TransitionTimer = nil
+	data.TransitionStep = 0
 }
 
 func (s *transitionState) Load() {
+	data.FadeTween = gween.New(0., 255, 1, ease.Linear)
 	if data.GameView == nil {
 		data.GameView = viewport.New(nil)
 		data.GameView.SetRect(pixel.R(0, 0, 640, 360))
@@ -32,6 +38,16 @@ func (s *transitionState) Load() {
 }
 
 func (s *transitionState) Update(win *pixelgl.Window) {
+	if data.FadeTween != nil {
+		c, done := data.FadeTween.Update(timing.DT)
+		viewport.MainCamera.Mask.R = uint8(c)
+		viewport.MainCamera.Mask.G = uint8(c)
+		viewport.MainCamera.Mask.B = uint8(c)
+		if done {
+			data.FadeTween = nil
+		}
+	}
+
 	debug.AddText("Transition State")
 	data.GameInput.Update(win, viewport.MainCamera.Mat)
 	debug.AddIntCoords("World", int(data.GameInput.World.X), int(data.GameInput.World.Y))
@@ -53,10 +69,13 @@ func (s *transitionState) Update(win *pixelgl.Window) {
 	} else if data.DebugInput.Get("camLeft").Pressed() {
 		data.GameView.CamPos.X -= 100. * timing.DT
 	}
+	if data.DebugInput.Get("leave").Pressed() {
+		data.LeaveTransition = true
+	}
 
 	systems.FunctionSystem()
 	// custom systems
-
+	systems.LeaveTransitionSystem()
 	// object systems
 	systems.InterpolationSystem()
 	systems.ParentSystem()

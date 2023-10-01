@@ -1,5 +1,0 @@
-package systems
-
-func TrunkSystem() {
-	
-}

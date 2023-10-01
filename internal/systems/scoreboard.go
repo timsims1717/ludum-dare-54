@@ -1,7 +1,6 @@
 package systems
 
 import (
-	"fmt"
 	"github.com/faiface/pixel"
 	"golang.org/x/image/colornames"
 	"ludum-dare-54/internal/constants"
@@ -86,7 +85,7 @@ func ScoreboardInit() {
 						data.ButtonSpr.Color = pixel.RGB(0.9, 0.9, 0.9)
 					} else if click.JustReleased() && clickedOn {
 						// leave the packing state
-						fmt.Println("leave")
+						data.LeavePacking = true
 					}
 				} else if clickedOn && !click.Pressed() {
 					clickedOn = false

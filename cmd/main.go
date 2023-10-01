@@ -4,6 +4,7 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
 	"github.com/faiface/pixel/text"
+	"golang.org/x/image/colornames"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/states"
@@ -38,7 +39,8 @@ func run() {
 	mainFont, err := typeface.LoadTTF("assets/eurosti.ttf", 200.)
 	typeface.Atlases["main"] = text.NewAtlas(mainFont, text.ASCII)
 
-	state.Register(states.PackingStateKey, state.New(states.PackingState))
+	state.Register(constants.PackingStateKey, state.New(states.PackingState))
+	state.Register(constants.TransitionStateKey, state.New(states.TransitionState))
 
 	testSheet, err := img.LoadSpriteSheet("assets/test1.json")
 	if err != nil {
@@ -49,8 +51,7 @@ func run() {
 	debug.Initialize(&viewport.MainCamera.PostCamPos)
 	debug.Text = true
 
-	//systems.InitMainBorder()
-
+	win.SetColorMask(colornames.Black)
 	win.Show()
 	timing.Reset()
 	for !win.Closed() {

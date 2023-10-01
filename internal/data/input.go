@@ -23,7 +23,7 @@ var (
 			"debugTest":    pxginput.NewJoyless(pixelgl.KeyF8),
 			"debugPause":   pxginput.NewJoyless(pixelgl.KeyF9),
 			"debugResume":  pxginput.NewJoyless(pixelgl.KeyF10),
-			"debugInv":     pxginput.NewJoyless(pixelgl.KeyF11),
+			"leave":        pxginput.NewJoyless(pixelgl.KeyF11),
 			"debugSP":      pxginput.NewJoyless(pixelgl.KeyEqual),
 			"debugSM":      pxginput.NewJoyless(pixelgl.KeyMinus),
 			"camUp":        pxginput.NewJoyless(pixelgl.KeyP),

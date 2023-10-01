@@ -10,7 +10,10 @@ import (
 	"ludum-dare-54/internal/myecs"
 	"ludum-dare-54/internal/systems"
 	"ludum-dare-54/pkg/debug"
+	gween "ludum-dare-54/pkg/gween64"
+	"ludum-dare-54/pkg/gween64/ease"
 	"ludum-dare-54/pkg/img"
+	"ludum-dare-54/pkg/object"
 	"ludum-dare-54/pkg/options"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
@@ -25,10 +28,22 @@ type packingState struct {
 }
 
 func (s *packingState) Unload() {
-
+	data.FadeTween = nil
+	data.LeavePacking = false
+	data.ItemQueue = [8]*data.Ware{}
+	for _, result := range myecs.Manager.Query(myecs.IsWare) {
+		_, okO := result.Components[myecs.Object].(*object.Object)
+		ware, okW := result.Components[myecs.Ware].(*data.Ware)
+		if okO && okW {
+			if ware.TIndex < 0 {
+				myecs.Manager.DisposeEntity(result)
+			}
+		}
+	}
 }
 
 func (s *packingState) Load() {
+	data.FadeTween = gween.New(0., 255, 1, ease.Linear)
 	w := 6.
 	d := 7.
 	h := 5.
@@ -39,18 +54,32 @@ func (s *packingState) Load() {
 	data.GameView.CamPos = pixel.ZV
 	data.GameView.CamPos.X += (w - 1) * 0.5 * world.TileSize
 	data.GameView.CamPos.Y += (math.Min(d, 3) - 1) * 0.5 * world.TileSize
-	data.ScoreView = viewport.New(nil)
-	data.ScoreView.CamPos = pixel.V(0, data.ScoreView.Rect.H()*0.5)
-	systems.CreateTruck(w, d, h)
-	data.NewScore()
-	data.SetDifficulty(constants.Easy)
-	data.BottomDrop = pixel.R(-200, -130, 340, -40)
-	data.LeftDrop = pixel.R(-200, -130, -40, 190)
+	if data.ScoreView == nil {
+		data.ScoreView = viewport.New(nil)
+		data.ScoreView.CamPos = pixel.V(0, data.ScoreView.Rect.H()*0.5)
+	}
+	if data.FirstLoad {
+		systems.CreateTruck(w, d, h)
+		data.NewScore()
+		data.SetDifficulty(constants.Easy)
+		data.BottomDrop = pixel.R(-200, -130, 340, -40)
+		data.LeftDrop = pixel.R(-200, -130, -40, 190)
+		systems.ScoreboardInit()
+	}
 	s.UpdateViews()
-	systems.ScoreboardInit()
 }
 
 func (s *packingState) Update(win *pixelgl.Window) {
+	if data.FadeTween != nil {
+		c, done := data.FadeTween.Update(timing.DT)
+		viewport.MainCamera.Mask.R = uint8(c)
+		viewport.MainCamera.Mask.G = uint8(c)
+		viewport.MainCamera.Mask.B = uint8(c)
+		if done {
+			data.FadeTween = nil
+		}
+	}
+
 	debug.AddText("Packing State")
 	data.TimerCount.Obj.Hidden = !s.isTimer
 	data.PercCount.Obj.Hidden = s.isTimer
@@ -74,10 +103,14 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	} else if data.DebugInput.Get("camLeft").Pressed() {
 		data.GameView.CamPos.X -= 100. * timing.DT
 	}
+	if data.DebugInput.Get("leave").Pressed() {
+		data.LeavePacking = true
+	}
 
 	systems.DragSystem()
 	systems.FunctionSystem()
 	// custom systems
+	systems.LeavePackingSystem()
 	systems.QueueSystem()
 	// object systems
 	systems.InterpolationSystem()
@@ -115,6 +148,7 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 	img.Batchers[constants.TestBatch].Draw(data.ScoreView.Canvas)
 	systems.DrawSystem(win, 30)
 	data.ScoreView.Canvas.Draw(win, data.ScoreView.Mat)
+	img.Clear()
 
 	systems.TemporarySystem()
 	if options.Updated {

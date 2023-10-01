@@ -10,7 +10,11 @@ const (
 	Title     = "Well that didn't work"
 	Release   = 0
 	Version   = 1
-	Build     = 20230428
+	Build     = 20230930
+
+	// States
+	PackingStateKey    = "packing_state"
+	TransitionStateKey = "transition_state"
 )
 
 var (
