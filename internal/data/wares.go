@@ -100,6 +100,16 @@ var (
 			ShapeKey:  constants.MediumLongBox,
 			SpriteKey: constants.Gray,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+		}, {
+			Name:      constants.Apple,
+			ShapeKey:  constants.TinyBox,
+			SpriteKey: constants.Apple,
+			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+		}, {
+			Name:      constants.Banana,
+			ShapeKey:  constants.ShortLogOver,
+			SpriteKey: constants.Banana,
+			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 		},
 	}
 )
