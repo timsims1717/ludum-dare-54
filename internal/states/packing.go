@@ -139,6 +139,7 @@ func (s *packingState) Update(win *pixelgl.Window) {
 
 func (s *packingState) Draw(win *pixelgl.Window) {
 	data.GameView.Canvas.Clear(colornames.Green)
+	systems.DrawSystem(win, -1)
 	systems.DrawSystem(win, 0)
 	for i := 1; i <= data.CurrentTruck.Height; i++ {
 		systems.DrawSystem(win, i)

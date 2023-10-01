@@ -1,6 +1,7 @@
 package systems
 
 import (
+	"fmt"
 	"github.com/faiface/pixel"
 	"image/color"
 	"ludum-dare-54/internal/constants"
@@ -18,6 +19,60 @@ func CreateTruck() {
 	if data.CurrentTruck == nil {
 		data.AvailableTrucks[string(data.PickedTruckKey)].CopyTruck()
 	}
+	// build the truck
+	for yt := -1; yt < data.CurrentTruck.Depth+1; yt++ {
+		for xt := -1; xt < data.CurrentTruck.Width+1; xt++ {
+			str := ""
+			if yt == -1 {
+				if xt == -1 {
+					str = "fender_rl"
+				} else if xt == 0 {
+					str = "tire_l"
+				} else if xt == data.CurrentTruck.Width-1 {
+					str = "tire_r"
+				} else if xt == data.CurrentTruck.Width {
+					str = "fender_rr"
+				} else {
+					str = "bottom"
+				}
+			} else if yt == data.CurrentTruck.Depth {
+				if xt == -1 {
+					str = "fender_fl"
+				} else if xt == 0 {
+					str = "driver"
+				} else if xt == 1 {
+					str = ""
+				} else if xt == data.CurrentTruck.Width-2 {
+					str = "passenger"
+				} else if xt == data.CurrentTruck.Width-1 {
+					str = ""
+				} else if xt == data.CurrentTruck.Width {
+					str = "fender_fr"
+				} else {
+					str = "center"
+				}
+			}
+			if str != "" {
+				offset := pixel.V(float64(xt)*world.TileSize, float64(yt)*world.TileSize)
+				if yt == data.CurrentTruck.Depth {
+					if xt == 0 || xt == data.CurrentTruck.Width-2 {
+						offset.X += world.TileSize * 0.5
+						offset.Y += world.TileSize * 0.5
+					} else if xt > 0 && xt < data.CurrentTruck.Width-2 {
+						offset.Y += world.TileSize * 0.5
+					}
+				}
+				spr := img.NewOffsetSprite(fmt.Sprintf("%s_%s", data.CurrentTruck.SpriteKey, str), constants.TestBatch, offset)
+				data.CurrentTruck.TileMap = append(data.CurrentTruck.TileMap, spr)
+			}
+		}
+	}
+	data.CurrentTruck.TileObject = object.New()
+	data.CurrentTruck.TileObject.Layer = -1
+	data.CurrentTruck.TileEntity = myecs.Manager.NewEntity()
+	data.CurrentTruck.TileEntity.AddComponent(myecs.Object, data.CurrentTruck.TileObject).
+		AddComponent(myecs.Drawable, data.CurrentTruck.TileMap)
+	// build the tiles
 	for yt := 0; yt < data.CurrentTruck.Depth; yt++ {
 		for xt := 0; xt < data.CurrentTruck.Width; xt++ {
 			obj := object.New().WithID("slot")

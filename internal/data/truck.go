@@ -1,6 +1,11 @@
 package data
 
-import "ludum-dare-54/internal/constants"
+import (
+	"github.com/bytearena/ecs"
+	"ludum-dare-54/internal/constants"
+	"ludum-dare-54/pkg/img"
+	"ludum-dare-54/pkg/object"
+)
 
 var (
 	CurrentTruck   *Truck
@@ -17,7 +22,11 @@ type Truck struct {
 	FilledSpace   int
 	PercentFilled int
 	TruckLabel    string
+	SpriteKey     string
 	CurrHeight    int
+	TileMap       []*img.Sprite
+	TileObject    *object.Object
+	TileEntity    *ecs.Entity
 }
 
 func NewTruck(w, d, h int) {
@@ -64,26 +73,31 @@ var (
 			Depth:      4,
 			Height:     3,
 			TruckLabel: "SMART CAR",
+			SpriteKey:  "smart",
 		}, constants.Minivan: {
 			Width:      5,
 			Depth:      5,
 			Height:     4,
 			TruckLabel: "MINIVAN",
+			SpriteKey:  "mini",
 		}, constants.CargoVan: {
 			Width:      5,
 			Depth:      6,
 			Height:     5,
 			TruckLabel: "CARGO VAN",
+			SpriteKey:  "cargo",
 		}, constants.SemiTruck: {
 			Width:      5,
 			Depth:      7,
 			Height:     6,
 			TruckLabel: "BOX TRUCK",
+			SpriteKey:  "box",
 		}, constants.Wagon: {
 			Width:      4,
 			Depth:      7,
 			Height:     5,
 			TruckLabel: "CONASTOGA",
+			SpriteKey:  "wagon",
 		},
 	}
 )
