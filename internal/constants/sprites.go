@@ -18,4 +18,9 @@ const (
 	Gray            = "gray"
 	Apple           = "apple"
 	Banana          = "banana"
+	Leaks           = "leaks"
+	GolfBalls       = "golf balls"
+	GolfClub        = "golf club"
+	GolfBag         = "golf bag"
+	Vacuum          = "vacuum"
 )
