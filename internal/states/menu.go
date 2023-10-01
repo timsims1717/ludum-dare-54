@@ -23,14 +23,14 @@ type mainMenuState struct {
 	*state.AbstractState
 }
 
-func (s *mainMenuState) Unload() {
+func (s *mainMenuState) Unload(win *pixelgl.Window) {
 	data.FadeTween = nil
 	data.LeaveTransition = false
 	data.TransitionTimer = nil
 	data.TransitionStep = 0
 }
 
-func (s *mainMenuState) Load() {
+func (s *mainMenuState) Load(win *pixelgl.Window) {
 	data.Starting = false
 	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.MenuView == nil {
@@ -41,7 +41,7 @@ func (s *mainMenuState) Load() {
 	if data.IMDraw == nil {
 		data.IMDraw = imdraw.New(nil)
 	}
-	systems.InitMenuItems()
+	systems.InitMenuItems(win)
 	s.UpdateViews()
 }
 

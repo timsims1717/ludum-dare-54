@@ -22,6 +22,7 @@ var (
 	LeaveStep    int
 	FadeTween    *gween.Tween
 	FirstLoad    = true
+	Starting     bool
 )
 
 type DragTimer struct {

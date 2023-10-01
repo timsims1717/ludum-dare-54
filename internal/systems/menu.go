@@ -2,6 +2,7 @@ package systems
 
 import (
 	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/pixelgl"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
@@ -10,46 +11,95 @@ import (
 
 // Main Menu Items
 var (
-	MenuPlay     *data.MenuItem
-	MenuTutorial *data.MenuItem
-	MenuOptions  *data.MenuItem
-	MenuQuit     *data.MenuItem
+	MenuPlay     *typeface.Text
+	MenuOptions  *typeface.Text
+	MenuTutorial *typeface.Text
+	MenuQuit     *typeface.Text
 )
 
-var MenuItems []*data.MenuItem
+var MenuItems []*typeface.Text
 
-func InitMenuItems() {
+func InitMenuItems(win *pixelgl.Window) {
 	if MenuPlay == nil {
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 300., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(0, 100.))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText("Play")
-		txt.Obj.SetRect(pixel.R(0, 0, 200, 100))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -26))
-		MenuPlay = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		MenuPlay = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 300., 0.)
+		MenuPlay.Obj.Layer = 50
+		MenuPlay.SetPos(pixel.V(0, 100.))
+		MenuPlay.SetColor(constants.BaseUIText)
+		MenuPlay.SetText("Play")
+		MenuPlay.Obj.SetRect(pixel.R(0, 0, 200, 100))
+		MenuPlay.Obj.Rect = MenuPlay.Obj.Rect.Moved(pixel.V(0, -26))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, MenuPlay.Obj).
+			AddComponent(myecs.Drawable, MenuPlay).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover {
-					txt.SetColor(constants.HoverUIText)
+					MenuPlay.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						ShowCarMenu()
 						click.Consume()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					MenuPlay.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, MenuPlay)
 	}
+	if MenuOptions == nil {
+		MenuOptions = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 300., 0.)
+		MenuOptions.Obj.Layer = 50
+		MenuOptions.SetPos(pixel.V(0, -15.))
+		MenuOptions.SetColor(constants.BaseUIText)
+		MenuOptions.SetText("Options")
+		MenuOptions.Obj.SetRect(pixel.R(0, 0, 275, 100))
+		MenuOptions.Obj.Rect = MenuOptions.Obj.Rect.Moved(pixel.V(0, -26))
+		myecs.Manager.NewEntity().
+			AddComponent(myecs.Object, MenuOptions.Obj).
+			AddComponent(myecs.Drawable, MenuOptions).
+			AddComponent(myecs.DrawTarget, data.MenuView).
+			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
+				if hvc.Hover {
+					MenuOptions.SetColor(constants.HoverUIText)
+					click := hvc.Input.Get("click")
+					if click.JustReleased() {
+						ShowOptionsMenu()
+						click.Consume()
+					}
+				} else {
+					MenuOptions.SetColor(constants.BaseUIText)
+				}
+			}))
+		MenuItems = append(MenuItems, MenuOptions)
+	}
+	if MenuQuit == nil {
+		MenuQuit = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 300., 0.)
+		MenuQuit.Obj.Layer = 50
+		MenuQuit.SetPos(pixel.V(0, -130.))
+		MenuQuit.SetColor(constants.BaseUIText)
+		MenuQuit.SetText("Quit")
+		MenuQuit.Obj.SetRect(pixel.R(0, 0, 200, 100))
+		MenuQuit.Obj.Rect = MenuQuit.Obj.Rect.Moved(pixel.V(0, -26))
+		myecs.Manager.NewEntity().
+			AddComponent(myecs.Object, MenuQuit.Obj).
+			AddComponent(myecs.Drawable, MenuQuit).
+			AddComponent(myecs.DrawTarget, data.MenuView).
+			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
+				if hvc.Hover {
+					MenuQuit.SetColor(constants.HoverUIText)
+					click := hvc.Input.Get("click")
+					if click.JustReleased() {
+						click.Consume()
+						win.SetClosed(true)
+					}
+				} else {
+					MenuQuit.SetColor(constants.BaseUIText)
+				}
+			}))
+		MenuItems = append(MenuItems, MenuQuit)
+	}
 
+	InitOptionsMenu()
 	InitCarMenu()
 	InitDifficultyMenu()
 	ShowMainMenu()
@@ -58,26 +108,28 @@ func InitMenuItems() {
 func ShowMainMenu() {
 	data.Starting = false
 	HideAllMenus()
-	MenuPlay.Text.Obj.Hidden = false
+	MenuPlay.Obj.Hidden = false
+	MenuOptions.Obj.Hidden = false
+	MenuQuit.Obj.Hidden = false
 }
 
 func HideAllMenus() {
 	for _, item := range MenuItems {
 		if item != nil {
-			item.Text.Obj.Hidden = true
+			item.Obj.Hidden = true
 		}
 	}
 }
 
 func DrawMenuBG() {
 	for _, item := range MenuItems {
-		if item != nil && !item.Text.Obj.Hidden {
+		if item != nil && !item.Obj.Hidden {
 			data.IMDraw.Clear()
 			data.IMDraw.Color = constants.UIBGColor
-			data.IMDraw.Push(item.Text.Obj.Pos.Add(item.Text.Obj.Rect.Min))
-			data.IMDraw.Push(item.Text.Obj.Pos.Add(pixel.V(item.Text.Obj.Rect.Min.X, item.Text.Obj.Rect.Max.Y)))
-			data.IMDraw.Push(item.Text.Obj.Pos.Add(item.Text.Obj.Rect.Max))
-			data.IMDraw.Push(item.Text.Obj.Pos.Add(pixel.V(item.Text.Obj.Rect.Max.X, item.Text.Obj.Rect.Min.Y)))
+			data.IMDraw.Push(item.Obj.Pos.Add(item.Obj.Rect.Min))
+			data.IMDraw.Push(item.Obj.Pos.Add(pixel.V(item.Obj.Rect.Min.X, item.Obj.Rect.Max.Y)))
+			data.IMDraw.Push(item.Obj.Pos.Add(item.Obj.Rect.Max))
+			data.IMDraw.Push(item.Obj.Pos.Add(pixel.V(item.Obj.Rect.Max.X, item.Obj.Rect.Min.Y)))
 			data.IMDraw.Polygon(0)
 			data.IMDraw.Draw(data.MenuView.Canvas)
 		}

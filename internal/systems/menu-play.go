@@ -15,43 +15,39 @@ import (
 
 // Play Sub Menus
 var (
-	SmartCarMenu   *data.MenuItem
-	MiniVanMenu    *data.MenuItem
-	CargoVanMenu   *data.MenuItem
-	SemiTruckMenu  *data.MenuItem
-	WagonMenu      *data.MenuItem
-	BackFromCar    *data.MenuItem
+	SmartCarMenu   *typeface.Text
+	MiniVanMenu    *typeface.Text
+	CargoVanMenu   *typeface.Text
+	SemiTruckMenu  *typeface.Text
+	WagonMenu      *typeface.Text
+	BackFromCar    *typeface.Text
 	PickedTruck    *data.Truck
 	PickedTruckKey constants.TruckTypes
 
-	EasyMenu    *data.MenuItem
-	MediumMenu  *data.MenuItem
-	HardMenu    *data.MenuItem
-	BackFromDif *data.MenuItem
+	EasyMenu    *typeface.Text
+	MediumMenu  *typeface.Text
+	HardMenu    *typeface.Text
+	BackFromDif *typeface.Text
 	PickedDiff  constants.DifficultyType
 )
 
 func InitCarMenu() {
 	if SmartCarMenu == nil {
 		car := data.AvailableTrucks[constants.SmartCar]
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(-140, 200.))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText(car.TruckLabel)
-		txt.Obj.SetRect(pixel.R(0, 0, 250, 100))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -30))
-		SmartCarMenu = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		SmartCarMenu = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		SmartCarMenu.Obj.Layer = 50
+		SmartCarMenu.SetPos(pixel.V(-140, 200.))
+		SmartCarMenu.SetColor(constants.BaseUIText)
+		SmartCarMenu.SetText(car.TruckLabel)
+		SmartCarMenu.Obj.SetRect(pixel.R(0, 0, 250, 100))
+		SmartCarMenu.Obj.Rect = SmartCarMenu.Obj.Rect.Moved(pixel.V(0, -30))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, SmartCarMenu.Obj).
+			AddComponent(myecs.Drawable, SmartCarMenu).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					SmartCarMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						PickedTruck = car
@@ -60,7 +56,7 @@ func InitCarMenu() {
 						ShowDiffMenu()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					SmartCarMenu.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, SmartCarMenu)
@@ -75,30 +71,26 @@ func InitCarMenu() {
 			AddComponent(myecs.Drawable, infoTxt).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewFrameFunc(func() bool {
-				infoTxt.Obj.Hidden = txt.Obj.Hidden
+				infoTxt.Obj.Hidden = SmartCarMenu.Obj.Hidden
 				return false
 			}))
 	}
 	if MiniVanMenu == nil {
 		car := data.AvailableTrucks[constants.Minivan]
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(140, 200.))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText(car.TruckLabel)
-		txt.Obj.SetRect(pixel.R(0, 0, 250, 100))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -30))
-		MiniVanMenu = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		MiniVanMenu = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		MiniVanMenu.Obj.Layer = 50
+		MiniVanMenu.SetPos(pixel.V(140, 200.))
+		MiniVanMenu.SetColor(constants.BaseUIText)
+		MiniVanMenu.SetText(car.TruckLabel)
+		MiniVanMenu.Obj.SetRect(pixel.R(0, 0, 250, 100))
+		MiniVanMenu.Obj.Rect = MiniVanMenu.Obj.Rect.Moved(pixel.V(0, -30))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, MiniVanMenu.Obj).
+			AddComponent(myecs.Drawable, MiniVanMenu).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					MiniVanMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						PickedTruck = car
@@ -107,7 +99,7 @@ func InitCarMenu() {
 						ShowDiffMenu()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					MiniVanMenu.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, MiniVanMenu)
@@ -122,30 +114,26 @@ func InitCarMenu() {
 			AddComponent(myecs.Drawable, infoTxt).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewFrameFunc(func() bool {
-				infoTxt.Obj.Hidden = txt.Obj.Hidden
+				infoTxt.Obj.Hidden = MiniVanMenu.Obj.Hidden
 				return false
 			}))
 	}
 	if CargoVanMenu == nil {
 		car := data.AvailableTrucks[constants.CargoVan]
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(-140, 80.))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText(car.TruckLabel)
-		txt.Obj.SetRect(pixel.R(0, 0, 250, 100))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -30))
-		CargoVanMenu = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		CargoVanMenu = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		CargoVanMenu.Obj.Layer = 50
+		CargoVanMenu.SetPos(pixel.V(-140, 80.))
+		CargoVanMenu.SetColor(constants.BaseUIText)
+		CargoVanMenu.SetText(car.TruckLabel)
+		CargoVanMenu.Obj.SetRect(pixel.R(0, 0, 250, 100))
+		CargoVanMenu.Obj.Rect = CargoVanMenu.Obj.Rect.Moved(pixel.V(0, -30))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, CargoVanMenu.Obj).
+			AddComponent(myecs.Drawable, CargoVanMenu).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					CargoVanMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						PickedTruck = car
@@ -154,7 +142,7 @@ func InitCarMenu() {
 						ShowDiffMenu()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					CargoVanMenu.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, CargoVanMenu)
@@ -169,30 +157,26 @@ func InitCarMenu() {
 			AddComponent(myecs.Drawable, infoTxt).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewFrameFunc(func() bool {
-				infoTxt.Obj.Hidden = txt.Obj.Hidden
+				infoTxt.Obj.Hidden = CargoVanMenu.Obj.Hidden
 				return false
 			}))
 	}
 	if SemiTruckMenu == nil {
 		car := data.AvailableTrucks[constants.SemiTruck]
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(140, 80.))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText(car.TruckLabel)
-		txt.Obj.SetRect(pixel.R(0, 0, 250, 100))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -30))
-		SemiTruckMenu = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		SemiTruckMenu = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		SemiTruckMenu.Obj.Layer = 50
+		SemiTruckMenu.SetPos(pixel.V(140, 80.))
+		SemiTruckMenu.SetColor(constants.BaseUIText)
+		SemiTruckMenu.SetText(car.TruckLabel)
+		SemiTruckMenu.Obj.SetRect(pixel.R(0, 0, 250, 100))
+		SemiTruckMenu.Obj.Rect = SemiTruckMenu.Obj.Rect.Moved(pixel.V(0, -30))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, SemiTruckMenu.Obj).
+			AddComponent(myecs.Drawable, SemiTruckMenu).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					SemiTruckMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						PickedTruck = car
@@ -201,7 +185,7 @@ func InitCarMenu() {
 						ShowDiffMenu()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					SemiTruckMenu.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, SemiTruckMenu)
@@ -216,30 +200,26 @@ func InitCarMenu() {
 			AddComponent(myecs.Drawable, infoTxt).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewFrameFunc(func() bool {
-				infoTxt.Obj.Hidden = txt.Obj.Hidden
+				infoTxt.Obj.Hidden = SemiTruckMenu.Obj.Hidden
 				return false
 			}))
 	}
 	if WagonMenu == nil {
 		car := data.AvailableTrucks[constants.Wagon]
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(-140, -40))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText(car.TruckLabel)
-		txt.Obj.SetRect(pixel.R(0, 0, 250, 100))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -30))
-		WagonMenu = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		WagonMenu = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		WagonMenu.Obj.Layer = 50
+		WagonMenu.SetPos(pixel.V(-140, -40))
+		WagonMenu.SetColor(constants.BaseUIText)
+		WagonMenu.SetText(car.TruckLabel)
+		WagonMenu.Obj.SetRect(pixel.R(0, 0, 250, 100))
+		WagonMenu.Obj.Rect = WagonMenu.Obj.Rect.Moved(pixel.V(0, -30))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, WagonMenu.Obj).
+			AddComponent(myecs.Drawable, WagonMenu).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					WagonMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						PickedTruck = car
@@ -248,7 +228,7 @@ func InitCarMenu() {
 						ShowDiffMenu()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					WagonMenu.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, WagonMenu)
@@ -263,36 +243,32 @@ func InitCarMenu() {
 			AddComponent(myecs.Drawable, infoTxt).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewFrameFunc(func() bool {
-				infoTxt.Obj.Hidden = txt.Obj.Hidden
+				infoTxt.Obj.Hidden = WagonMenu.Obj.Hidden
 				return false
 			}))
 	}
 	if BackFromCar == nil {
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(140, -40))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText("Back")
-		txt.Obj.SetRect(pixel.R(0, 0, 250, 100))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -30))
-		BackFromCar = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		BackFromCar = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		BackFromCar.Obj.Layer = 50
+		BackFromCar.SetPos(pixel.V(140, -40))
+		BackFromCar.SetColor(constants.BaseUIText)
+		BackFromCar.SetText("Back")
+		BackFromCar.Obj.SetRect(pixel.R(0, 0, 250, 100))
+		BackFromCar.Obj.Rect = BackFromCar.Obj.Rect.Moved(pixel.V(0, -30))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, BackFromCar.Obj).
+			AddComponent(myecs.Drawable, BackFromCar).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					BackFromCar.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						ShowMainMenu()
 						click.Consume()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					BackFromCar.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, BackFromCar)
@@ -301,35 +277,31 @@ func InitCarMenu() {
 
 func ShowCarMenu() {
 	HideAllMenus()
-	SmartCarMenu.Text.Obj.Hidden = false
-	MiniVanMenu.Text.Obj.Hidden = false
-	CargoVanMenu.Text.Obj.Hidden = false
-	SemiTruckMenu.Text.Obj.Hidden = false
-	WagonMenu.Text.Obj.Hidden = false
-	BackFromCar.Text.Obj.Hidden = false
+	SmartCarMenu.Obj.Hidden = false
+	MiniVanMenu.Obj.Hidden = false
+	CargoVanMenu.Obj.Hidden = false
+	SemiTruckMenu.Obj.Hidden = false
+	WagonMenu.Obj.Hidden = false
+	BackFromCar.Obj.Hidden = false
 }
 
 func InitDifficultyMenu() {
 	if EasyMenu == nil {
 		difficulty := constants.DifficultyLevels[constants.Easy]
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(-200, 200.))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText(difficulty.Label)
-		txt.Obj.SetRect(pixel.R(0, 0, 350, 150))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -55))
-		EasyMenu = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		EasyMenu = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		EasyMenu.Obj.Layer = 50
+		EasyMenu.SetPos(pixel.V(-200, 200.))
+		EasyMenu.SetColor(constants.BaseUIText)
+		EasyMenu.SetText(difficulty.Label)
+		EasyMenu.Obj.SetRect(pixel.R(0, 0, 350, 150))
+		EasyMenu.Obj.Rect = EasyMenu.Obj.Rect.Moved(pixel.V(0, -55))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, EasyMenu.Obj).
+			AddComponent(myecs.Drawable, EasyMenu).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					EasyMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						PickedDiff = constants.Easy
@@ -337,7 +309,7 @@ func InitDifficultyMenu() {
 						StartGame()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					EasyMenu.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, EasyMenu)
@@ -352,7 +324,7 @@ func InitDifficultyMenu() {
 			AddComponent(myecs.Drawable, infoTxt).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewFrameFunc(func() bool {
-				infoTxt.Obj.Hidden = txt.Obj.Hidden
+				infoTxt.Obj.Hidden = EasyMenu.Obj.Hidden
 				return false
 			}))
 		EasyInfo = func() {
@@ -363,24 +335,20 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 	}
 	if MediumMenu == nil {
 		difficulty := constants.DifficultyLevels[constants.Medium]
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(200, 200.))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText(difficulty.Label)
-		txt.Obj.SetRect(pixel.R(0, 0, 350, 150))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -55))
-		MediumMenu = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		MediumMenu = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		MediumMenu.Obj.Layer = 50
+		MediumMenu.SetPos(pixel.V(200, 200.))
+		MediumMenu.SetColor(constants.BaseUIText)
+		MediumMenu.SetText(difficulty.Label)
+		MediumMenu.Obj.SetRect(pixel.R(0, 0, 350, 150))
+		MediumMenu.Obj.Rect = MediumMenu.Obj.Rect.Moved(pixel.V(0, -55))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, MediumMenu.Obj).
+			AddComponent(myecs.Drawable, MediumMenu).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					MediumMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						PickedDiff = constants.Medium
@@ -388,7 +356,7 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 						StartGame()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					MediumMenu.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, MediumMenu)
@@ -403,7 +371,7 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 			AddComponent(myecs.Drawable, infoTxt).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewFrameFunc(func() bool {
-				infoTxt.Obj.Hidden = txt.Obj.Hidden
+				infoTxt.Obj.Hidden = MediumMenu.Obj.Hidden
 				return false
 			}))
 		MediumInfo = func() {
@@ -414,24 +382,20 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 	}
 	if HardMenu == nil {
 		difficulty := constants.DifficultyLevels[constants.Hard]
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(-200, 30.))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText(difficulty.Label)
-		txt.Obj.SetRect(pixel.R(0, 0, 350, 150))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -55))
-		HardMenu = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		HardMenu = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		HardMenu.Obj.Layer = 50
+		HardMenu.SetPos(pixel.V(-200, 30.))
+		HardMenu.SetColor(constants.BaseUIText)
+		HardMenu.SetText(difficulty.Label)
+		HardMenu.Obj.SetRect(pixel.R(0, 0, 350, 150))
+		HardMenu.Obj.Rect = HardMenu.Obj.Rect.Moved(pixel.V(0, -55))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, HardMenu.Obj).
+			AddComponent(myecs.Drawable, HardMenu).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					HardMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						PickedDiff = constants.Hard
@@ -439,7 +403,7 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 						StartGame()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					HardMenu.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, HardMenu)
@@ -454,7 +418,7 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 			AddComponent(myecs.Drawable, infoTxt).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewFrameFunc(func() bool {
-				infoTxt.Obj.Hidden = txt.Obj.Hidden
+				infoTxt.Obj.Hidden = HardMenu.Obj.Hidden
 				return false
 			}))
 		HardInfo = func() {
@@ -464,31 +428,27 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 		}
 	}
 	if BackFromDif == nil {
-		txt := typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
-		txt.Obj.Layer = 50
-		txt.SetPos(pixel.V(200, 30.))
-		txt.SetColor(constants.BaseUIText)
-		txt.SetText("Back")
-		txt.Obj.SetRect(pixel.R(0, 0, 350, 150))
-		txt.Obj.Rect = txt.Obj.Rect.Moved(pixel.V(0, -55))
-		BackFromDif = &data.MenuItem{
-			Text: txt,
-			Func: nil,
-		}
+		BackFromDif = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.21, 0., 0.)
+		BackFromDif.Obj.Layer = 50
+		BackFromDif.SetPos(pixel.V(200, 30.))
+		BackFromDif.SetColor(constants.BaseUIText)
+		BackFromDif.SetText("Back")
+		BackFromDif.Obj.SetRect(pixel.R(0, 0, 350, 150))
+		BackFromDif.Obj.Rect = BackFromDif.Obj.Rect.Moved(pixel.V(0, -55))
 		myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, txt.Obj).
-			AddComponent(myecs.Drawable, txt).
+			AddComponent(myecs.Object, BackFromDif.Obj).
+			AddComponent(myecs.Drawable, BackFromDif).
 			AddComponent(myecs.DrawTarget, data.MenuView).
 			AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.MenuView, func(hvc *data.HoverClick) {
 				if hvc.Hover && !data.Starting {
-					txt.SetColor(constants.HoverUIText)
+					BackFromDif.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
 						ShowCarMenu()
 						click.Consume()
 					}
 				} else {
-					txt.SetColor(constants.BaseUIText)
+					BackFromDif.SetColor(constants.BaseUIText)
 				}
 			}))
 		MenuItems = append(MenuItems, BackFromDif)
@@ -497,10 +457,10 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 
 func ShowDiffMenu() {
 	HideAllMenus()
-	EasyMenu.Text.Obj.Hidden = false
-	MediumMenu.Text.Obj.Hidden = false
-	HardMenu.Text.Obj.Hidden = false
-	BackFromDif.Text.Obj.Hidden = false
+	EasyMenu.Obj.Hidden = false
+	MediumMenu.Obj.Hidden = false
+	HardMenu.Obj.Hidden = false
+	BackFromDif.Obj.Hidden = false
 	EasyInfo()
 	MediumInfo()
 	HardInfo()

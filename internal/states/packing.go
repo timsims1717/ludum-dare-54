@@ -27,7 +27,7 @@ type packingState struct {
 	*state.AbstractState
 }
 
-func (s *packingState) Unload() {
+func (s *packingState) Unload(win *pixelgl.Window) {
 	data.FadeTween = nil
 	data.LeavePacking = false
 	data.LeaveStep = 0
@@ -47,7 +47,7 @@ func (s *packingState) Unload() {
 	}
 }
 
-func (s *packingState) Load() {
+func (s *packingState) Load(win *pixelgl.Window) {
 	data.Starting = false
 	data.FadeTween = gween.New(0., 255, 0.4, ease.Linear)
 	if data.GameView == nil {
