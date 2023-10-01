@@ -75,6 +75,7 @@ func (s *packingState) Load() {
 	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width)-1)*0.5*world.TileSize - (40)
 	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize
 	s.UpdateViews()
+	systems.SetBigMessage("Fill Your Truck", constants.HoverUIText, 7)
 }
 
 func (s *packingState) Update(win *pixelgl.Window) {
@@ -90,7 +91,7 @@ func (s *packingState) Update(win *pixelgl.Window) {
 
 	debug.AddText("Packing State")
 	data.TimerCount.Obj.Hidden = !data.IsTimer
-	data.PercCount.Obj.Hidden = data.IsTimer
+	data.MinWaresCount.Obj.Hidden = data.IsTimer
 	data.GameInput.Update(win, viewport.MainCamera.Mat)
 	debug.AddIntCoords("World", int(data.GameInput.World.X), int(data.GameInput.World.Y))
 	inPos := data.GameView.ProjectWorld(data.GameInput.World)
@@ -121,6 +122,7 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	systems.LeavePackingSystem()
 	systems.QueueSystem()
 	systems.ScoreSystem()
+	systems.BigMessageSystem()
 	// object systems
 	systems.InterpolationSystem()
 	systems.ParentSystem()
@@ -145,7 +147,7 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 	systems.DrawSystem(win, 20)
 	img.Batchers[constants.TestBatch].Draw(data.GameView.Canvas)
 	img.Clear()
-
+	systems.DrawBigMessage(win)
 	data.GameView.Draw(win)
 
 	data.ScoreView.Canvas.Clear(color.RGBA{})

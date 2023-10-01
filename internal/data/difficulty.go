@@ -22,7 +22,7 @@ func SetDifficulty(d constants.DifficultyType) {
 		Level:                    constants.DifficultyLevels[d].Level,
 		TimeToDepart:             constants.DifficultyLevels[d].TimeToDepart,
 		TimeToSell:               constants.DifficultyLevels[d].TimeToSell,
-		InitialTrunkTargetFill:   constants.DifficultyLevels[d].InitialTrunkTargetFill,
+		TrunkTargetFill:          constants.DifficultyLevels[d].TrunkTargetFill,
 		NumberofMissedDeliveries: constants.DifficultyLevels[d].NumberofMissedDeliveries,
 		NumberofAbandonedWares:   constants.DifficultyLevels[d].NumberofAbandonedWares,
 	}
@@ -30,5 +30,5 @@ func SetDifficulty(d constants.DifficultyType) {
 }
 
 func TargetWares(truck *Truck, d *constants.Difficulty) int {
-	return int(float64((truck.Height*truck.Depth*truck.Width)/(TotalWareSize/len(Wares))) * float64(d.InitialTrunkTargetFill) / 100)
+	return int(float64((truck.Height*truck.Depth*truck.Width)/(TotalWareSize/len(Wares))) * float64(d.TrunkTargetFill) / 100)
 }

@@ -52,6 +52,12 @@ var (
 		B: 25,
 		A: 255,
 	})
+	BadUIText = pixel.ToRGBA(color.RGBA{
+		R: 100,
+		G: 35,
+		B: 35,
+		A: 255,
+	})
 	UIBGColor = pixel.ToRGBA(color.RGBA{
 		R: 150,
 		G: 150,
@@ -70,4 +76,6 @@ type FailCondition int
 const (
 	AbandonToManyItems = iota
 	TooManyMisses
+	TooFewItems
+	NotFailing
 )

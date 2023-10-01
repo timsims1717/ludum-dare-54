@@ -38,8 +38,8 @@ func (s *mainMenuState) Load() {
 		data.MenuView.SetRect(pixel.R(0, 0, viewport.MainCamera.Rect.W(), viewport.MainCamera.Rect.H()))
 	}
 	data.MenuView.CamPos = pixel.ZV
-	if data.MenuIMDraw == nil {
-		data.MenuIMDraw = imdraw.New(nil)
+	if data.IMDraw == nil {
+		data.IMDraw = imdraw.New(nil)
 	}
 	systems.InitMenuItems()
 	s.UpdateViews()
@@ -94,7 +94,7 @@ func (s *mainMenuState) Update(win *pixelgl.Window) {
 
 func (s *mainMenuState) Draw(win *pixelgl.Window) {
 	data.MenuView.Canvas.Clear(colornames.Pink)
-	systems.DrawMenuBG(win)
+	systems.DrawMenuBG()
 	systems.DrawSystem(win, 50)
 	data.MenuView.Draw(win)
 

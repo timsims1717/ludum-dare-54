@@ -2,7 +2,6 @@ package systems
 
 import (
 	"github.com/faiface/pixel"
-	"github.com/faiface/pixel/pixelgl"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
@@ -70,17 +69,17 @@ func HideAllMenus() {
 	}
 }
 
-func DrawMenuBG(win *pixelgl.Window) {
+func DrawMenuBG() {
 	for _, item := range MenuItems {
 		if item != nil && !item.Text.Obj.Hidden {
-			data.MenuIMDraw.Clear()
-			data.MenuIMDraw.Color = constants.UIBGColor
-			data.MenuIMDraw.Push(item.Text.Obj.Pos.Add(item.Text.Obj.Rect.Min))
-			data.MenuIMDraw.Push(item.Text.Obj.Pos.Add(pixel.V(item.Text.Obj.Rect.Min.X, item.Text.Obj.Rect.Max.Y)))
-			data.MenuIMDraw.Push(item.Text.Obj.Pos.Add(item.Text.Obj.Rect.Max))
-			data.MenuIMDraw.Push(item.Text.Obj.Pos.Add(pixel.V(item.Text.Obj.Rect.Max.X, item.Text.Obj.Rect.Min.Y)))
-			data.MenuIMDraw.Polygon(0)
-			data.MenuIMDraw.Draw(data.MenuView.Canvas)
+			data.IMDraw.Clear()
+			data.IMDraw.Color = constants.UIBGColor
+			data.IMDraw.Push(item.Text.Obj.Pos.Add(item.Text.Obj.Rect.Min))
+			data.IMDraw.Push(item.Text.Obj.Pos.Add(pixel.V(item.Text.Obj.Rect.Min.X, item.Text.Obj.Rect.Max.Y)))
+			data.IMDraw.Push(item.Text.Obj.Pos.Add(item.Text.Obj.Rect.Max))
+			data.IMDraw.Push(item.Text.Obj.Pos.Add(pixel.V(item.Text.Obj.Rect.Max.X, item.Text.Obj.Rect.Min.Y)))
+			data.IMDraw.Polygon(0)
+			data.IMDraw.Draw(data.MenuView.Canvas)
 		}
 	}
 }

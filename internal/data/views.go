@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	GameView   *viewport.ViewPort
-	ScoreView  *viewport.ViewPort
-	MenuIMDraw *imdraw.IMDraw
-	MenuView   *viewport.ViewPort
+	GameView  *viewport.ViewPort
+	ScoreView *viewport.ViewPort
+	IMDraw    *imdraw.IMDraw
+	MenuView  *viewport.ViewPort
 )

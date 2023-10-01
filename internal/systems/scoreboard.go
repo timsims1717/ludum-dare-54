@@ -3,6 +3,7 @@ package systems
 import (
 	"fmt"
 	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/pixelgl"
 	"golang.org/x/image/colornames"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
@@ -24,7 +25,7 @@ var (
 )
 
 func ScoreboardInit() {
-	data.LeftTitle = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.LeftTitle = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 0, 0.)
 	data.LeftTitle.Obj.Layer = 30
 	data.LeftTitle.SetColor(pixel.ToRGBA(colornames.Black))
 	data.LeftTitle.SetPos(pixel.V(leftScoreboard, topScoreboard))
@@ -34,7 +35,7 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.LeftTitle).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.LeftComplete = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.LeftComplete = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 0, 0.)
 	data.LeftComplete.Obj.Layer = 30
 	data.LeftComplete.SetColor(pixel.ToRGBA(colornames.Black))
 	data.LeftComplete.SetPos(pixel.V(leftScoreboard, topScoreboard-lineHeight))
@@ -44,7 +45,7 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.LeftComplete).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.LeftMissed = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.LeftMissed = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 0, 0.)
 	data.LeftMissed.Obj.Layer = 30
 	data.LeftMissed.SetColor(pixel.ToRGBA(colornames.Black))
 	data.LeftMissed.SetPos(pixel.V(leftScoreboard, topScoreboard-lineHeight*2))
@@ -54,7 +55,7 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.LeftMissed).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.LeftAbandoned = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.LeftAbandoned = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 0, 0.)
 	data.LeftAbandoned.Obj.Layer = 30
 	data.LeftAbandoned.SetColor(pixel.ToRGBA(colornames.Black))
 	data.LeftAbandoned.SetPos(pixel.V(leftScoreboard, topScoreboard-lineHeight*3))
@@ -64,7 +65,7 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.LeftAbandoned).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.LeftCash = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.LeftCash = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 0, 0.)
 	data.LeftCash.Obj.Layer = 30
 	data.LeftCash.SetColor(pixel.ToRGBA(colornames.Black))
 	data.LeftCash.SetPos(pixel.V(leftScoreboard, topScoreboard-lineHeight*4))
@@ -74,7 +75,7 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.LeftCash).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.RightTitle = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.RightTitle = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 0, 0.)
 	data.RightTitle.Obj.Layer = 30
 	data.RightTitle.SetColor(pixel.ToRGBA(colornames.Black))
 	data.RightTitle.SetPos(pixel.V(rightScoreboard, topScoreboard))
@@ -84,7 +85,7 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.RightTitle).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.RightLoadedWares = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.RightLoadedWares = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 0, 0.)
 	data.RightLoadedWares.Obj.Layer = 30
 	data.RightLoadedWares.SetColor(pixel.ToRGBA(colornames.Black))
 	data.RightLoadedWares.SetPos(pixel.V(rightScoreboard, topScoreboard-lineHeight))
@@ -94,7 +95,7 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.RightLoadedWares).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.RightLoadHeight = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.RightLoadHeight = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 0, 0.)
 	data.RightLoadHeight.Obj.Layer = 30
 	data.RightLoadHeight.SetColor(pixel.ToRGBA(colornames.Black))
 	data.RightLoadHeight.SetPos(pixel.V(rightScoreboard, topScoreboard-lineHeight*2))
@@ -104,7 +105,7 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.RightLoadHeight).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.RightPercentFull = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 300., 0.)
+	data.RightPercentFull = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 0, 0.)
 	data.RightPercentFull.Obj.Layer = 30
 	data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Black))
 	data.RightPercentFull.SetPos(pixel.V(rightScoreboard, topScoreboard-lineHeight*3))
@@ -114,17 +115,27 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.RightPercentFull).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.PercCount = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.2, 300., 0.)
-	data.PercCount.Obj.Layer = 30
-	data.PercCount.SetColor(pixel.ToRGBA(colornames.Black))
-	data.PercCount.SetPos(pixel.V(centerScoreboard, middleScoreboard))
-	data.PercCount.SetText("Min Wares xx / yy")
+	data.RightWaresCount = typeface.New("main", typeface.NewAlign(typeface.Right, typeface.Top), 1.2, 0.15, 0, 0.)
+	data.RightWaresCount.Obj.Layer = 30
+	data.RightWaresCount.SetColor(pixel.ToRGBA(colornames.Black))
+	data.RightWaresCount.SetPos(pixel.V(rightScoreboard, topScoreboard-lineHeight*4))
+	data.RightWaresCount.SetText(fmt.Sprintf("%d/%d Min Wares", 42, 42))
 	myecs.Manager.NewEntity().
-		AddComponent(myecs.Object, data.PercCount.Obj).
-		AddComponent(myecs.Drawable, data.PercCount).
+		AddComponent(myecs.Object, data.RightWaresCount.Obj).
+		AddComponent(myecs.Drawable, data.RightWaresCount).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.TimerCount = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 300., 0.)
+	data.MinWaresCount = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.2, 0, 0.)
+	data.MinWaresCount.Obj.Layer = 30
+	data.MinWaresCount.SetColor(pixel.ToRGBA(colornames.Black))
+	data.MinWaresCount.SetPos(pixel.V(centerScoreboard, middleScoreboard))
+	data.MinWaresCount.SetText("Min Wares xx / yy")
+	myecs.Manager.NewEntity().
+		AddComponent(myecs.Object, data.MinWaresCount.Obj).
+		AddComponent(myecs.Drawable, data.MinWaresCount).
+		AddComponent(myecs.DrawTarget, data.ScoreView)
+
+	data.TimerCount = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 0, 0.)
 	data.TimerCount.Obj.Layer = 30
 	data.TimerCount.SetColor(pixel.ToRGBA(colornames.Black))
 	data.TimerCount.SetPos(pixel.V(centerScoreboard, middleScoreboard))
@@ -134,7 +145,7 @@ func ScoreboardInit() {
 		AddComponent(myecs.Drawable, data.TimerCount).
 		AddComponent(myecs.DrawTarget, data.ScoreView)
 
-	data.ButtonText = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.24, 300., 0.)
+	data.ButtonText = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.24, 0, 0.)
 	data.ButtonText.Obj.Layer = 30
 	data.ButtonText.SetColor(pixel.ToRGBA(colornames.Black))
 	data.ButtonText.SetPos(pixel.V(centerScoreboard, buttonYHeight))
@@ -190,7 +201,7 @@ func ScoreboardReset() {
 	data.RightLoadedWares.SetColor(constants.HoverUIText)
 	data.RightLoadHeight.SetColor(constants.HoverUIText)
 	data.RightPercentFull.SetColor(constants.HoverUIText)
-	data.PercCount.SetColor(constants.HoverUIText)
+	data.MinWaresCount.SetColor(constants.HoverUIText)
 	data.TimerCount.SetColor(constants.HoverUIText)
 	data.ButtonText.SetColor(constants.HoverUIText)
 }
@@ -202,31 +213,86 @@ func ScoreSystem() {
 	//data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
 	data.LeftComplete.SetText(fmt.Sprintf("%d Complete", data.CurrentScore.SuccessfulDeliveries))
 	data.LeftMissed.SetText(fmt.Sprintf("%d Missed", data.CurrentScore.MissedDeliveries))
-	data.LeftAbandoned.SetText(fmt.Sprintf("%d Abandonded", data.CurrentScore.AbandonedWares))
+	data.LeftAbandoned.SetText(fmt.Sprintf("%d Abandoned", data.CurrentScore.AbandonedWares))
 	data.LeftCash.SetText(fmt.Sprintf("$%d", data.CurrentScore.Cash))
-	data.PercCount.SetText(fmt.Sprintf("Min Wares: %d / %d", len(data.CurrentTruck.Wares), data.CurrentDifficulty.TargetWares))
+	data.MinWaresCount.SetText(fmt.Sprintf("Min Wares: %d/%d", len(data.CurrentTruck.Wares), data.CurrentDifficulty.TargetWares))
 	data.RightPercentFull.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
+	data.RightWaresCount.SetText(fmt.Sprintf("Min Wares: %d/%d", len(data.CurrentTruck.Wares), data.CurrentDifficulty.TargetWares))
 
-	data.CheckForFailure()
 	if data.FirstLoad && !data.IsTimer && len(data.CurrentTruck.Wares) >= data.CurrentDifficulty.TargetWares {
 		data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToDepart))
 		data.IsTimer = true
 	}
+	data.CheckForFailure()
+	data.ButtonLock = data.CurrentScore.FailCondition != constants.NotFailing
 	if data.IsTimer {
 		UpdateTimer()
 		if len(data.CurrentTruck.Wares) >= data.CurrentDifficulty.TargetWares {
-			data.RightLoadedWares.SetColor(pixel.ToRGBA(colornames.Black))
-			if data.FirstLoad {
-				data.ButtonLock = false
-			}
+			data.RightLoadedWares.SetColor(constants.HoverUIText)
 		} else {
-			data.RightLoadedWares.SetColor(pixel.ToRGBA(colornames.Red))
-			if data.FirstLoad {
-				data.ButtonLock = true
-			}
+			data.RightLoadedWares.SetColor(constants.BadUIText)
 		}
 	}
-	if len(data.CurrentTruck.Wares) >= data.CurrentDifficulty.TargetWares && data.DepartureTimer.Done() {
+	if data.FirstLoad {
+		if len(data.CurrentTruck.Wares) >= data.CurrentDifficulty.TargetWares && data.DepartureTimer.Done() {
+			data.LeavePacking = true
+		}
+	} else if data.DepartureTimer.Done() {
 		data.LeavePacking = true
 	}
+}
+
+func BigMessageInit() {
+	if data.BigMessage == nil {
+		data.BigMessage = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.22, 600., 0.)
+		data.BigMessage.Obj.Layer = 50
+		data.BigMessage.SetColor(pixel.ToRGBA(colornames.Black))
+		data.BigMessage.SetText("Test")
+		data.BigMessage.Obj.Hidden = true
+		myecs.Manager.NewEntity().
+			AddComponent(myecs.Object, data.BigMessage.Obj).
+			AddComponent(myecs.Drawable, data.BigMessage).
+			AddComponent(myecs.DrawTarget, data.GameView)
+	}
+	data.BigMessage.SetPos(data.GameView.CamPos)
+}
+
+func SetBigMessage(raw string, col pixel.RGBA, dur float64) {
+	BigMessageInit()
+	data.BigMessage.SetColor(col)
+	data.BigMessage.SetText(raw)
+	data.BigMessage.Obj.SetRect(pixel.R(0, 0, 700, data.BigMessage.Height*1.2))
+	data.BigMessage.Obj.Rect = data.BigMessage.Obj.Rect.Moved(pixel.V(0, data.BigMessage.Height*-0.2))
+	data.BigMessage.Obj.Hidden = false
+	if dur > 0 {
+		data.BigMessageTimer = timing.New(dur)
+	} else {
+		data.BigMessageTimer = nil
+	}
+}
+
+func HideBigMessage() {
+	data.BigMessage.Obj.Hidden = true
+}
+
+func BigMessageSystem() {
+	if data.BigMessageTimer != nil {
+		if data.BigMessageTimer.UpdateDone() {
+			HideBigMessage()
+		}
+	}
+}
+
+func DrawBigMessage(win *pixelgl.Window) {
+	if !data.BigMessage.Obj.Hidden {
+		data.IMDraw.Clear()
+		data.IMDraw.Color = constants.UIBGColor
+		data.IMDraw.Push(data.BigMessage.Obj.Pos.Add(data.BigMessage.Obj.Rect.Min))
+		data.IMDraw.Push(data.BigMessage.Obj.Pos.Add(pixel.V(data.BigMessage.Obj.Rect.Min.X, data.BigMessage.Obj.Rect.Max.Y)))
+		data.IMDraw.Push(data.BigMessage.Obj.Pos.Add(data.BigMessage.Obj.Rect.Max))
+		data.IMDraw.Push(data.BigMessage.Obj.Pos.Add(pixel.V(data.BigMessage.Obj.Rect.Max.X, data.BigMessage.Obj.Rect.Min.Y)))
+		data.IMDraw.Polygon(0)
+		data.IMDraw.Draw(data.GameView.Canvas)
+	}
+	DrawSystem(win, 50)
 }

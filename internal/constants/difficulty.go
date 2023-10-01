@@ -14,7 +14,7 @@ type Difficulty struct {
 	Level                    DifficultyType
 	TimeToDepart             int
 	TimeToSell               int
-	InitialTrunkTargetFill   int
+	TrunkTargetFill          int
 	NumberofMissedDeliveries int
 	NumberofAbandonedWares   int
 	TargetWares              int
@@ -27,7 +27,7 @@ var (
 			Level:                    Easy,
 			TimeToDepart:             60,
 			TimeToSell:               40,
-			InitialTrunkTargetFill:   50,
+			TrunkTargetFill:          40,
 			NumberofMissedDeliveries: 8,
 			NumberofAbandonedWares:   21,
 		}, Medium: {
@@ -35,7 +35,7 @@ var (
 			Level:                    Medium,
 			TimeToDepart:             50,
 			TimeToSell:               30,
-			InitialTrunkTargetFill:   40,
+			TrunkTargetFill:          50,
 			NumberofMissedDeliveries: 5,
 			NumberofAbandonedWares:   13,
 		}, Hard: {
@@ -43,7 +43,7 @@ var (
 			Level:                    Hard,
 			TimeToDepart:             40,
 			TimeToSell:               25,
-			InitialTrunkTargetFill:   30,
+			TrunkTargetFill:          60,
 			NumberofMissedDeliveries: 3,
 			NumberofAbandonedWares:   8,
 		},
