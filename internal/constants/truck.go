@@ -8,4 +8,5 @@ const (
 	Minivan            = "Minivan"
 	CargoVan           = "CargoVan"
 	SemiTruck          = "SemiTruck"
+	Wagon              = "Wagon"
 )
