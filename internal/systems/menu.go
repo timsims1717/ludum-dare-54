@@ -102,7 +102,7 @@ func InitMenuItems(win *pixelgl.Window) {
 	InitOptionsMenu()
 	InitCarMenu()
 	InitDifficultyMenu()
-	ShowMainMenu()
+	InitPauseMenu()
 }
 
 func ShowMainMenu() {
@@ -110,6 +110,7 @@ func ShowMainMenu() {
 	HideAllMenus()
 	MenuPlay.Obj.Hidden = false
 	MenuOptions.Obj.Hidden = false
+	MenuQuit.Obj.Pos.Y = -130
 	MenuQuit.Obj.Hidden = false
 }
 

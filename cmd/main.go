@@ -42,6 +42,7 @@ func run() {
 	state.Register(constants.MainMenuStateKey, state.New(states.MainMenuState))
 	state.Register(constants.PackingStateKey, state.New(states.PackingState))
 	state.Register(constants.TransitionStateKey, state.New(states.TransitionState))
+	state.Register(constants.PauseStateKey, state.New(states.PauseState))
 
 	testSheet, err := img.LoadSpriteSheet("assets/test1.json")
 	if err != nil {

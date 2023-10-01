@@ -174,7 +174,11 @@ func InitOptionsMenu() {
 					BackFromOpt.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
-						ShowMainMenu()
+						if data.Paused {
+							ShowPauseMenu()
+						} else {
+							ShowMainMenu()
+						}
 					}
 				} else {
 					BackFromOpt.SetColor(constants.BaseUIText)
