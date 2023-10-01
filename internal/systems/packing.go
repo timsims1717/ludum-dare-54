@@ -1,7 +1,9 @@
 package systems
 
 import (
+	"fmt"
 	"github.com/faiface/pixel"
+	"golang.org/x/image/colornames"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
@@ -185,4 +187,20 @@ func GetNearestPos(pos pixel.Vec, r pixel.Rect) pixel.Vec {
 		return util.ConstrainR(nPos, data.LeftDrop.Center(), r, data.LeftDrop)
 	}
 	return pixel.V(-100, -100)
+}
+
+func StartTimer() {
+	data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToDepart))
+	data.IsTimer = true
+}
+
+func UpdateTimer() {
+	data.DepartureTimer.Update()
+	if data.DepartureTimer.Sec()-data.DepartureTimer.Elapsed() <= 0 {
+		data.TimerCount.SetText("00.0")
+		data.TimerCount.SetColor(pixel.ToRGBA(colornames.Red))
+	} else {
+		data.TimerCount.SetText(fmt.Sprintf("%.1f", data.DepartureTimer.Sec()-data.DepartureTimer.Elapsed()))
+	}
+
 }

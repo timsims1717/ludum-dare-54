@@ -21,7 +21,6 @@ import (
 
 type packingState struct {
 	*state.AbstractState
-	isTimer bool
 }
 
 func (s *packingState) Unload() {
@@ -51,8 +50,8 @@ func (s *packingState) Load() {
 
 func (s *packingState) Update(win *pixelgl.Window) {
 	debug.AddText("Packing State")
-	data.TimerCount.Obj.Hidden = !s.isTimer
-	data.PercCount.Obj.Hidden = s.isTimer
+	data.TimerCount.Obj.Hidden = !data.IsTimer
+	data.PercCount.Obj.Hidden = data.IsTimer
 	data.GameInput.Update(win, viewport.MainCamera.Mat)
 	debug.AddIntCoords("World", int(data.GameInput.World.X), int(data.GameInput.World.Y))
 	inPos := data.GameView.ProjectWorld(data.GameInput.World)
@@ -84,14 +83,25 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	systems.ObjectSystem()
 
 	data.PercCount.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
-	data.RightCount.SetText(fmt.Sprintf("Loaded\nWares: %d\nLoad\nHeight: %d/%d", len(data.CurrentTruck.Wares), 0, data.CurrentTruck.Height))
-	data.LeftCount.SetText(fmt.Sprintf("DELIVERIES\n%d Complete\n%d Missed\n$%d.00", data.CurrentScore.SuccessfulDeliveries,
-		data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
 	data.GameView.Update()
 	data.ScoreView.Update()
 
 	systems.TrunkClean()
 	data.CheckForFailure()
+	if !data.IsTimer && data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
+		systems.StartTimer()
+	}
+	if data.IsTimer {
+		systems.UpdateTimer()
+		data.RightCount.SetText(fmt.Sprintf("Loaded\nWares: %d\nLoad\nHeight: %d/%d\nLoad: %d%%", len(data.CurrentTruck.Wares), 0,
+			data.CurrentTruck.Height, data.CurrentTruck.PercentFilled))
+	} else {
+		data.RightCount.SetText(fmt.Sprintf("Loaded\nWares: %d\nLoad\nHeight: %d/%d\n   ", len(data.CurrentTruck.Wares), 0,
+			data.CurrentTruck.Height))
+	}
+	data.LeftCount.SetText(fmt.Sprintf("DELIVERIES\n%d Complete\n%d Missed\n$%d.00", data.CurrentScore.SuccessfulDeliveries,
+		data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
+
 	myecs.UpdateManager()
 	debug.AddText(fmt.Sprintf("Entity Count: %d", myecs.FullCount))
 }

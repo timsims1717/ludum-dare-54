@@ -6,10 +6,12 @@ import (
 )
 
 var (
-	ItemQueue  [8]*Ware
-	HeldItem   *Ware
-	BottomDrop pixel.Rect
-	LeftDrop   pixel.Rect
+	ItemQueue      [8]*Ware
+	HeldItem       *Ware
+	BottomDrop     pixel.Rect
+	LeftDrop       pixel.Rect
+	DepartureTimer *timing.Timer
+	IsTimer        bool
 )
 
 type DragTimer struct {
