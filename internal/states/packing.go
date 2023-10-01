@@ -28,19 +28,17 @@ func (s *packingState) Unload() {
 }
 
 func (s *packingState) Load() {
-	w := 6.
-	d := 7.
-	h := 5.
+	systems.CreateTruck()
 	if data.GameView == nil {
 		data.GameView = viewport.New(nil)
 		data.GameView.SetRect(pixel.R(0, 0, 640, 360))
 	}
 	data.GameView.CamPos = pixel.ZV
-	data.GameView.CamPos.X += (w - 1) * 0.5 * world.TileSize
-	data.GameView.CamPos.Y += (math.Min(d, 3) - 1) * 0.5 * world.TileSize
+	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width) - 1) * 0.5 * world.TileSize
+	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize
 	data.ScoreView = viewport.New(nil)
 	data.ScoreView.CamPos = pixel.V(0, data.ScoreView.Rect.H()*0.5)
-	systems.CreateTruck(w, d, h)
+
 	data.NewScore()
 	data.SetDifficulty(constants.Easy)
 	data.BottomDrop = pixel.R(-200, -130, 340, -40)
@@ -53,6 +51,7 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	debug.AddText("Packing State")
 	data.TimerCount.Obj.Hidden = !data.IsTimer
 	data.PercCount.Obj.Hidden = data.IsTimer
+	data.RightPercentFull.Obj.Hidden = !data.IsTimer
 	data.GameInput.Update(win, viewport.MainCamera.Mat)
 	debug.AddIntCoords("World", int(data.GameInput.World.X), int(data.GameInput.World.Y))
 	inPos := data.GameView.ProjectWorld(data.GameInput.World)
@@ -94,17 +93,30 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	}
 	if data.IsTimer {
 		systems.UpdateTimer()
-		data.RightCount.SetText(fmt.Sprintf("Loaded\nWares: %d\nLoad\nHeight: %d/%d\nLoad: %d%%", len(data.CurrentTruck.Wares), 0,
-			data.CurrentTruck.Height, data.CurrentTruck.PercentFilled))
-	} else {
-		data.RightCount.SetText(fmt.Sprintf("Loaded\nWares: %d\nLoad\nHeight: %d/%d\n   ", len(data.CurrentTruck.Wares), 0,
-			data.CurrentTruck.Height))
+		data.RightPercentFull.SetText(fmt.Sprintf("%d%% Full", data.CurrentTruck.PercentFilled))
+		if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill {
+			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Green))
+			//TODO: Unlock Button
+		} else {
+			data.RightPercentFull.SetColor(pixel.ToRGBA(colornames.Red))
+			//TODO: Lock Button
+		}
 	}
-	data.LeftCount.SetText(fmt.Sprintf("DELIVERIES\n%d Complete\n%d Missed\n$%d.00", data.CurrentScore.SuccessfulDeliveries,
-		data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
+	data.RightLoadedWares.SetText(fmt.Sprintf("Loaded Wares: %d", len(data.CurrentTruck.Wares)))
+	data.RightLoadHeight.SetText(fmt.Sprintf("Load Height: %d / %d", 0, data.CurrentTruck.Depth))
+	//data.LeftTitle.SetText(fmt.Sprintf("DELIVERIES\n%d Complete\n%d Missed\n$%d.00", data.CurrentScore.SuccessfulDeliveries,
+	//data.CurrentScore.MissedDeliveries, data.CurrentScore.Cash))
+	data.LeftCompletes.SetText(fmt.Sprintf("%d Complete", data.CurrentScore.SuccessfulDeliveries))
+	data.LeftAbandoned.SetText(fmt.Sprintf("%d Missed", data.CurrentScore.MissedDeliveries))
+	data.LeftAbandoned.SetText(fmt.Sprintf("%d Abandonded", data.CurrentScore.AbandonedWares))
+	data.LeftCash.SetText(fmt.Sprintf("$%d", data.CurrentScore.Cash))
 
 	myecs.UpdateManager()
 	debug.AddText(fmt.Sprintf("Entity Count: %d", myecs.FullCount))
+
+	if data.CurrentTruck.PercentFilled >= data.CurrentDifficulty.InitialTrunkTargetFill && data.DepartureTimer.Done() {
+		//AutoLeave
+	}
 }
 
 func (s *packingState) Draw(win *pixelgl.Window) {

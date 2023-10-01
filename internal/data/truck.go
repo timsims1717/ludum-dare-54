@@ -15,6 +15,7 @@ type Truck struct {
 	TotalSpace    int
 	FilledSpace   int
 	PercentFilled int
+	TruckLabel    string
 }
 
 func NewTruck(w, d, h int) {
@@ -23,6 +24,7 @@ func NewTruck(w, d, h int) {
 	CurrentTruck.Depth = d
 	CurrentTruck.Height = h
 	CurrentTruck.TotalSpace = w * d * h
+	CurrentTruck.TruckLabel = constants.UndefinedTruckType
 	for z := 0; z < h; z++ {
 		CurrentTruck.Trunk = append(CurrentTruck.Trunk, [][]bool{})
 		for y := 0; y < d; y++ {
@@ -44,6 +46,7 @@ func (t *Truck) CopyTruck() {
 		Height:     t.Height,
 		Depth:      t.Depth,
 		TotalSpace: t.Width * t.Height * t.Depth,
+		TruckLabel: t.TruckLabel,
 	}
 	for z := 0; z < t.Height; z++ {
 		CurrentTruck.Trunk = append(CurrentTruck.Trunk, [][]bool{})
@@ -59,25 +62,30 @@ func (t *Truck) CopyTruck() {
 var (
 	AvalibleTrucks = map[string]*Truck{
 		constants.SmartCar: {
-			Width:  5,
-			Height: 3,
-			Depth:  3,
+			Width:      5,
+			Height:     3,
+			Depth:      3,
+			TruckLabel: "SMART CAR",
 		}, constants.Minivan: {
-			Width:  5,
-			Depth:  5,
-			Height: 4,
+			Width:      5,
+			Depth:      5,
+			Height:     4,
+			TruckLabel: "MINIVAN",
 		}, constants.CargoVan: {
-			Width:  5,
-			Height: 5,
-			Depth:  5,
+			Width:      5,
+			Height:     5,
+			Depth:      5,
+			TruckLabel: "CARGO VAN",
 		}, constants.SemiTruck: {
-			Width:  5,
-			Height: 5,
-			Depth:  10,
+			Width:      5,
+			Height:     5,
+			Depth:      10,
+			TruckLabel: "BOX TRUCK",
 		}, constants.Wagon: {
-			Width:  4,
-			Height: 5,
-			Depth:  7,
+			Width:      4,
+			Height:     5,
+			Depth:      7,
+			TruckLabel: "CONASTOGA",
 		},
 	}
 )
