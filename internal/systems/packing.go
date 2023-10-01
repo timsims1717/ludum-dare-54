@@ -186,3 +186,9 @@ func GetNearestPos(pos pixel.Vec, r pixel.Rect) pixel.Vec {
 	}
 	return pixel.V(-100, -100)
 }
+
+func LeavePackingSystem() {
+	if data.LeavePacking {
+
+	}
+}

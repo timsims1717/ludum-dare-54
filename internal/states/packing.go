@@ -32,20 +32,21 @@ func (s *packingState) Load() {
 	w := 6.
 	d := 7.
 	h := 5.
-	data.GameView = viewport.New(nil)
-	data.GameView.SetRect(pixel.R(0, 0, 640, 360))
+	if data.GameView == nil {
+		data.GameView = viewport.New(nil)
+		data.GameView.SetRect(pixel.R(0, 0, 640, 360))
+	}
 	data.GameView.CamPos = pixel.ZV
 	data.GameView.CamPos.X += (w - 1) * 0.5 * world.TileSize
 	data.GameView.CamPos.Y += (math.Min(d, 3) - 1) * 0.5 * world.TileSize
 	data.ScoreView = viewport.New(nil)
-	data.ScoreView.SetRect(pixel.R(0, 0, 330, 230))
 	data.ScoreView.CamPos = pixel.V(0, data.ScoreView.Rect.H()*0.5)
-	systems.ScoreboardInit()
 	systems.CreateTruck(w, d, h)
 	data.NewScore()
 	data.BottomDrop = pixel.R(-200, -130, 340, -40)
 	data.LeftDrop = pixel.R(-200, -130, -40, 190)
 	s.UpdateViews()
+	systems.ScoreboardInit()
 }
 
 func (s *packingState) Update(win *pixelgl.Window) {
@@ -58,9 +59,9 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	debug.AddIntCoords("GameView World", int(inPos.X), int(inPos.Y))
 
 	if data.DebugInput.Get("debugSP").JustPressed() {
-		data.GameView.ZoomIn(1.)
+		data.ScoreView.ZoomIn(1.)
 	} else if data.DebugInput.Get("debugSM").JustPressed() {
-		data.GameView.ZoomIn(-1.)
+		data.ScoreView.ZoomIn(-1.)
 	}
 	if data.DebugInput.Get("camUp").Pressed() {
 		data.GameView.CamPos.Y += 100. * timing.DT
@@ -107,6 +108,8 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 	data.GameView.Canvas.Draw(win, data.GameView.Mat)
 
 	data.ScoreView.Canvas.Clear(colornames.White)
+	systems.DrawSystem(win, 29)
+	img.Batchers[constants.TestBatch].Draw(data.ScoreView.Canvas)
 	systems.DrawSystem(win, 30)
 	data.ScoreView.Canvas.Draw(win, data.ScoreView.Mat)
 
@@ -125,7 +128,11 @@ func (s *packingState) UpdateViews() {
 	data.GameView.PortSize.X = viewport.MainCamera.Rect.W() / data.GameView.Rect.W()
 	data.GameView.PortSize.Y = viewport.MainCamera.Rect.H() / data.GameView.Rect.H()
 
+	svw := math.Max(viewport.MainCamera.Rect.W()*0.2, 330)
+	svh := math.Max(viewport.MainCamera.Rect.H()*0.4, 330)
+	data.ScoreView.SetRect(pixel.R(0, 0, svw, svh))
+	data.ScoreView.SetZoom(viewport.MainCamera.Rect.W() / 1600)
 	data.ScoreView.PortPos = viewport.MainCamera.PostCamPos
 	data.ScoreView.PortPos.Y += (viewport.MainCamera.Rect.H()-data.ScoreView.Rect.H())*0.5 - 20.
-	data.ScoreView.PortPos.X -= 425.
+	data.ScoreView.PortPos.X -= viewport.MainCamera.Rect.W() * 0.28
 }
