@@ -163,6 +163,7 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 	systems.DrawSystem(win, 20)
 	img.Batchers[constants.TestBatch].Draw(data.GameView.Canvas)
 	img.Clear()
+	systems.DrawLabelBG(win)
 	systems.DrawSystem(win, 30)
 	systems.DrawBigMessage(win)
 	data.GameView.Draw(win)
