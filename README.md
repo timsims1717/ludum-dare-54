@@ -1,7 +1,5 @@
 Welcome to the Traveling Salesman, after selecting your vehicle and difficulty you will start at your home warehouse where you will need to load your vehicle for your initial journey.
-![[Pasted image 20231002144731.png]]
-
-![[Pasted image 20231002144745.png]]
+![Pasted image 20231002144745.png](Pasted%20image%2020231002144745.png)
 
 ## Leaving the Warehouse
 You must load your truck to a minimum level depending on difficulty, after which you will be able to depart and commence your selling journey. Simply drag an item on the right to your trunk, keep in mind you can only stack things so high, depending on your vehicle.
