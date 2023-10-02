@@ -26,7 +26,7 @@ var (
 			Label:                    "Easy",
 			Level:                    Easy,
 			TimeToDepart:             30,
-			TimeToSell:               60,
+			TimeToSell:               21,
 			TrunkTargetFill:          40,
 			NumberofMissedDeliveries: 8,
 			NumberofAbandonedWares:   21,
