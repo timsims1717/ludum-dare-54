@@ -63,7 +63,7 @@ func run() {
 	img.AddBatcher(constants.TestBatch, testSheet, true, true)
 
 	debug.Initialize(&viewport.MainCamera.PostCamPos)
-	debug.Text = true
+	//debug.Text = true
 
 	data.SetTotalWareSize()
 
