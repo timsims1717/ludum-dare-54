@@ -5,7 +5,9 @@ import (
 	"github.com/faiface/pixel"
 	"ludum-dare-54/internal/constants"
 	gween "ludum-dare-54/pkg/gween64"
+	"ludum-dare-54/pkg/object"
 	"ludum-dare-54/pkg/timing"
+	"ludum-dare-54/pkg/world"
 )
 
 var (
@@ -18,11 +20,14 @@ var (
 	LeftDrop       pixel.Rect
 	DepartureTimer *timing.Timer
 	IsTimer        bool
+	SignObj        *object.Object
 	Sign           *ecs.Entity
 
 	LeavePacking bool
 	ScoreTween   *gween.Tween
+	SignTween    *gween.Tween
 	LeaveTimer   *timing.Timer
+	TruckTween   *gween.Tween
 	LeaveStep    int
 	FadeTween    *gween.Tween
 	FirstLoad    = true
@@ -31,6 +36,8 @@ var (
 	Paused       bool
 
 	BackgroundItems []*ecs.Entity
+	TrunkEntities   []*ecs.Entity
+	TrunkObjects    []*object.Object
 )
 
 type DragTimer struct {
@@ -69,4 +76,8 @@ func NotInQueue(ware *Ware) bool {
 		}
 	}
 	return true
+}
+
+func NotTooDeep(ware *Ware) bool {
+	return world.Height(constants.TrunkominoTypes[ware.ShapeKey]) <= CurrentTruck.Depth
 }

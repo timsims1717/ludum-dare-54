@@ -19,6 +19,7 @@ const (
 	PackingStateKey    = "packing_state"
 	TransitionStateKey = "transition_state"
 	PauseStateKey      = "pause_state"
+	GameOverStateKey   = "game_over_state"
 )
 
 var (
@@ -56,9 +57,9 @@ var (
 		A: 255,
 	})
 	BadUIText = pixel.ToRGBA(color.RGBA{
-		R: 100,
-		G: 35,
-		B: 35,
+		R: 175,
+		G: 45,
+		B: 45,
 		A: 255,
 	})
 	UIBGColor = pixel.ToRGBA(color.RGBA{

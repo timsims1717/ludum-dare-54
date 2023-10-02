@@ -58,6 +58,7 @@ func (s *packingState) Load(win *pixelgl.Window) {
 		data.ScoreView.CamPos = pixel.V(0, data.ScoreView.Rect.H()*0.5)
 	}
 	if data.FirstLoad {
+		systems.TruckReset()
 		data.AbandonedWares = []*data.Ware{}
 		data.IsTimer = false
 		systems.CreateTruck()
@@ -72,6 +73,7 @@ func (s *packingState) Load(win *pixelgl.Window) {
 		systems.ScoreboardReset()
 		data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToSell))
 		systems.SellInit()
+		systems.TruckReturn()
 	}
 	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width)-1)*0.5*world.TileSize - (40)
 	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize

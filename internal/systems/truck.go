@@ -122,6 +122,8 @@ func CreateTruck() {
 						}
 					}
 				}))
+			data.TrunkObjects = append(data.TrunkObjects, obj)
+			data.TrunkEntities = append(data.TrunkEntities, e)
 		}
 	}
 }

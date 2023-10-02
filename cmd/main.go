@@ -44,6 +44,7 @@ func run() {
 	state.Register(constants.PackingStateKey, state.New(states.PackingState))
 	state.Register(constants.TransitionStateKey, state.New(states.TransitionState))
 	state.Register(constants.PauseStateKey, state.New(states.PauseState))
+	state.Register(constants.GameOverStateKey, state.New(states.GameOverState))
 
 	sfx.MusicPlayer.RegisterMusicTrack("assets/snakeoil.wav", "snakeoil")
 	sfx.MusicPlayer.NewSet("snakeoil", []string{"snakeoil"}, sfx.Repeat, 0., 2.)
