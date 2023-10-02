@@ -303,7 +303,37 @@ var (
 			Name:      "Toy Smart Car",
 			ShapeKey:  constants.SizeOnebyOne,
 			SpriteKey: constants.SmartTiny,
-			Value:     35 + constants.GlobalSeededRandom.Intn(50),
+			Value:     100 + constants.GlobalSeededRandom.Intn(10),
+			Active:    true,
+		}, {
+			Name:      "Toy MiniVan",
+			ShapeKey:  constants.SizeTwobyOne,
+			SpriteKey: constants.MiniTiny,
+			Value:     150 + constants.GlobalSeededRandom.Intn(20),
+			Active:    true,
+		}, {
+			Name:      "Toy CargoVan",
+			ShapeKey:  constants.SizeTwobyOne,
+			SpriteKey: constants.CargoTiny,
+			Value:     200 + constants.GlobalSeededRandom.Intn(40),
+			Active:    true,
+		}, {
+			Name:      "Toy BoxTruck",
+			ShapeKey:  constants.SizeTwobyOne,
+			SpriteKey: constants.BoxTiny,
+			Value:     250 + constants.GlobalSeededRandom.Intn(60),
+			Active:    true,
+		}, {
+			Name:      "Toy Wagon",
+			ShapeKey:  constants.SizeThreebyOne,
+			SpriteKey: constants.WagonTiny,
+			Value:     300 + constants.GlobalSeededRandom.Intn(80),
+			Active:    true,
+		}, {
+			Name:      "Toy Market Stall",
+			ShapeKey:  constants.SizeTwobyTwo,
+			SpriteKey: constants.MarketStandTiny,
+			Value:     400 + constants.GlobalSeededRandom.Intn(100),
 			Active:    true,
 		},
 	}
