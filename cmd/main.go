@@ -11,6 +11,7 @@ import (
 	"ludum-dare-54/pkg/debug"
 	"ludum-dare-54/pkg/img"
 	"ludum-dare-54/pkg/options"
+	"ludum-dare-54/pkg/sfx"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
 	"ludum-dare-54/pkg/typeface"
@@ -44,6 +45,9 @@ func run() {
 	state.Register(constants.TransitionStateKey, state.New(states.TransitionState))
 	state.Register(constants.PauseStateKey, state.New(states.PauseState))
 
+	sfx.MusicPlayer.RegisterMusicTrack("assets/snakeoil.wav", "snakeoil")
+	sfx.MusicPlayer.NewSet("snakeoil", []string{"snakeoil"}, sfx.Repeat, 0., 2.)
+
 	testSheet, err := img.LoadSpriteSheet("assets/test1.json")
 	if err != nil {
 		panic(err)
@@ -57,6 +61,7 @@ func run() {
 
 	win.SetColorMask(colornames.Black)
 	win.Show()
+	sfx.MusicPlayer.PlayMusic("snakeoil")
 	timing.Reset()
 	for !win.Closed() {
 		timing.Update()
@@ -84,7 +89,7 @@ func run() {
 		//win.SetSmooth(true)
 		//win.SetSmooth(options.BilinearFilter)
 
-		//sfx.MusicPlayer.Update()
+		sfx.MusicPlayer.Update()
 		win.Update()
 	}
 }
