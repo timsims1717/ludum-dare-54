@@ -5,19 +5,21 @@ import "ludum-dare-54/pkg/world"
 var (
 	//Trunkominos
 	TrunkominoTypes = map[TrunkominoType][]world.Coords{
-		SizeOnebyOne:   {{0, 0}},
-		SizeTwobyOne:   {{0, 0}, {1, 0}},
-		SizeOnebyTwo:   {{0, 0}, {0, 1}},
-		SizeThreebyOne: {{0, 0}, {1, 0}, {2, 0}},
-		SizeOnebyThree: {{0, 0}, {0, 1}, {0, 2}},
-		SizeFourbyOne:  {{0, 0}, {1, 0}, {2, 0}, {3, 0}},
-		SizeOnebyFour:  {{0, 0}, {0, 1}, {0, 2}, {0, 3}},
-		SizeTwobyTwo:   {{0, 0}, {1, 0}, {0, 1}, {1, 1}},
-		SizeThreebyTwo: {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}},
-		SizeFourbyTwo:  {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}, {3, 0}, {3, 1}},
-		SizeTwobyThree: {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}},
-		SizeTwobyFour:  {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}, {0, 3}, {1, 3}},
-		SizeTwobyFourL: {{0, 0}, {1, 0}, {0, 1}, {0, 2}, {0, 3}},
+		SizeOnebyOne:    {{0, 0}},
+		SizeTwobyOne:    {{0, 0}, {1, 0}},
+		SizeOnebyTwo:    {{0, 0}, {0, 1}},
+		SizeThreebyOne:  {{0, 0}, {1, 0}, {2, 0}},
+		SizeOnebyThree:  {{0, 0}, {0, 1}, {0, 2}},
+		SizeFourbyOne:   {{0, 0}, {1, 0}, {2, 0}, {3, 0}},
+		SizeOnebyFour:   {{0, 0}, {0, 1}, {0, 2}, {0, 3}},
+		SizeTwobyTwo:    {{0, 0}, {1, 0}, {0, 1}, {1, 1}},
+		SizeThreebyTwo:  {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}},
+		SizeFourbyTwo:   {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}, {3, 0}, {3, 1}},
+		SizeTwobyThree:  {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}},
+		SizeTwobyFour:   {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}, {0, 3}, {1, 3}},
+		SizeTwobyFourL:  {{0, 0}, {1, 0}, {0, 1}, {0, 2}, {0, 3}},
+		SizeFourbyThree: {{0, 0}, {1, 0}, {0, 1}, {1, 1}, {2, 0}, {2, 1}, {3, 0}, {3, 1}, {0, 2}, {1, 2}, {2, 2}, {3, 2}},
+		SizeTwobyThreeP: {{0, 0}, {0, 1}, {1, 1}, {0, 2}, {1, 2}},
 	}
 )
 
@@ -38,6 +40,8 @@ const (
 	SizeTwobyThree          = "SizeTwobyThree"
 	SizeTwobyFour           = "SizeTwobyFour"
 	SizeTwobyFourL          = "SizeTwobyFourL"
+	SizeFourbyThree         = "SizeFourbyThree"
+	SizeTwobyThreeP         = "SizeTwobyThreeP"
 )
 
 // GetMovedCoords assumes the center of even numbers is moved to the left and

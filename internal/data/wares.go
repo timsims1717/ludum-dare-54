@@ -220,6 +220,30 @@ var (
 			SpriteKey: constants.TopHat,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
+		}, {
+			Name:      constants.SteamerTrunk,
+			ShapeKey:  constants.SizeFourbyThree,
+			SpriteKey: constants.SteamerTrunk,
+			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Active:    true,
+		}, {
+			Name:      constants.Encyclopedias,
+			ShapeKey:  constants.SizeTwobyThree,
+			SpriteKey: constants.Encyclopedias,
+			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Active:    true,
+		}, {
+			Name:      constants.FryingPan,
+			ShapeKey:  constants.SizeTwobyThreeP,
+			SpriteKey: constants.FryingPan,
+			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Active:    true,
+		}, {
+			Name:      constants.Dynamite,
+			ShapeKey:  constants.SizeOnebyTwo,
+			SpriteKey: constants.Dynamite,
+			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Active:    true,
 		},
 	}
 )
