@@ -42,4 +42,10 @@ const (
 	Rifle           = "rifle"
 	Claranet        = "claranet"
 	CowboyHat       = "cowboy hat"
+	SmartTiny       = "smart_tiny"
+	MiniTiny        = "mini_tiny"
+	CargoTiny       = "cargo_tiny"
+	BoxTiny         = "box_tiny"
+	WagonTiny       = "wagon_tiny"
+	MarketStandTiny = "marketstand_tiny"
 )
