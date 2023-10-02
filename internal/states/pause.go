@@ -24,6 +24,7 @@ type pauseState struct {
 func (s *pauseState) Unload(win *pixelgl.Window) {
 	data.LeaveTransition = false
 	data.Paused = false
+	systems.HideAllMenus()
 }
 
 func (s *pauseState) Load(win *pixelgl.Window) {

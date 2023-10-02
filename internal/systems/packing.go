@@ -169,7 +169,7 @@ func UpdateTimer() {
 
 func LoadSellLabels() {
 	if data.WareNameLabelOne == nil {
-		data.WareNameLabelOne = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.09, 0, 0.)
+		data.WareNameLabelOne = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.1, 0, 0.)
 		data.WareNameLabelOne.Obj.Layer = 30
 		data.WareNameLabelOne.SetColor(pixel.ToRGBA(colornames.Black))
 		data.WareNameLabelOne.SetPos(pixel.V(slotX, rightQueueY(0)-30))
@@ -180,7 +180,7 @@ func LoadSellLabels() {
 			AddComponent(myecs.DrawTarget, data.GameView)
 	}
 	if data.WareNameLabelTwo == nil {
-		data.WareNameLabelTwo = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.09, 0, 0.)
+		data.WareNameLabelTwo = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.11, 0, 0.)
 		data.WareNameLabelTwo.Obj.Layer = 30
 		data.WareNameLabelTwo.SetColor(pixel.ToRGBA(colornames.Black))
 		data.WareNameLabelTwo.SetPos(pixel.V(slotX, rightQueueY(1)-30))
@@ -191,7 +191,7 @@ func LoadSellLabels() {
 			AddComponent(myecs.DrawTarget, data.GameView)
 	}
 	if data.WareNameLabelThree == nil {
-		data.WareNameLabelThree = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.09, 0, 0.)
+		data.WareNameLabelThree = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.12, 0, 0.)
 		data.WareNameLabelThree.Obj.Layer = 30
 		data.WareNameLabelThree.SetColor(pixel.ToRGBA(colornames.Black))
 		data.WareNameLabelThree.SetPos(pixel.V(slotX, rightQueueY(2)-30))
@@ -213,30 +213,24 @@ func UpdateSellLabels() {
 			if WareOne.SellMe && !WareOne.Sold {
 				data.WareNameLabelOne.SetText(fmt.Sprintf("Sell %s\nfor $%d", WareOne.Name, WareOne.Value))
 				data.WareNameLabelOne.Obj.Hidden = false
-			} else {
-				data.WareNameLabelOne.Obj.Hidden = true
 			}
 		}
-		if len(data.SellWares) > 1 {
-			WareTwo := data.SellWares[1]
-			if WareTwo != nil {
-				if WareTwo.SellMe && !WareTwo.Sold {
-					data.WareNameLabelTwo.SetText(fmt.Sprintf("Sell %s\nfor $%d", WareTwo.Name, WareTwo.Value))
-					data.WareNameLabelTwo.Obj.Hidden = false
-				} else {
-					data.WareNameLabelTwo.Obj.Hidden = true
-				}
+	}
+	if len(data.SellWares) > 1 {
+		WareTwo := data.SellWares[1]
+		if WareTwo != nil {
+			if WareTwo.SellMe && !WareTwo.Sold {
+				data.WareNameLabelTwo.SetText(fmt.Sprintf("Sell %s\nfor $%d", WareTwo.Name, WareTwo.Value))
+				data.WareNameLabelTwo.Obj.Hidden = false
 			}
-			if len(data.SellWares) > 2 {
-				WareThree := data.SellWares[2]
-				if WareThree != nil {
-					if WareThree.SellMe && !WareThree.Sold {
-						data.WareNameLabelThree.SetText(fmt.Sprintf("Sell %s\nfor $%d", WareThree.Name, WareThree.Value))
-						data.WareNameLabelThree.Obj.Hidden = false
-					} else {
-						data.WareNameLabelThree.Obj.Hidden = true
-					}
-				}
+		}
+	}
+	if len(data.SellWares) > 2 {
+		WareThree := data.SellWares[2]
+		if WareThree != nil {
+			if WareThree.SellMe && !WareThree.Sold {
+				data.WareNameLabelThree.SetText(fmt.Sprintf("Sell %s\nfor $%d", WareThree.Name, WareThree.Value))
+				data.WareNameLabelThree.Obj.Hidden = false
 			}
 		}
 	}

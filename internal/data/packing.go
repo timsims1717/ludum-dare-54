@@ -18,6 +18,7 @@ var (
 	LeftDrop       pixel.Rect
 	DepartureTimer *timing.Timer
 	IsTimer        bool
+	Sign           *ecs.Entity
 
 	LeavePacking bool
 	ScoreTween   *gween.Tween

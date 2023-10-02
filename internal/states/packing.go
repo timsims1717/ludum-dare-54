@@ -58,6 +58,7 @@ func (s *packingState) Load(win *pixelgl.Window) {
 		data.ScoreView.CamPos = pixel.V(0, data.ScoreView.Rect.H()*0.5)
 	}
 	if data.FirstLoad {
+		data.AbandonedWares = []*data.Ware{}
 		data.IsTimer = false
 		systems.CreateTruck()
 		data.SetDifficulty(data.PickedDiffKey)
