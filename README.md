@@ -1,5 +1,4 @@
 Welcome to the Traveling Salesman, after selecting your vehicle and difficulty you will start at your home warehouse where you will need to load your vehicle for your initial journey.
-![[Pasted image 20231002144731.png]]
 
 ![[Pasted image 20231002144745.png]]
 
