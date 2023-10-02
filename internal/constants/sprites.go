@@ -34,4 +34,12 @@ const (
 	Encyclopedias   = "encyclopedias"
 	FryingPan       = "frying pan"
 	Dynamite        = "dynamite"
+	Globe           = "globe"
+	Whiskey         = "whiskey"
+	Sarsaparilla    = "sarsaparilla"
+	Shovel          = "shovel"
+	Turtle          = "turtle"
+	Rifle           = "rifle"
+	Claranet        = "claranet"
+	CowboyHat       = "cowboy hat"
 )
