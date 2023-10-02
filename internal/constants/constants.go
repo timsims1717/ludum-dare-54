@@ -67,6 +67,12 @@ var (
 		B: 150,
 		A: 190,
 	})
+	PackingColor = pixel.ToRGBA(color.RGBA{
+		R: 106,
+		G: 190,
+		B: 48,
+		A: 255,
+	})
 )
 
 func RandomTitle() string {
@@ -80,5 +86,6 @@ const (
 	AbandonToManyItems = iota
 	TooManyMisses
 	TooFewItems
+	Abandoned
 	NotFailing
 )

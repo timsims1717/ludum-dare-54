@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
-	"golang.org/x/image/colornames"
 	"image/color"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
@@ -76,6 +75,7 @@ func (s *packingState) Load(win *pixelgl.Window) {
 	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width)-1)*0.5*world.TileSize - (40)
 	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize
 	s.UpdateViews()
+	systems.NewBackground()
 }
 
 func (s *packingState) Update(win *pixelgl.Window) {
@@ -145,7 +145,8 @@ func (s *packingState) Update(win *pixelgl.Window) {
 }
 
 func (s *packingState) Draw(win *pixelgl.Window) {
-	data.GameView.Canvas.Clear(colornames.Green)
+	data.GameView.Canvas.Clear(constants.PackingColor)
+	systems.DrawSystem(win, -2)
 	systems.DrawSystem(win, -1)
 	systems.DrawSystem(win, 0)
 	for i := 1; i <= data.CurrentTruck.Height; i++ {

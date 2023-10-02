@@ -268,6 +268,9 @@ func ScoreSystem() {
 	} else if data.DepartureTimer.Done() {
 		data.LeavePacking = true
 	}
+	if data.Abandon {
+		data.LeavePacking = true
+	}
 }
 
 func BigMessageInit() {

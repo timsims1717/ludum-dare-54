@@ -31,6 +31,7 @@ func New(state State) *AbstractState {
 }
 
 var (
+	popState   = false
 	pushState  = false
 	nextState  = "unknown"
 	stateStack []string
@@ -109,8 +110,13 @@ func Draw(win *pixelgl.Window) {
 
 func updateState(win *pixelgl.Window) {
 	if !loading {
-		if len(stateStack)-1 > stackPtr {
+		if popState {
 			// states need to be popped
+			if len(stateStack) == 0 || stackPtr == -1 {
+				panic("state.Pop - tried to pop with an empty state stack")
+			} else {
+				stackPtr--
+			}
 			for si := len(stateStack) - 1; si > stackPtr; si-- {
 				if cState, ok := states[stateStack[si]]; ok {
 					// unload
@@ -122,6 +128,7 @@ func updateState(win *pixelgl.Window) {
 			} else {
 				stateStack = stateStack[:stackPtr+1]
 			}
+			popState = false
 		}
 		if pushState {
 			if cState, ok := states[nextState]; ok {
@@ -152,14 +159,14 @@ func PushState(s string) {
 		pushState = true
 		nextState = s
 	} else {
-		panic(fmt.Sprintf("state.Push - tried to push state %s when a push is already happening\n", s))
+		panic(fmt.Sprintf("state.PushState - tried to push state %s when a push is already happening\n", s))
 	}
 }
 
 func PopState() {
-	if len(stateStack) == 0 || stackPtr == -1 {
-		panic("state.Pop - tried to pop with an empty state stack")
+	if !popState {
+		popState = true
 	} else {
-		stackPtr--
+		panic(fmt.Sprintf("state.PopState - tried to pop a state when a pop is already happening\n"))
 	}
 }

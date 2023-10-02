@@ -484,7 +484,9 @@ var (
 )
 
 func StartGame() {
+	data.Abandon = false
 	data.CurrentTruck = nil
+	data.FirstLoad = true
 	PickedTruck = nil
 	data.PickedTruckKey = PickedTruckKey
 	data.PickedDiffKey = PickedDiff

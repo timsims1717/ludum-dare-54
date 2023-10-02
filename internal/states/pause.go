@@ -67,7 +67,6 @@ func (s *pauseState) Update(win *pixelgl.Window) {
 
 		systems.FunctionSystem()
 		// custom systems
-		systems.AbandonSystem()
 		// object systems
 		systems.InterpolationSystem()
 		systems.ParentSystem()

@@ -104,8 +104,8 @@ func LeavePackingSystem() {
 					if okO && okW {
 						if ware.TIndex < 0 && ware.QueueIndex < 0 {
 							data.CurrentScore.AbandonedWares++
+							data.AddToAbandoned(ware)
 						}
-						data.AddToAbandoned(ware)
 					}
 				}
 			}
@@ -123,6 +123,8 @@ func LeavePackingSystem() {
 					failMsg = "You left behind too many wares."
 				case constants.TooFewItems:
 					failMsg = "You don't have enough wares in your truck."
+				case constants.Abandoned:
+					failMsg = "You left your truck."
 				}
 				SetBigMessage(failMsg, constants.BadUIText, 8)
 				data.LeaveTimer = timing.New(5)

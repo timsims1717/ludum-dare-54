@@ -5,7 +5,8 @@ import (
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
-	"golang.org/x/image/colornames"
+	"image/color"
+	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
 	"ludum-dare-54/internal/systems"
@@ -37,6 +38,10 @@ func (s *mainMenuState) Load(win *pixelgl.Window) {
 		data.MenuView = viewport.New(nil)
 		data.MenuView.SetRect(pixel.R(0, 0, viewport.MainCamera.Rect.W(), viewport.MainCamera.Rect.H()))
 	}
+	if data.GameView == nil {
+		data.GameView = viewport.New(nil)
+		data.GameView.SetRect(pixel.R(0, 0, 640, 360))
+	}
 	data.MenuView.CamPos = pixel.ZV
 	if data.IMDraw == nil {
 		data.IMDraw = imdraw.New(nil)
@@ -44,6 +49,7 @@ func (s *mainMenuState) Load(win *pixelgl.Window) {
 	systems.InitMenuItems(win)
 	systems.ShowMainMenu()
 	s.UpdateViews()
+	systems.NewBackground()
 }
 
 func (s *mainMenuState) Update(win *pixelgl.Window) {
@@ -87,6 +93,7 @@ func (s *mainMenuState) Update(win *pixelgl.Window) {
 	systems.ParentSystem()
 	systems.ObjectSystem()
 
+	data.GameView.Update()
 	data.MenuView.Update()
 
 	myecs.UpdateManager()
@@ -94,7 +101,13 @@ func (s *mainMenuState) Update(win *pixelgl.Window) {
 }
 
 func (s *mainMenuState) Draw(win *pixelgl.Window) {
-	data.MenuView.Canvas.Clear(colornames.Pink)
+	data.GameView.Canvas.Clear(constants.PackingColor)
+	systems.DrawSystem(win, -2)
+	img.Batchers[constants.TestBatch].Draw(data.GameView.Canvas)
+	img.Clear()
+	data.GameView.Draw(win)
+
+	data.MenuView.Canvas.Clear(color.RGBA{})
 	systems.DrawMenuBG()
 	systems.DrawSystem(win, 50)
 	data.MenuView.Draw(win)
@@ -112,6 +125,10 @@ func (s *mainMenuState) SetAbstract(aState *state.AbstractState) {
 }
 
 func (s *mainMenuState) UpdateViews() {
+	data.GameView.PortPos = viewport.MainCamera.PostCamPos
+	data.GameView.PortSize.X = viewport.MainCamera.Rect.W() / data.GameView.Rect.W()
+	data.GameView.PortSize.Y = data.GameView.PortSize.X
+
 	data.MenuView.PortPos = viewport.MainCamera.PostCamPos
 	data.MenuView.SetRect(pixel.R(0, 0, viewport.MainCamera.Rect.W(), viewport.MainCamera.Rect.H()))
 	data.MenuView.CamPos = pixel.ZV

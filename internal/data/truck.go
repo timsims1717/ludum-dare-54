@@ -29,24 +29,6 @@ type Truck struct {
 	TileEntity    *ecs.Entity
 }
 
-func NewTruck(w, d, h int) {
-	CurrentTruck = &Truck{}
-	CurrentTruck.Width = w
-	CurrentTruck.Depth = d
-	CurrentTruck.Height = h
-	CurrentTruck.TotalSpace = w * d * h
-	CurrentTruck.TruckLabel = constants.UndefinedTruckType
-	for z := 0; z < h; z++ {
-		CurrentTruck.Trunk = append(CurrentTruck.Trunk, [][]bool{})
-		for y := 0; y < d; y++ {
-			CurrentTruck.Trunk[z] = append(CurrentTruck.Trunk[z], []bool{})
-			for x := 0; x < w; x++ {
-				CurrentTruck.Trunk[z][y] = append(CurrentTruck.Trunk[z][y], false)
-			}
-		}
-	}
-}
-
 func (t *Truck) CopyTruck() {
 	CurrentTruck = &Truck{
 		Width:      t.Width,

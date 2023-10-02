@@ -24,7 +24,9 @@ func NewScore() {
 var CurrentScore *score
 
 func CheckForFailure() {
-	if CurrentScore.MissedDeliveries >= CurrentDifficulty.NumberofMissedDeliveries {
+	if Abandon {
+		CurrentScore.FailCondition = constants.Abandoned
+	} else if CurrentScore.MissedDeliveries >= CurrentDifficulty.NumberofMissedDeliveries {
 		CurrentScore.FailCondition = constants.TooManyMisses
 	} else if CurrentScore.AbandonedWares >= CurrentDifficulty.NumberofAbandonedWares {
 		CurrentScore.FailCondition = constants.AbandonToManyItems

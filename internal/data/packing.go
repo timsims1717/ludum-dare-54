@@ -1,6 +1,7 @@
 package data
 
 import (
+	"github.com/bytearena/ecs"
 	"github.com/faiface/pixel"
 	"ludum-dare-54/internal/constants"
 	gween "ludum-dare-54/pkg/gween64"
@@ -24,8 +25,11 @@ var (
 	LeaveStep    int
 	FadeTween    *gween.Tween
 	FirstLoad    = true
+	Abandon      bool
 	Starting     bool
 	Paused       bool
+
+	BackgroundItems []*ecs.Entity
 )
 
 type DragTimer struct {
@@ -53,7 +57,7 @@ func GetFromAbandoned() *Ware {
 		} else {
 			AbandonedWares = []*Ware{}
 		}
-		return rWare
+		return rWare.CopyWare()
 	}
 }
 
