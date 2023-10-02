@@ -44,7 +44,7 @@ func SellInit() {
 		obj.Layer = 15
 		spr := img.Batchers[constants.TestBatch].Sprites[sellWare.SpriteKey]
 		obj.SetRect(spr.Frame())
-		sca := slotSize * 0.9 / math.Max(obj.Rect.W(), obj.Rect.H())
+		sca := 60 * 0.9 / math.Max(obj.Rect.W(), obj.Rect.H())
 		obj.Sca = pixel.V(sca, sca)
 		sellWare.Sprite.Color = pixel.ToRGBA(color.RGBA{
 			R: 255,
