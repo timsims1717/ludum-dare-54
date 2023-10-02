@@ -47,6 +47,8 @@ func run() {
 
 	sfx.MusicPlayer.RegisterMusicTrack("assets/snakeoil.wav", "snakeoil")
 	sfx.MusicPlayer.NewSet("snakeoil", []string{"snakeoil"}, sfx.Repeat, 0., 2.)
+	sfx.SetMusicVolume(75)
+	sfx.SetSoundVolume(75)
 
 	testSheet, err := img.LoadSpriteSheet("assets/test1.json")
 	if err != nil {

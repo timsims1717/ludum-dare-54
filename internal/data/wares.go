@@ -48,7 +48,7 @@ func GetTotalActiveWares() int {
 
 func GetRandomWare() *Ware {
 	filteredWares := funk.Filter(Wares, func(x *Ware) bool {
-		return x.Active
+		return x.Active && NotInQueue(x)
 	}).([]*Ware)
 	randWareItr := constants.GlobalSeededRandom.Intn(len(filteredWares))
 	return &Ware{

@@ -105,6 +105,7 @@ func LeavePackingSystem() {
 						if ware.TIndex < 0 && ware.QueueIndex < 0 {
 							data.CurrentScore.AbandonedWares++
 						}
+						data.AddToAbandoned(ware)
 					}
 				}
 			}

@@ -23,15 +23,20 @@ func SellInit() {
 	data.BuyWares = numWares + constants.GlobalSeededRandom.Intn(2) + data.CurrentScore.DeliveryCount/4
 	var used []int
 	for i := 0; i < numWares; i++ {
-		r := -1
-		for r == -1 || util.Contains(r, used) {
-			a := constants.GlobalSeededRandom.Intn(len(data.CurrentTruck.Wares))
-			b := constants.GlobalSeededRandom.Intn(len(data.CurrentTruck.Wares))
-			c := constants.GlobalSeededRandom.Intn(len(data.CurrentTruck.Wares))
-			r = util.Min(a, util.Min(b, c))
+		var sellWare *data.Ware
+		if len(data.AbandonedWares) > 0 && constants.GlobalSeededRandom.Intn(10) == 0 {
+			sellWare = data.GetFromAbandoned()
+		} else {
+			r := -1
+			for r == -1 || util.Contains(r, used) {
+				a := constants.GlobalSeededRandom.Intn(len(data.CurrentTruck.Wares))
+				b := constants.GlobalSeededRandom.Intn(len(data.CurrentTruck.Wares))
+				c := constants.GlobalSeededRandom.Intn(len(data.CurrentTruck.Wares))
+				r = util.Min(a, util.Min(b, c))
+			}
+			used = append(used, r)
+			sellWare = data.CurrentTruck.Wares[r].CopyWare()
 		}
-		used = append(used, r)
-		sellWare := data.CurrentTruck.Wares[r].CopyWare()
 		sellWare.QueueIndex = i
 		sellWare.SellMe = true
 		obj := object.New().WithID("sell-ware")
