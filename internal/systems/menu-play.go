@@ -8,6 +8,7 @@ import (
 	"ludum-dare-54/internal/myecs"
 	gween "ludum-dare-54/pkg/gween64"
 	"ludum-dare-54/pkg/gween64/ease"
+	"ludum-dare-54/pkg/sfx"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
 	"ludum-dare-54/pkg/typeface"
@@ -50,6 +51,7 @@ func InitCarMenu() {
 					SmartCarMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						PickedTruck = car
 						PickedTruckKey = constants.SmartCar
 						click.Consume()
@@ -93,6 +95,7 @@ func InitCarMenu() {
 					MiniVanMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						PickedTruck = car
 						PickedTruckKey = constants.Minivan
 						click.Consume()
@@ -136,6 +139,7 @@ func InitCarMenu() {
 					CargoVanMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						PickedTruck = car
 						PickedTruckKey = constants.CargoVan
 						click.Consume()
@@ -179,6 +183,7 @@ func InitCarMenu() {
 					SemiTruckMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						PickedTruck = car
 						PickedTruckKey = constants.SemiTruck
 						click.Consume()
@@ -222,6 +227,7 @@ func InitCarMenu() {
 					WagonMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						PickedTruck = car
 						PickedTruckKey = constants.Wagon
 						click.Consume()
@@ -264,6 +270,7 @@ func InitCarMenu() {
 					BackFromCar.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						ShowMainMenu()
 						click.Consume()
 					}
@@ -304,6 +311,7 @@ func InitDifficultyMenu() {
 					EasyMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						PickedDiff = constants.Easy
 						click.Consume()
 						StartGame()
@@ -351,6 +359,7 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 					MediumMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						PickedDiff = constants.Medium
 						click.Consume()
 						StartGame()
@@ -398,6 +407,7 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 					HardMenu.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						PickedDiff = constants.Hard
 						click.Consume()
 						StartGame()
@@ -444,6 +454,7 @@ Minimum Wares: %d`, difficulty.NumberofMissedDeliveries-1, difficulty.NumberofAb
 					BackFromDif.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						ShowCarMenu()
 						click.Consume()
 					}

@@ -7,6 +7,7 @@ import (
 	"ludum-dare-54/internal/myecs"
 	gween "ludum-dare-54/pkg/gween64"
 	"ludum-dare-54/pkg/gween64/ease"
+	"ludum-dare-54/pkg/sfx"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
 	"ludum-dare-54/pkg/typeface"
@@ -36,6 +37,7 @@ func InitPauseMenu() {
 					MenuResume.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						click.Consume()
 						state.PopState()
 					}
@@ -62,6 +64,7 @@ func InitPauseMenu() {
 					MenuAbandon.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						click.Consume()
 						Abandon()
 					}

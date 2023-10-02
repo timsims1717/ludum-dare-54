@@ -6,6 +6,7 @@ import (
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
+	"ludum-dare-54/pkg/sfx"
 	"ludum-dare-54/pkg/typeface"
 )
 
@@ -37,6 +38,7 @@ func InitMenuItems(win *pixelgl.Window) {
 					MenuPlay.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						ShowCarMenu()
 						click.Consume()
 					}
@@ -63,6 +65,7 @@ func InitMenuItems(win *pixelgl.Window) {
 					MenuOptions.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						ShowOptionsMenu()
 						click.Consume()
 					}
@@ -89,6 +92,7 @@ func InitMenuItems(win *pixelgl.Window) {
 					MenuQuit.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						click.Consume()
 						win.SetClosed(true)
 					}

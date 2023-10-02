@@ -39,6 +39,9 @@ func QueueSystem() {
 }
 
 func CreateWareInQueue(i int) {
+	if i == -1 {
+		return
+	}
 	first := data.FirstLoad
 	localWare := data.GetRandomWare().CopyWare()
 	localWare.QueueIndex = i

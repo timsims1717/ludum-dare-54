@@ -40,7 +40,7 @@ func (s *packingState) Unload(win *pixelgl.Window) {
 		_, okO := result.Components[myecs.Object].(*object.Object)
 		ware, okW := result.Components[myecs.Ware].(*data.Ware)
 		if okO && okW {
-			if ware.TIndex < 0 {
+			if ware.TIndex < 0 || data.CurrentScore.FailCondition != constants.NotFailing {
 				myecs.Manager.DisposeEntity(result)
 			}
 		}
