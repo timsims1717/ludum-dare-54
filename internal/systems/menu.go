@@ -128,16 +128,16 @@ func HideAllMenus() {
 }
 
 func DrawMenuBG() {
+	data.IMDraw.Clear()
 	for _, item := range MenuItems {
 		if item != nil && !item.Obj.Hidden {
-			data.IMDraw.Clear()
 			data.IMDraw.Color = constants.UIBGColor
 			data.IMDraw.Push(item.Obj.Pos.Add(item.Obj.Rect.Min))
 			data.IMDraw.Push(item.Obj.Pos.Add(pixel.V(item.Obj.Rect.Min.X, item.Obj.Rect.Max.Y)))
 			data.IMDraw.Push(item.Obj.Pos.Add(item.Obj.Rect.Max))
 			data.IMDraw.Push(item.Obj.Pos.Add(pixel.V(item.Obj.Rect.Max.X, item.Obj.Rect.Min.Y)))
 			data.IMDraw.Polygon(0)
-			data.IMDraw.Draw(data.MenuView.Canvas)
 		}
 	}
+	data.IMDraw.Draw(data.MenuView.Canvas)
 }

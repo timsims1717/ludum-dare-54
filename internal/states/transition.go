@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/pixelgl"
-	"golang.org/x/image/colornames"
+	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
 	"ludum-dare-54/internal/systems"
 	"ludum-dare-54/pkg/debug"
 	gween "ludum-dare-54/pkg/gween64"
 	"ludum-dare-54/pkg/gween64/ease"
+	"ludum-dare-54/pkg/img"
 	"ludum-dare-54/pkg/options"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
@@ -37,7 +38,9 @@ func (s *transitionState) Load(win *pixelgl.Window) {
 	}
 	data.GameView.CamPos = pixel.ZV
 	s.UpdateViews()
-	data.LeaveTransition = true
+	data.LeaveTransition = false
+	systems.AddNewStall()
+	systems.CreateMiniTruck()
 }
 
 func (s *transitionState) Update(win *pixelgl.Window) {
@@ -78,7 +81,7 @@ func (s *transitionState) Update(win *pixelgl.Window) {
 
 	systems.FunctionSystem()
 	// custom systems
-	systems.LeaveTransitionSystem()
+	systems.TransitionSystem()
 	// object systems
 	systems.InterpolationSystem()
 	systems.ParentSystem()
@@ -91,8 +94,14 @@ func (s *transitionState) Update(win *pixelgl.Window) {
 }
 
 func (s *transitionState) Draw(win *pixelgl.Window) {
-	data.GameView.Canvas.Clear(colornames.Red)
+	data.GameView.Canvas.Clear(constants.PackingColor)
 
+	systems.DrawPaths()
+	systems.DrawSystem(win, 1)
+	img.Batchers[constants.TestBatch].Draw(data.GameView.Canvas)
+	data.GameView.Draw(win)
+
+	img.Clear()
 	systems.TemporarySystem()
 	if options.Updated {
 		s.UpdateViews()

@@ -74,6 +74,12 @@ var (
 		B: 48,
 		A: 255,
 	})
+	PathColor = pixel.ToRGBA(color.RGBA{
+		R: 217,
+		G: 160,
+		B: 102,
+		A: 255,
+	})
 )
 
 func RandomTitle() string {
