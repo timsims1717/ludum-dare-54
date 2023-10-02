@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/bytearena/ecs"
 	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/pixelgl"
 	"golang.org/x/image/colornames"
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/internal/data"
@@ -19,8 +20,8 @@ import (
 )
 
 var (
-	bottomSlot = 40.
-	slotSize   = 90.
+	bottomSlot = 60.
+	slotSize   = 120.
 	slotX      = 230.
 )
 
@@ -202,10 +203,10 @@ func UpdateTimer() {
 
 func LoadSellLabels() {
 	if data.WareNameLabelOne == nil {
-		data.WareNameLabelOne = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.1, 0, 0.)
+		data.WareNameLabelOne = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.09, 0, 0.)
 		data.WareNameLabelOne.Obj.Layer = 30
 		data.WareNameLabelOne.SetColor(pixel.ToRGBA(colornames.Black))
-		data.WareNameLabelOne.SetPos(pixel.V(slotX, rightQueueY(0)-30))
+		data.WareNameLabelOne.SetPos(pixel.V(slotX, rightQueueY(0)-40))
 		data.WareNameLabelOne.SetText(fmt.Sprintf("Sell Name of Thing\n$56"))
 		myecs.Manager.NewEntity().
 			AddComponent(myecs.Object, data.WareNameLabelOne.Obj).
@@ -213,10 +214,10 @@ func LoadSellLabels() {
 			AddComponent(myecs.DrawTarget, data.GameView)
 	}
 	if data.WareNameLabelTwo == nil {
-		data.WareNameLabelTwo = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.11, 0, 0.)
+		data.WareNameLabelTwo = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.09, 0, 0.)
 		data.WareNameLabelTwo.Obj.Layer = 30
 		data.WareNameLabelTwo.SetColor(pixel.ToRGBA(colornames.Black))
-		data.WareNameLabelTwo.SetPos(pixel.V(slotX, rightQueueY(1)-30))
+		data.WareNameLabelTwo.SetPos(pixel.V(slotX, rightQueueY(1)-40))
 		data.WareNameLabelTwo.SetText(fmt.Sprintf("Sell Name of Thing\n$56"))
 		myecs.Manager.NewEntity().
 			AddComponent(myecs.Object, data.WareNameLabelTwo.Obj).
@@ -224,10 +225,10 @@ func LoadSellLabels() {
 			AddComponent(myecs.DrawTarget, data.GameView)
 	}
 	if data.WareNameLabelThree == nil {
-		data.WareNameLabelThree = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.12, 0, 0.)
+		data.WareNameLabelThree = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.09, 0, 0.)
 		data.WareNameLabelThree.Obj.Layer = 30
 		data.WareNameLabelThree.SetColor(pixel.ToRGBA(colornames.Black))
-		data.WareNameLabelThree.SetPos(pixel.V(slotX, rightQueueY(2)-30))
+		data.WareNameLabelThree.SetPos(pixel.V(slotX, rightQueueY(2)-40))
 		data.WareNameLabelThree.SetText(fmt.Sprintf("Sell Name of Thing\n$56"))
 		myecs.Manager.NewEntity().
 			AddComponent(myecs.Object, data.WareNameLabelThree.Obj).
@@ -249,6 +250,11 @@ func UpdateSellLabels() {
 			}
 		}
 	}
+	if data.WareQueue[0] != nil && data.WareNameLabelOne.Obj.Hidden {
+		WareOne := data.WareQueue[0]
+		data.WareNameLabelOne.SetText(fmt.Sprintf("Pick Up %s", WareOne.Name))
+		data.WareNameLabelOne.Obj.Hidden = false
+	}
 	if len(data.SellWares) > 1 {
 		WareTwo := data.SellWares[1]
 		if WareTwo != nil {
@@ -257,6 +263,11 @@ func UpdateSellLabels() {
 				data.WareNameLabelTwo.Obj.Hidden = false
 			}
 		}
+	}
+	if data.WareQueue[1] != nil && data.WareNameLabelTwo.Obj.Hidden {
+		WareTwo := data.WareQueue[1]
+		data.WareNameLabelTwo.SetText(fmt.Sprintf("Pick Up %s", WareTwo.Name))
+		data.WareNameLabelTwo.Obj.Hidden = false
 	}
 	if len(data.SellWares) > 2 {
 		WareThree := data.SellWares[2]
@@ -267,6 +278,17 @@ func UpdateSellLabels() {
 			}
 		}
 	}
+	if data.WareQueue[2] != nil && data.WareNameLabelThree.Obj.Hidden {
+		WareThree := data.WareQueue[2]
+		data.WareNameLabelThree.SetText(fmt.Sprintf("Pick Up %s", WareThree.Name))
+		data.WareNameLabelThree.Obj.Hidden = false
+	}
+	data.WareNameLabelOne.Obj.SetRect(pixel.R(0, 0, data.WareNameLabelOne.Width+5, data.WareNameLabelOne.Height+2))
+	data.WareNameLabelOne.Obj.Rect = data.WareNameLabelOne.Obj.Rect.Moved(pixel.V(0, -5))
+	data.WareNameLabelTwo.Obj.SetRect(pixel.R(0, 0, data.WareNameLabelTwo.Width+5, data.WareNameLabelTwo.Height+2))
+	data.WareNameLabelTwo.Obj.Rect = data.WareNameLabelTwo.Obj.Rect.Moved(pixel.V(0, -5))
+	data.WareNameLabelThree.Obj.SetRect(pixel.R(0, 0, data.WareNameLabelThree.Width+5, data.WareNameLabelThree.Height+2))
+	data.WareNameLabelThree.Obj.Rect = data.WareNameLabelThree.Obj.Rect.Moved(pixel.V(0, -5))
 }
 
 func TruckReturn() {
@@ -307,4 +329,31 @@ func TrunkOffset(y float64) {
 			}
 		}
 	}
+}
+
+func DrawLabelBG(win *pixelgl.Window) {
+	data.IMDraw.Clear()
+	data.IMDraw.Color = constants.UIBGColor
+	if !data.WareNameLabelOne.Obj.Hidden {
+		data.IMDraw.Push(data.WareNameLabelOne.Obj.Pos.Add(data.WareNameLabelOne.Obj.Rect.Min))
+		data.IMDraw.Push(data.WareNameLabelOne.Obj.Pos.Add(pixel.V(data.WareNameLabelOne.Obj.Rect.Min.X, data.WareNameLabelOne.Obj.Rect.Max.Y)))
+		data.IMDraw.Push(data.WareNameLabelOne.Obj.Pos.Add(data.WareNameLabelOne.Obj.Rect.Max))
+		data.IMDraw.Push(data.WareNameLabelOne.Obj.Pos.Add(pixel.V(data.WareNameLabelOne.Obj.Rect.Max.X, data.WareNameLabelOne.Obj.Rect.Min.Y)))
+		data.IMDraw.Polygon(0)
+	}
+	if !data.WareNameLabelTwo.Obj.Hidden {
+		data.IMDraw.Push(data.WareNameLabelTwo.Obj.Pos.Add(data.WareNameLabelTwo.Obj.Rect.Min))
+		data.IMDraw.Push(data.WareNameLabelTwo.Obj.Pos.Add(pixel.V(data.WareNameLabelTwo.Obj.Rect.Min.X, data.WareNameLabelTwo.Obj.Rect.Max.Y)))
+		data.IMDraw.Push(data.WareNameLabelTwo.Obj.Pos.Add(data.WareNameLabelTwo.Obj.Rect.Max))
+		data.IMDraw.Push(data.WareNameLabelTwo.Obj.Pos.Add(pixel.V(data.WareNameLabelTwo.Obj.Rect.Max.X, data.WareNameLabelTwo.Obj.Rect.Min.Y)))
+		data.IMDraw.Polygon(0)
+	}
+	if !data.WareNameLabelThree.Obj.Hidden {
+		data.IMDraw.Push(data.WareNameLabelThree.Obj.Pos.Add(data.WareNameLabelThree.Obj.Rect.Min))
+		data.IMDraw.Push(data.WareNameLabelThree.Obj.Pos.Add(pixel.V(data.WareNameLabelThree.Obj.Rect.Min.X, data.WareNameLabelThree.Obj.Rect.Max.Y)))
+		data.IMDraw.Push(data.WareNameLabelThree.Obj.Pos.Add(data.WareNameLabelThree.Obj.Rect.Max))
+		data.IMDraw.Push(data.WareNameLabelThree.Obj.Pos.Add(pixel.V(data.WareNameLabelThree.Obj.Rect.Max.X, data.WareNameLabelThree.Obj.Rect.Min.Y)))
+		data.IMDraw.Polygon(0)
+	}
+	data.IMDraw.Draw(data.GameView.Canvas)
 }

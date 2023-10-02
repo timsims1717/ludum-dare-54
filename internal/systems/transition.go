@@ -63,7 +63,7 @@ func DrawPaths() {
 			data.IMDraw.Color = constants.PathColor
 			data.IMDraw.Push(stall)
 			data.IMDraw.Push(data.CartPositions[i+1])
-			data.IMDraw.Line(3)
+			data.IMDraw.Line(6)
 		}
 	}
 	data.IMDraw.Draw(data.GameView.Canvas)
