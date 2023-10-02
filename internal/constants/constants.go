@@ -38,6 +38,7 @@ var (
 		"We've got Min's dumptruck...",
 		"F*ck Moash!!!",
 		"You Sell Out!",
+		"That's not how you talk!",
 	}
 
 	// Colors

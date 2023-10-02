@@ -30,4 +30,8 @@ const (
 	JustARock       = "just a rock"
 	SnakeOil        = "snake oil"
 	TopHat          = "top hat"
+	SteamerTrunk    = "steamer trunk"
+	Encyclopedias   = "encyclopedias"
+	FryingPan       = "frying pan"
+	Dynamite        = "dynamite"
 )
