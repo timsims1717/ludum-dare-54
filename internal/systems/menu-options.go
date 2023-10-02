@@ -7,14 +7,13 @@ import (
 	"ludum-dare-54/internal/data"
 	"ludum-dare-54/internal/myecs"
 	"ludum-dare-54/pkg/options"
+	"ludum-dare-54/pkg/sfx"
 	"ludum-dare-54/pkg/typeface"
 )
 
 var (
 	MusicVolume *typeface.Text
-	MVol        = 75
 	AudioVolume *typeface.Text
-	AVol        = 75
 	Vsync       *typeface.Text
 	Fullscreen  *typeface.Text
 	BackFromOpt *typeface.Text
@@ -39,18 +38,24 @@ func InitOptionsMenu() {
 					click := hvc.Input.Get("click")
 					rClick := hvc.Input.Get("rightClick")
 					if click.JustReleased() {
-						MVol += 25
-						if MVol > 100 {
-							MVol = 0
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
+						mVol := sfx.GetMusicVolume()
+						mVol += 25
+						if mVol > 100 {
+							mVol = 0
 						}
-						MusicVolume.SetText(fmt.Sprintf("Music Volume: %d", MVol))
+						sfx.SetMusicVolume(mVol)
+						MusicVolume.SetText(fmt.Sprintf("Music Volume: %d", mVol))
 						click.Consume()
 					} else if rClick.JustReleased() {
-						MVol -= 25
-						if MVol < 0 {
-							MVol = 100
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
+						mVol := sfx.GetMusicVolume()
+						mVol -= 25
+						if mVol < 0 {
+							mVol = 100
 						}
-						MusicVolume.SetText(fmt.Sprintf("Music Volume: %d", MVol))
+						sfx.SetMusicVolume(mVol)
+						MusicVolume.SetText(fmt.Sprintf("Music Volume: %d", mVol))
 						rClick.Consume()
 					}
 				} else {
@@ -77,18 +82,24 @@ func InitOptionsMenu() {
 					click := hvc.Input.Get("click")
 					rClick := hvc.Input.Get("rightClick")
 					if click.JustReleased() {
-						AVol += 25
-						if AVol > 100 {
-							AVol = 0
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
+						aVol := sfx.GetSoundVolume()
+						aVol += 25
+						if aVol > 100 {
+							aVol = 0
 						}
-						AudioVolume.SetText(fmt.Sprintf("Audio Volume: %d", AVol))
+						sfx.SetSoundVolume(aVol)
+						AudioVolume.SetText(fmt.Sprintf("Audio Volume: %d", aVol))
 						click.Consume()
 					} else if rClick.JustReleased() {
-						AVol -= 25
-						if AVol < 0 {
-							AVol = 100
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
+						aVol := sfx.GetSoundVolume()
+						aVol -= 25
+						if aVol < 0 {
+							aVol = 100
 						}
-						AudioVolume.SetText(fmt.Sprintf("Audio Volume: %d", AVol))
+						sfx.SetSoundVolume(aVol)
+						AudioVolume.SetText(fmt.Sprintf("Audio Volume: %d", aVol))
 						rClick.Consume()
 					}
 				} else {
@@ -114,6 +125,7 @@ func InitOptionsMenu() {
 					Fullscreen.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						options.FullScreen = !options.FullScreen
 						if options.FullScreen {
 							Fullscreen.SetText("Fullscreen: On")
@@ -144,6 +156,7 @@ func InitOptionsMenu() {
 					Vsync.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						options.VSync = !options.VSync
 						if options.VSync {
 							Vsync.SetText("VSync: On")
@@ -174,6 +187,7 @@ func InitOptionsMenu() {
 					BackFromOpt.SetColor(constants.HoverUIText)
 					click := hvc.Input.Get("click")
 					if click.JustReleased() {
+						sfx.SoundPlayer.PlaySound("buttonpress", 0.)
 						if data.Paused {
 							ShowPauseMenu()
 						} else {
