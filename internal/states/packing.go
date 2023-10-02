@@ -64,17 +64,18 @@ func (s *packingState) Load(win *pixelgl.Window) {
 		systems.CreateTruck()
 		data.SetDifficulty(data.PickedDiffKey)
 		data.NewScore()
-		data.GameView.CamPos = pixel.ZV
 		data.BottomDrop = pixel.R(-240, -130, 340, -40)
 		data.LeftDrop = pixel.R(-240, -130, -40, 60)
 		systems.ScoreboardInit()
 		systems.SetBigMessage("Fill Your Truck", constants.HoverUIText, 7)
+		systems.ClearMiniTruck()
 	} else {
 		systems.ScoreboardReset()
 		data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToSell))
 		systems.SellInit()
 		systems.TruckReturn()
 	}
+	data.GameView.CamPos = pixel.ZV
 	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width)-1)*0.5*world.TileSize - (40)
 	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize
 	s.UpdateViews()

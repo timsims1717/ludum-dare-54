@@ -87,6 +87,8 @@ func (s *transitionState) Update(win *pixelgl.Window) {
 	systems.ParentSystem()
 	systems.ObjectSystem()
 
+	data.GameView.CamPos = data.MiniTruckObj.Pos
+
 	data.GameView.Update()
 
 	myecs.UpdateManager()
@@ -97,7 +99,8 @@ func (s *transitionState) Draw(win *pixelgl.Window) {
 	data.GameView.Canvas.Clear(constants.PackingColor)
 
 	systems.DrawPaths()
-	systems.DrawSystem(win, 1)
+	systems.DrawSystem(win, 39)
+	systems.DrawSystem(win, 40)
 	img.Batchers[constants.TestBatch].Draw(data.GameView.Canvas)
 	data.GameView.Draw(win)
 

@@ -17,4 +17,5 @@ var (
 	MiniTruckSpr    *img.Sprite
 	MiniTruckObj    *object.Object
 	MiniTruckEntity *ecs.Entity
+	CartEntities    []*ecs.Entity
 )
