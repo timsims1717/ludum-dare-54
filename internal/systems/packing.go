@@ -150,12 +150,11 @@ func LeavePackingSystem() {
 		case 2:
 			if data.LeaveTimer.UpdateDone() {
 				data.LeaveStep = 3
-				data.FadeTween = gween.New(255., 0, 1, ease.Linear)
 				data.LeaveTimer = timing.New(1)
 			}
 		case 3:
 			if data.LeaveTimer.UpdateDone() {
-				state.SwitchState(constants.MainMenuStateKey)
+				state.PushState(constants.GameOverStateKey)
 			}
 		case 4:
 			if data.TruckTween != nil {
@@ -185,6 +184,8 @@ func LeavePackingSystem() {
 			if data.LeaveTimer.UpdateDone() {
 				state.SwitchState(constants.TransitionStateKey)
 			}
+		case 5:
+			state.SwitchState(constants.MainMenuStateKey)
 		}
 	}
 }

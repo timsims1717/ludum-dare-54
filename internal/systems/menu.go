@@ -107,6 +107,7 @@ func InitMenuItems(win *pixelgl.Window) {
 	InitCarMenu()
 	InitDifficultyMenu()
 	InitPauseMenu()
+	InitGameOverMenu()
 }
 
 func ShowMainMenu() {

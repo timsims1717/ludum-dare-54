@@ -5,4 +5,5 @@ var (
 	TransitionState = &transitionState{}
 	MainMenuState   = &mainMenuState{}
 	PauseState      = &pauseState{}
+	GameOverState   = &gameoverState{}
 )
