@@ -18,6 +18,7 @@ const (
 	MainMenuStateKey   = "main_menu_state"
 	PackingStateKey    = "packing_state"
 	TransitionStateKey = "transition_state"
+	PauseStateKey      = "pause_state"
 )
 
 var (
@@ -64,7 +65,7 @@ var (
 		R: 150,
 		G: 150,
 		B: 150,
-		A: 150,
+		A: 190,
 	})
 )
 

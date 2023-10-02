@@ -54,6 +54,7 @@ func (t *Truck) CopyTruck() {
 		Depth:      t.Depth,
 		TotalSpace: t.Width * t.Height * t.Depth,
 		TruckLabel: t.TruckLabel,
+		SpriteKey:  t.SpriteKey,
 	}
 	for z := 0; z < t.Height; z++ {
 		CurrentTruck.Trunk = append(CurrentTruck.Trunk, [][]bool{})
@@ -69,21 +70,21 @@ func (t *Truck) CopyTruck() {
 var (
 	AvailableTrucks = map[string]*Truck{
 		constants.SmartCar: {
-			Width:      5,
-			Depth:      4,
+			Width:      4,
+			Depth:      3,
 			Height:     3,
 			TruckLabel: "SMART CAR",
 			SpriteKey:  "smart",
 		}, constants.Minivan: {
-			Width:      5,
-			Depth:      5,
-			Height:     4,
+			Width:      4,
+			Depth:      4,
+			Height:     3,
 			TruckLabel: "MINIVAN",
 			SpriteKey:  "mini",
 		}, constants.CargoVan: {
 			Width:      5,
-			Depth:      6,
-			Height:     5,
+			Depth:      5,
+			Height:     4,
 			TruckLabel: "CARGO VAN",
 			SpriteKey:  "cargo",
 		}, constants.SemiTruck: {
@@ -93,8 +94,8 @@ var (
 			TruckLabel: "BOX TRUCK",
 			SpriteKey:  "box",
 		}, constants.Wagon: {
-			Width:      4,
-			Depth:      7,
+			Width:      5,
+			Depth:      5,
 			Height:     5,
 			TruckLabel: "CONASTOGA",
 			SpriteKey:  "wagon",

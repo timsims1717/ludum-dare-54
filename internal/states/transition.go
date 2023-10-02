@@ -37,6 +37,7 @@ func (s *transitionState) Load(win *pixelgl.Window) {
 	}
 	data.GameView.CamPos = pixel.ZV
 	s.UpdateViews()
+	data.LeaveTransition = true
 }
 
 func (s *transitionState) Update(win *pixelgl.Window) {

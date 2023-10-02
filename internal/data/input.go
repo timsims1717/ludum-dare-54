@@ -10,6 +10,7 @@ var (
 		Buttons: map[string]*pxginput.ButtonSet{
 			"click":      pxginput.NewJoyless(pixelgl.MouseButtonLeft),
 			"rightClick": pxginput.NewJoyless(pixelgl.MouseButtonRight),
+			"pause":      pxginput.NewJoyless(pixelgl.KeyEscape),
 		},
 		Mode: pxginput.KeyboardMouse,
 	}

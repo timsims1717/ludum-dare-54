@@ -67,6 +67,7 @@ func (s *packingState) Load(win *pixelgl.Window) {
 		data.BottomDrop = pixel.R(-240, -130, 340, -40)
 		data.LeftDrop = pixel.R(-240, -130, -40, 60)
 		systems.ScoreboardInit()
+		systems.SetBigMessage("Fill Your Truck", constants.HoverUIText, 7)
 	} else {
 		systems.ScoreboardReset()
 		data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToSell))
@@ -75,7 +76,6 @@ func (s *packingState) Load(win *pixelgl.Window) {
 	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width)-1)*0.5*world.TileSize - (40)
 	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize
 	s.UpdateViews()
-	systems.SetBigMessage("Fill Your Truck", constants.HoverUIText, 7)
 }
 
 func (s *packingState) Update(win *pixelgl.Window) {
@@ -97,36 +97,43 @@ func (s *packingState) Update(win *pixelgl.Window) {
 	inPos := data.GameView.ProjectWorld(data.GameInput.World)
 	debug.AddIntCoords("GameView World", int(inPos.X), int(inPos.Y))
 
-	if data.DebugInput.Get("debugSP").JustPressed() {
-		data.ScoreView.ZoomIn(1.)
-	} else if data.DebugInput.Get("debugSM").JustPressed() {
-		data.ScoreView.ZoomIn(-1.)
-	}
-	if data.DebugInput.Get("camUp").Pressed() {
-		data.GameView.CamPos.Y += 100. * timing.DT
-	} else if data.DebugInput.Get("camDown").Pressed() {
-		data.GameView.CamPos.Y -= 100. * timing.DT
-	}
-	if data.DebugInput.Get("camRight").Pressed() {
-		data.GameView.CamPos.X += 100. * timing.DT
-	} else if data.DebugInput.Get("camLeft").Pressed() {
-		data.GameView.CamPos.X -= 100. * timing.DT
-	}
-	if data.DebugInput.Get("leave").Pressed() {
-		data.LeavePacking = true
-	}
+	if data.GameInput.Get("pause").JustPressed() {
+		state.PushState(constants.PauseStateKey)
+		data.GameInput.Get("pause").Consume()
+		systems.HideBigMessage()
+		systems.BigMessageSystem()
+	} else {
+		if data.DebugInput.Get("debugSP").JustPressed() {
+			data.ScoreView.ZoomIn(1.)
+		} else if data.DebugInput.Get("debugSM").JustPressed() {
+			data.ScoreView.ZoomIn(-1.)
+		}
+		if data.DebugInput.Get("camUp").Pressed() {
+			data.GameView.CamPos.Y += 100. * timing.DT
+		} else if data.DebugInput.Get("camDown").Pressed() {
+			data.GameView.CamPos.Y -= 100. * timing.DT
+		}
+		if data.DebugInput.Get("camRight").Pressed() {
+			data.GameView.CamPos.X += 100. * timing.DT
+		} else if data.DebugInput.Get("camLeft").Pressed() {
+			data.GameView.CamPos.X -= 100. * timing.DT
+		}
+		if data.DebugInput.Get("leave").Pressed() {
+			data.LeavePacking = true
+		}
 
-	systems.DragSystem()
-	systems.FunctionSystem()
-	// custom systems
-	systems.LeavePackingSystem()
-	systems.QueueSystem()
-	systems.ScoreSystem()
-	systems.BigMessageSystem()
-	// object systems
-	systems.InterpolationSystem()
-	systems.ParentSystem()
-	systems.ObjectSystem()
+		systems.DragSystem()
+		systems.FunctionSystem()
+		// custom systems
+		systems.LeavePackingSystem()
+		systems.QueueSystem()
+		systems.ScoreSystem()
+		systems.BigMessageSystem()
+		// object systems
+		systems.InterpolationSystem()
+		systems.ParentSystem()
+		systems.ObjectSystem()
+	}
 
 	data.GameView.Update()
 	data.ScoreView.Update()

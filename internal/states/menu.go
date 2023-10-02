@@ -42,6 +42,7 @@ func (s *mainMenuState) Load(win *pixelgl.Window) {
 		data.IMDraw = imdraw.New(nil)
 	}
 	systems.InitMenuItems(win)
+	systems.ShowMainMenu()
 	s.UpdateViews()
 }
 

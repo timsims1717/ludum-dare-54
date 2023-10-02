@@ -51,6 +51,12 @@ func CreateTruck() {
 				} else {
 					str = "center"
 				}
+			} else {
+				if xt == -1 {
+					str = "side_l"
+				} else if xt == data.CurrentTruck.Width {
+					str = "side_r"
+				}
 			}
 			if str != "" {
 				offset := pixel.V(float64(xt)*world.TileSize, float64(yt)*world.TileSize)
@@ -80,7 +86,7 @@ func CreateTruck() {
 			obj.SetRect(pixel.R(0, 0, world.TileSize, world.TileSize))
 			obj.Layer = 0
 			e := myecs.Manager.NewEntity()
-			e.AddComponent(myecs.Drawable, img.NewSprite("square", constants.TestBatch)).
+			e.AddComponent(myecs.Drawable, img.NewSprite(fmt.Sprintf("%s_tile", data.CurrentTruck.SpriteKey), constants.TestBatch)).
 				AddComponent(myecs.Object, obj).
 				AddComponent(myecs.Update, data.NewHoverClickFn(data.GameInput, data.GameView, func(hvc *data.HoverClick) {
 					if hvc.Hover && !claimed {
