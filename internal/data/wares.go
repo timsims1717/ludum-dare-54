@@ -304,37 +304,37 @@ var (
 			ShapeKey:  constants.SizeOnebyOne,
 			SpriteKey: constants.SmartTiny,
 			Value:     100 + constants.GlobalSeededRandom.Intn(10),
-			Active:    true,
+			Active:    false,
 		}, {
 			Name:      "Toy MiniVan",
 			ShapeKey:  constants.SizeTwobyOne,
 			SpriteKey: constants.MiniTiny,
 			Value:     150 + constants.GlobalSeededRandom.Intn(20),
-			Active:    true,
+			Active:    false,
 		}, {
 			Name:      "Toy CargoVan",
 			ShapeKey:  constants.SizeTwobyOne,
 			SpriteKey: constants.CargoTiny,
 			Value:     200 + constants.GlobalSeededRandom.Intn(40),
-			Active:    true,
+			Active:    false,
 		}, {
 			Name:      "Toy BoxTruck",
 			ShapeKey:  constants.SizeTwobyOne,
 			SpriteKey: constants.BoxTiny,
 			Value:     250 + constants.GlobalSeededRandom.Intn(60),
-			Active:    true,
+			Active:    false,
 		}, {
 			Name:      "Toy Wagon",
 			ShapeKey:  constants.SizeThreebyOne,
 			SpriteKey: constants.WagonTiny,
 			Value:     300 + constants.GlobalSeededRandom.Intn(80),
-			Active:    true,
+			Active:    false,
 		}, {
 			Name:      "Toy Market Stall",
 			ShapeKey:  constants.SizeTwobyTwo,
 			SpriteKey: constants.MarketStandTiny,
 			Value:     400 + constants.GlobalSeededRandom.Intn(100),
-			Active:    true,
+			Active:    false,
 		},
 	}
 )
