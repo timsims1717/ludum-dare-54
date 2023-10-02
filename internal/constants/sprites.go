@@ -48,4 +48,6 @@ const (
 	BoxTiny         = "box_tiny"
 	WagonTiny       = "wagon_tiny"
 	MarketStandTiny = "marketstand_tiny"
+	RareSignedBall  = "Rare Signed Ball"
+	GoldBar         = "Gold Bar"
 )
