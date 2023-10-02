@@ -76,6 +76,7 @@ func (s *packingState) Load(win *pixelgl.Window) {
 	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize
 	s.UpdateViews()
 	systems.NewBackground()
+	systems.LoadSellLabels()
 }
 
 func (s *packingState) Update(win *pixelgl.Window) {
@@ -129,6 +130,7 @@ func (s *packingState) Update(win *pixelgl.Window) {
 		systems.QueueSystem()
 		systems.ScoreSystem()
 		systems.BigMessageSystem()
+		systems.UpdateSellLabels()
 		// object systems
 		systems.InterpolationSystem()
 		systems.ParentSystem()
@@ -156,6 +158,7 @@ func (s *packingState) Draw(win *pixelgl.Window) {
 	systems.DrawSystem(win, 20)
 	img.Batchers[constants.TestBatch].Draw(data.GameView.Canvas)
 	img.Clear()
+	systems.DrawSystem(win, 30)
 	systems.DrawBigMessage(win)
 	data.GameView.Draw(win)
 

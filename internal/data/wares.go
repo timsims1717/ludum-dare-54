@@ -6,6 +6,7 @@ import (
 	"ludum-dare-54/internal/constants"
 	"ludum-dare-54/pkg/img"
 	"ludum-dare-54/pkg/object"
+	"ludum-dare-54/pkg/typeface"
 	"ludum-dare-54/pkg/world"
 )
 
@@ -27,6 +28,12 @@ type Ware struct {
 	SellMe     bool
 	Sold       bool
 }
+
+var (
+	WareNameLabelOne   *typeface.Text
+	WareNameLabelTwo   *typeface.Text
+	WareNameLabelThree *typeface.Text
+)
 
 func (w *Ware) CopyWare() *Ware {
 	return &Ware{
@@ -137,67 +144,67 @@ var (
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 			Active:    false,
 		}, {
-			Name:      constants.Apple,
+			Name:      "Apple",
 			ShapeKey:  constants.SizeOnebyOne,
 			SpriteKey: constants.Apple,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     2 + constants.GlobalSeededRandom.Intn(10),
 			Active:    true,
 		}, {
-			Name:      constants.Banana,
+			Name:      "Wanna Banana?",
 			ShapeKey:  constants.SizeTwobyOne,
 			SpriteKey: constants.Banana,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     2 + constants.GlobalSeededRandom.Intn(10),
 			Active:    true,
 		}, {
-			Name:      constants.Leaks,
+			Name:      "Memory Leeks",
 			ShapeKey:  constants.SizeThreebyOne,
 			SpriteKey: constants.Leaks,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     2 + constants.GlobalSeededRandom.Intn(10),
 			Active:    true,
 		}, {
-			Name:      constants.GolfBalls,
+			Name:      "Couple of Balls",
 			ShapeKey:  constants.SizeOnebyOne,
 			SpriteKey: constants.GolfBalls,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     5 + constants.GlobalSeededRandom.Intn(5),
 			Active:    true,
 		}, {
-			Name:      constants.GolfClub,
+			Name:      "Club of Golf",
 			ShapeKey:  constants.SizeFourbyOne,
 			SpriteKey: constants.GolfClub,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      constants.GolfBag,
+			Name:      "Bag of Golf",
 			ShapeKey:  constants.SizeFourbyTwo,
 			SpriteKey: constants.GolfBag,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     100 + constants.GlobalSeededRandom.Intn(100),
 			Active:    true,
 		}, {
-			Name:      constants.Vacuum,
+			Name:      "Hoover",
 			ShapeKey:  constants.SizeTwobyFourL,
 			SpriteKey: constants.Vacuum,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     150 + constants.GlobalSeededRandom.Intn(100),
 			Active:    true,
 		}, {
-			Name:      constants.Broom,
+			Name:      "Sweeper",
 			ShapeKey:  constants.SizeOnebyFour,
 			SpriteKey: constants.Broom,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     25 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      constants.FrenchBread,
+			Name:      "Ee Bagette",
 			ShapeKey:  constants.SizeOnebyThree,
 			SpriteKey: constants.FrenchBread,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     5 + constants.GlobalSeededRandom.Intn(25),
 			Active:    true,
 		}, {
-			Name:      constants.Dustpan,
+			Name:      "Just a Dustpan",
 			ShapeKey:  constants.SizeTwobyTwo,
 			SpriteKey: constants.Dustpan,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     5 + constants.GlobalSeededRandom.Intn(20),
 			Active:    true,
 		}, {
-			Name:      constants.CrystalBall,
+			Name:      "Crystal Ball",
 			ShapeKey:  constants.SizeTwobyTwo,
 			SpriteKey: constants.CrystalBall,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
@@ -209,88 +216,88 @@ var (
 			Value:     0,
 			Active:    true,
 		}, {
-			Name:      constants.SnakeOil,
+			Name:      "Zee Snake Oil",
 			ShapeKey:  constants.SizeOnebyTwo,
 			SpriteKey: constants.SnakeOil,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     50 + constants.GlobalSeededRandom.Intn(200),
 			Active:    true,
 		}, {
-			Name:      constants.TopHat,
+			Name:      "Ordinary Hat",
 			ShapeKey:  constants.SizeThreebyTwo,
 			SpriteKey: constants.TopHat,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     10 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      constants.SteamerTrunk,
+			Name:      "Live Anima... Just Luggage",
 			ShapeKey:  constants.SizeFourbyThree,
 			SpriteKey: constants.SteamerTrunk,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     50 + constants.GlobalSeededRandom.Intn(1000),
 			Active:    true,
 		}, {
-			Name:      constants.Encyclopedias,
+			Name:      "Books of Knowledge",
 			ShapeKey:  constants.SizeTwobyThree,
 			SpriteKey: constants.Encyclopedias,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     100 + constants.GlobalSeededRandom.Intn(250),
 			Active:    true,
 		}, {
-			Name:      constants.FryingPan,
+			Name:      "Out of the Frying Pan",
 			ShapeKey:  constants.SizeTwobyThreeP,
 			SpriteKey: constants.FryingPan,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     20 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      constants.Dynamite,
+			Name:      "Boom goes the Dynamite",
 			ShapeKey:  constants.SizeOnebyTwo,
 			SpriteKey: constants.Dynamite,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     50 + constants.GlobalSeededRandom.Intn(100),
 			Active:    true,
 		}, {
-			Name:      constants.Globe,
+			Name:      "Globe",
 			ShapeKey:  constants.SizeTwobyTwo,
 			SpriteKey: constants.Globe,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      constants.Whiskey,
+			Name:      "Whiskey",
 			ShapeKey:  constants.SizeOnebyTwo,
 			SpriteKey: constants.Whiskey,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     50 + constants.GlobalSeededRandom.Intn(100),
 			Active:    true,
 		}, {
-			Name:      constants.Sarsaparilla,
+			Name:      "Sarsaparilla",
 			ShapeKey:  constants.SizeOnebyTwo,
 			SpriteKey: constants.Sarsaparilla,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     0 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      constants.Shovel,
+			Name:      "Digger",
 			ShapeKey:  constants.SizeTwobyOne,
 			SpriteKey: constants.Shovel,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     10 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      constants.Rifle,
+			Name:      "Rifle",
 			ShapeKey:  constants.SizeFourbyOne,
 			SpriteKey: constants.Rifle,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     50 + constants.GlobalSeededRandom.Intn(20),
 			Active:    true,
 		}, {
-			Name:      constants.Claranet,
+			Name:      "Claranet",
 			ShapeKey:  constants.SizeThreebyOne,
 			SpriteKey: constants.Claranet,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      constants.CowboyHat,
+			Name:      "Cowboy Hat",
 			ShapeKey:  constants.SizeThreebyTwoUpsideDownT,
 			SpriteKey: constants.CowboyHat,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     10 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      constants.Turtle,
+			Name:      "My Turtle",
 			ShapeKey:  constants.SizeTwobyOne,
 			SpriteKey: constants.Turtle,
-			Value:     50 + constants.GlobalSeededRandom.Intn(50),
+			Value:     35 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		},
 	}
