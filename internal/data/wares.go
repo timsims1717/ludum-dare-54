@@ -150,7 +150,7 @@ var (
 			Value:     2 + constants.GlobalSeededRandom.Intn(10),
 			Active:    true,
 		}, {
-			Name:      "Wanna Banana?",
+			Name:      "Banana?",
 			ShapeKey:  constants.SizeTwobyOne,
 			SpriteKey: constants.Banana,
 			Value:     2 + constants.GlobalSeededRandom.Intn(10),
@@ -192,7 +192,7 @@ var (
 			Value:     25 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
 		}, {
-			Name:      "Ee Bagette",
+			Name:      "Un Baguette",
 			ShapeKey:  constants.SizeOnebyThree,
 			SpriteKey: constants.FrenchBread,
 			Value:     5 + constants.GlobalSeededRandom.Intn(25),
@@ -252,7 +252,7 @@ var (
 			Value:     50 + constants.GlobalSeededRandom.Intn(100),
 			Active:    true,
 		}, {
-			Name:      "Globe",
+			Name:      "The World",
 			ShapeKey:  constants.SizeTwobyTwo,
 			SpriteKey: constants.Globe,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),
@@ -282,7 +282,7 @@ var (
 			Value:     50 + constants.GlobalSeededRandom.Intn(20),
 			Active:    true,
 		}, {
-			Name:      "Claranet",
+			Name:      "Clarinet",
 			ShapeKey:  constants.SizeThreebyOne,
 			SpriteKey: constants.Claranet,
 			Value:     50 + constants.GlobalSeededRandom.Intn(50),

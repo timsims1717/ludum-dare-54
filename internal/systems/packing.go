@@ -18,8 +18,8 @@ import (
 )
 
 var (
-	bottomSlot = -40.
-	slotSize   = 64.
+	bottomSlot = 40.
+	slotSize   = 90.
 	slotX      = 230.
 )
 
