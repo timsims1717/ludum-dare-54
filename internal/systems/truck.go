@@ -73,6 +73,10 @@ func CreateTruck() {
 			}
 		}
 	}
+	if data.CurrentTruck.TileEntity != nil {
+		myecs.Manager.DisposeEntity(data.CurrentTruck.TileEntity)
+		data.CurrentTruck.TileEntity = nil
+	}
 	data.CurrentTruck.TileObject = object.New()
 	data.CurrentTruck.TileObject.Layer = -1
 	data.CurrentTruck.TileEntity = myecs.Manager.NewEntity()

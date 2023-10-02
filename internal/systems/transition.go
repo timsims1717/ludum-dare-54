@@ -81,6 +81,7 @@ func AddNewStall() {
 	obj := object.New()
 	obj.Pos = np
 	obj.Layer = 39
+	obj.ILock = true
 	data.CartEntities = append(data.CartEntities, myecs.Manager.NewEntity().
 		AddComponent(myecs.Object, obj).
 		AddComponent(myecs.Drawable, img.NewSprite("marketstand_tiny", constants.TestBatch)))
@@ -91,6 +92,7 @@ func CreateMiniTruck() {
 		data.MiniTruckObj = object.New()
 		data.MiniTruckObj.Pos = pixel.ZV
 		data.MiniTruckObj.Layer = 40
+		data.MiniTruckObj.ILock = true
 	}
 	if data.MiniTruckSpr == nil || strings.Contains(data.MiniTruckSpr.Key, data.CurrentTruck.SpriteKey) {
 		str := fmt.Sprintf("%s_tiny", data.CurrentTruck.SpriteKey)
@@ -122,4 +124,5 @@ func ClearMiniTruck() {
 		myecs.Manager.DisposeEntity(e)
 	}
 	data.CartEntities = []*ecs.Entity{}
+	data.CartPositions = []pixel.Vec{}
 }

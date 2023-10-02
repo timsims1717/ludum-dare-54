@@ -38,6 +38,7 @@ func (s *gameoverState) Load(win *pixelgl.Window) {
 	systems.ShowGameOverMenu()
 	s.UpdateViews()
 	data.LeavePacking = false
+	systems.UpdateGameOverStats()
 }
 
 func (s *gameoverState) Update(win *pixelgl.Window) {
