@@ -71,11 +71,11 @@ func (s *packingState) Load(win *pixelgl.Window) {
 		systems.SetBigMessage("Fill Your Truck", constants.HoverUIText, 7)
 		systems.ClearMiniTruck()
 	} else {
-		systems.ScoreboardReset()
 		data.DepartureTimer = timing.New(float64(data.CurrentDifficulty.TimeToSell))
 		systems.SellInit()
 		systems.TruckReturn()
 	}
+	systems.ScoreboardReset()
 	data.GameView.CamPos = pixel.ZV
 	data.GameView.CamPos.X += (float64(data.CurrentTruck.Width)-1)*0.5*world.TileSize - (40)
 	data.GameView.CamPos.Y += (math.Min(float64(data.CurrentTruck.Height), 3) - 1) * 0.5 * world.TileSize
