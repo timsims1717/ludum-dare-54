@@ -299,6 +299,12 @@ var (
 			SpriteKey: constants.Turtle,
 			Value:     35 + constants.GlobalSeededRandom.Intn(50),
 			Active:    true,
+		}, {
+			Name:      "Toy Smart Car",
+			ShapeKey:  constants.SizeOnebyOne,
+			SpriteKey: constants.SmartTiny,
+			Value:     35 + constants.GlobalSeededRandom.Intn(50),
+			Active:    true,
 		},
 	}
 )
