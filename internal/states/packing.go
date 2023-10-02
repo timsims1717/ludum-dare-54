@@ -52,6 +52,7 @@ func (s *packingState) Load(win *pixelgl.Window) {
 	if data.GameView == nil {
 		data.GameView = viewport.New(nil)
 		data.GameView.SetRect(pixel.R(0, 0, 640, 360))
+		data.GameView.SetILock(true)
 	}
 	if data.ScoreView == nil {
 		data.ScoreView = viewport.New(nil)
