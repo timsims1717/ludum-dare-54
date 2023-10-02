@@ -40,9 +40,15 @@ func CreateRuts() {
 	for i := 0; i < 9; i++ {
 		objl := object.New()
 		objl.Pos = pixel.V(0, float64(i-2)*32+16)
+		if data.CurrentTruck.SpriteKey == "wagon" {
+			objl.Pos.X -= 32
+		}
 		objl.Layer = -2
 		objr := object.New()
 		objr.Pos = pixel.V(float64((data.CurrentTruck.Width-1)*32), float64(i-2)*32+16)
+		if data.CurrentTruck.SpriteKey == "wagon" {
+			objr.Pos.X += 32
+		}
 		objr.Layer = -2
 		str := "path_middle"
 		if i == 0 {
