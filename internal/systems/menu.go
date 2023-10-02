@@ -12,6 +12,7 @@ import (
 
 // Main Menu Items
 var (
+	MenuTitle    *typeface.Text
 	MenuPlay     *typeface.Text
 	MenuOptions  *typeface.Text
 	MenuTutorial *typeface.Text
@@ -21,6 +22,20 @@ var (
 var MenuItems []*typeface.Text
 
 func InitMenuItems(win *pixelgl.Window) {
+	if MenuTitle == nil {
+		MenuTitle = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.6, 0., 0.)
+		MenuTitle.Obj.Layer = 50
+		MenuTitle.SetPos(pixel.V(0, 350.))
+		MenuTitle.SetColor(constants.HoverUIText)
+		MenuTitle.SetText("Travelling Salesman")
+		MenuTitle.Obj.SetRect(pixel.R(0, 0, 1100, 200))
+		MenuTitle.Obj.Rect = MenuTitle.Obj.Rect.Moved(pixel.V(0, -26))
+		myecs.Manager.NewEntity().
+			AddComponent(myecs.Object, MenuTitle.Obj).
+			AddComponent(myecs.Drawable, MenuTitle).
+			AddComponent(myecs.DrawTarget, data.MenuView)
+		MenuItems = append(MenuItems, MenuTitle)
+	}
 	if MenuPlay == nil {
 		MenuPlay = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.4, 300., 0.)
 		MenuPlay.Obj.Layer = 50
@@ -113,6 +128,7 @@ func InitMenuItems(win *pixelgl.Window) {
 func ShowMainMenu() {
 	data.Starting = false
 	HideAllMenus()
+	MenuTitle.Obj.Hidden = false
 	MenuPlay.Obj.Hidden = false
 	MenuOptions.Obj.Hidden = false
 	MenuQuit.Obj.Pos.Y = -130

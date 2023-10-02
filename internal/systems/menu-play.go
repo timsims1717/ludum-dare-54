@@ -485,6 +485,9 @@ var (
 
 func StartGame() {
 	data.Abandon = false
+	if data.CurrentTruck != nil {
+		myecs.Manager.DisposeEntity(data.CurrentTruck.TileEntity)
+	}
 	data.CurrentTruck = nil
 	data.FirstLoad = true
 	PickedTruck = nil

@@ -66,7 +66,7 @@ var (
 		R: 150,
 		G: 150,
 		B: 150,
-		A: 190,
+		A: 215,
 	})
 	PackingColor = pixel.ToRGBA(color.RGBA{
 		R: 106,
