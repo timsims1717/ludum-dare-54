@@ -2,6 +2,7 @@ package systems
 
 import (
 	"fmt"
+	"github.com/bytearena/ecs"
 	"github.com/faiface/pixel"
 	"golang.org/x/image/colornames"
 	"ludum-dare-54/internal/constants"
@@ -113,7 +114,8 @@ func LeavePackingSystem() {
 			data.FirstLoad = false
 			data.CheckForFailure()
 			if data.CurrentScore.FailCondition == constants.NotFailing {
-				data.ScoreTween = gween.New(data.ScoreView.PortPos.Y, 1000, 1, ease.InBack)
+				data.TruckTween = gween.New(0, 400, 4, ease.InQuad)
+				data.LeaveTimer = timing.New(2)
 				data.LeaveStep = 1
 			} else {
 				failMsg := "Game Over"
@@ -132,16 +134,18 @@ func LeavePackingSystem() {
 				data.LeaveStep = 2
 			}
 		case 1:
-			y, done := data.ScoreTween.Update(timing.DT)
-			data.ScoreView.PortPos.Y = y
-			if done {
-				data.ScoreTween = nil
+			if data.TruckTween != nil {
+				y, done := data.TruckTween.Update(timing.DT)
+				TrunkOffset(y)
+				if done {
+					data.TruckTween = nil
+				}
 			}
-			if data.FadeTween == nil {
-				data.FadeTween = gween.New(255., 0, 1, ease.Linear)
-			}
-			if done {
-				state.SwitchState(constants.TransitionStateKey)
+			if data.LeaveTimer.UpdateDone() {
+				data.ScoreTween = gween.New(data.ScoreView.PortPos.Y, 1000, 1, ease.InBack)
+				data.SignTween = gween.New(data.SignObj.PostPos.Y, 260, 1, ease.InBack)
+				data.LeaveTimer = timing.New(1)
+				data.LeaveStep = 4
 			}
 		case 2:
 			if data.LeaveTimer.UpdateDone() {
@@ -152,6 +156,34 @@ func LeavePackingSystem() {
 		case 3:
 			if data.LeaveTimer.UpdateDone() {
 				state.SwitchState(constants.MainMenuStateKey)
+			}
+		case 4:
+			if data.TruckTween != nil {
+				y, done := data.TruckTween.Update(timing.DT)
+				TrunkOffset(y)
+				if done {
+					data.TruckTween = nil
+				}
+			}
+			if data.SignTween != nil {
+				ys, done := data.SignTween.Update(timing.DT)
+				data.SignObj.Pos.Y = ys
+				if done {
+					data.SignTween = nil
+				}
+			}
+			if data.ScoreTween != nil {
+				y, done := data.ScoreTween.Update(timing.DT)
+				data.ScoreView.PortPos.Y = y
+				if done {
+					data.ScoreTween = nil
+				}
+			}
+			if data.FadeTween == nil {
+				data.FadeTween = gween.New(255., 0, 1, ease.Linear)
+			}
+			if data.LeaveTimer.UpdateDone() {
+				state.SwitchState(constants.TransitionStateKey)
 			}
 		}
 	}
@@ -231,6 +263,46 @@ func UpdateSellLabels() {
 			if WareThree.SellMe && !WareThree.Sold {
 				data.WareNameLabelThree.SetText(fmt.Sprintf("Sell %s\nfor $%d", WareThree.Name, WareThree.Value))
 				data.WareNameLabelThree.Obj.Hidden = false
+			}
+		}
+	}
+}
+
+func TruckReturn() {
+	data.CurrentTruck.TileObject.Offset.Y = 0
+	for _, obj := range data.TrunkObjects {
+		obj.Offset.Y = 0
+	}
+	for _, result := range myecs.Manager.Query(myecs.IsWare) {
+		obj, okO := result.Components[myecs.Object].(*object.Object)
+		ware, okW := result.Components[myecs.Ware].(*data.Ware)
+		if okO && okW {
+			if ware.TIndex >= 0 {
+				obj.Offset.Y = 0
+			}
+		}
+	}
+}
+
+func TruckReset() {
+	for _, e := range data.TrunkEntities {
+		myecs.Manager.DisposeEntity(e)
+	}
+	data.TrunkEntities = []*ecs.Entity{}
+	data.TrunkObjects = []*object.Object{}
+}
+
+func TrunkOffset(y float64) {
+	data.CurrentTruck.TileObject.Offset.Y = y
+	for _, obj := range data.TrunkObjects {
+		obj.Offset.Y = y
+	}
+	for _, result := range myecs.Manager.Query(myecs.IsWare) {
+		obj, okO := result.Components[myecs.Object].(*object.Object)
+		ware, okW := result.Components[myecs.Ware].(*data.Ware)
+		if okO && okW {
+			if ware.TIndex >= 0 {
+				obj.Offset.Y = y
 			}
 		}
 	}

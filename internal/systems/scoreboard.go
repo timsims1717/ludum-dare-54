@@ -26,14 +26,17 @@ var (
 
 func ScoreboardInit() {
 	if data.Sign == nil {
-		obj := object.New()
-		obj.Layer = 2
-		obj.Pos = pixel.V(-170, 135)
+		data.SignObj = object.New()
+		data.SignObj.Layer = 2
+		data.SignObj.Pos = pixel.V(-170, 135)
 		spr := img.NewSprite("sign", constants.TestBatch)
 		data.Sign = myecs.Manager.NewEntity().
-			AddComponent(myecs.Object, obj).
+			AddComponent(myecs.Object, data.SignObj).
 			AddComponent(myecs.Drawable, spr)
+	} else {
+		data.SignObj.Pos = pixel.V(-170, 135)
 	}
+	data.SignTween = nil
 
 	if data.LeftTitle == nil {
 		data.LeftTitle = typeface.New("main", typeface.NewAlign(typeface.Left, typeface.Top), 1.2, 0.15, 0, 0.)
@@ -242,6 +245,8 @@ func ScoreboardReset() {
 	data.MinWaresCount.SetColor(constants.HoverUIText)
 	data.TimerCount.SetColor(constants.HoverUIText)
 	data.ButtonText.SetColor(constants.HoverUIText)
+	data.SignObj.Pos = pixel.V(-170, 135)
+	data.SignTween = nil
 }
 
 func ScoreSystem() {

@@ -50,7 +50,7 @@ func CreateWareInQueue(i int) {
 	obj.Layer = 15
 	spr := img.Batchers[constants.TestBatch].Sprites[localWare.SpriteKey]
 	obj.SetRect(spr.Frame())
-	sca := slotSize * 0.9 / math.Max(obj.Rect.W(), obj.Rect.H())
+	sca := 60 * 0.9 / math.Max(obj.Rect.W(), obj.Rect.H())
 	obj.Sca = pixel.V(sca, sca)
 	localWare.Object = obj
 	localWare.Entity = myecs.Manager.NewEntity()
