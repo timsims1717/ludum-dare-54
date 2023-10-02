@@ -12,6 +12,7 @@ import (
 	"ludum-dare-54/pkg/object"
 	"ludum-dare-54/pkg/state"
 	"ludum-dare-54/pkg/timing"
+	"ludum-dare-54/pkg/typeface"
 	"ludum-dare-54/pkg/util"
 	"math"
 )
@@ -160,5 +161,34 @@ func UpdateTimer() {
 		data.TimerCount.SetColor(pixel.ToRGBA(colornames.Red))
 	} else {
 		data.TimerCount.SetText(fmt.Sprintf("%.1f", data.DepartureTimer.Sec()-data.DepartureTimer.Elapsed()))
+	}
+}
+
+func LoadSellLabels() {
+	if data.WareNameLabelOne == nil {
+		data.WareNameLabelOne = typeface.New("main", typeface.NewAlign(typeface.Center, typeface.Center), 1.2, 0.09, 0, 0.)
+		data.WareNameLabelOne.Obj.Layer = 30
+		data.WareNameLabelOne.SetColor(pixel.ToRGBA(colornames.Black))
+		data.WareNameLabelOne.SetPos(pixel.V(slotX, rightQueueY(0)-30))
+		data.WareNameLabelOne.SetText(fmt.Sprintf("Sell Name of Thing\n$56"))
+		myecs.Manager.NewEntity().
+			AddComponent(myecs.Object, data.WareNameLabelOne.Obj).
+			AddComponent(myecs.Drawable, data.WareNameLabelOne).
+			AddComponent(myecs.DrawTarget, data.GameView)
+	}
+}
+
+func UpdateSellLabels() {
+	data.WareNameLabelOne.Obj.Hidden = true
+	if len(data.SellWares) > 0 {
+		WareOne := data.SellWares[0]
+		if WareOne != nil {
+			if WareOne.SellMe && !WareOne.Sold {
+				data.WareNameLabelOne.SetText(fmt.Sprintf("Sell %s\nfor $%d", WareOne.Name, WareOne.Value))
+				data.WareNameLabelOne.Obj.Hidden = false
+			} else {
+				data.WareNameLabelOne.Obj.Hidden = true
+			}
+		}
 	}
 }
