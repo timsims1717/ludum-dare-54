@@ -55,7 +55,7 @@ var (
 			Width:      4,
 			Depth:      3,
 			Height:     3,
-			TruckLabel: "SMART CAR",
+			TruckLabel: "COMPACT",
 			SpriteKey:  "smart",
 		}, constants.Minivan: {
 			Width:      4,
